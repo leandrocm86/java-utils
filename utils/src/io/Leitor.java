@@ -2,9 +2,11 @@ package io;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import utils.ArrayList;
 
@@ -14,11 +16,19 @@ public class Leitor {
 	private String linhaCorrente;
 	
 	public Leitor(File file) throws FileNotFoundException {
-		reader = new BufferedReader(new FileReader(file));
+		reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+	}
+	
+	public Leitor(File file, String charset) throws FileNotFoundException, UnsupportedEncodingException {
+		reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
 	}
 	
 	public Leitor(String fileName) throws FileNotFoundException {
 		this(new File(fileName));
+	}
+	
+	public Leitor(String fileName, String charset) throws FileNotFoundException, UnsupportedEncodingException {
+		this(new File(fileName), charset);
 	}
 	
 	/**
@@ -55,6 +65,19 @@ public class Leitor {
 			proximaLinha = this.lerLinha();
 			if (proximaLinha != null)
 				lista.add(new StringBuffer(proximaLinha));
+			else
+				break;
+		}
+		return lista;
+	}
+	
+	public ArrayList<String> toStringList() throws IOException {
+		ArrayList<String> lista = new ArrayList<>();
+		String proximaLinha;
+		while(true) {
+			proximaLinha = this.lerLinha();
+			if (proximaLinha != null)
+				lista.add(proximaLinha);
 			else
 				break;
 		}
