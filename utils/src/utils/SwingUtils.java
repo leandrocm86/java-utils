@@ -57,6 +57,10 @@ public class SwingUtils {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
+	public static RelativeLayout createLayout(int axis, int scale) {
+		return createLayout(axis, scale, false);
+	}
+	
 	public static RelativeLayout createLayout(int axis, int scale, boolean fill) {
 		RelativeLayout layout = new RelativeLayout(axis, scale);
 	    if (fill)
@@ -64,11 +68,23 @@ public class SwingUtils {
 	    return layout;
 	}
 	
+	/**
+	 * Cria um ScrollPane apenas vertical.
+	 */
 	public static JScrollPane createScrollPane(Component content, int scrollSize) {
+		return createScrollPane(content, scrollSize, false);
+	}
+	
+	public static JScrollPane createScrollPane(Component content, int scrollSize, boolean horizontal) {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(content);
 		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(scrollSize, 0));
-		scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(scrollSize, 0));
+		
+		if (horizontal)
+			scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, scrollSize));
+		else
+			scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+		
 		return scrollPane;
 	}
 	
