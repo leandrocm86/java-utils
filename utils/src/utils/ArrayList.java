@@ -4,6 +4,15 @@ public class ArrayList<T> extends java.util.ArrayList<T> {
 
 	private static final long serialVersionUID = 1L;
 	
+	public ArrayList() {
+		super();
+	}
+	
+	public ArrayList(T elementoInicial) {
+		super();
+		super.add(elementoInicial);
+	}
+	
 	public T ultimo() {
 		return super.get(super.size() - 1);
 	}
