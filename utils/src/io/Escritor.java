@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 public class Escritor {
 	
+	private final static int LIMITE_BUFFER = 100;
+	
+	private int escritas = 0;
+	
 	private BufferedWriter writer;
 	
 	public Escritor(File file) throws FileNotFoundException {
@@ -31,6 +35,19 @@ public class Escritor {
 	
 	public void escreve(String texto) throws IOException {
 		writer.write(texto);
+		if (++this.escritas == LIMITE_BUFFER) {
+			writer.flush();
+			this.escritas = 0;
+		}
+	}
+	
+	public void enter() throws IOException {
+		this.enter(1);
+	}
+	
+	public void enter(int quantidade) throws IOException {
+		for (int i = 0; i < quantidade; i++)
+			writer.newLine();
 	}
 	
 	public void escreveTudo(ArrayList<StringBuffer> texto) throws IOException {

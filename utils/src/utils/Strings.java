@@ -23,7 +23,7 @@ public class Strings {
 	
 	public static Date parseTime(String time) throws ParseException {
 		if (TIME_FORMAT == null)
-			TIME_FORMAT = new SimpleDateFormat("hh:mm:ss,SSS");
+			TIME_FORMAT = new SimpleDateFormat("HH:mm:ss,SSS"); // H maisculo = 0-23.
 		if (time.length() == 5)
 			time += ":00,000";
 		else if (time.length() == 8)
