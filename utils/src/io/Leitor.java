@@ -3,10 +3,9 @@ package io;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.util.zip.GZIPInputStream;
 
 import utils.ArrayList;
 
@@ -15,19 +14,31 @@ public class Leitor {
 	private BufferedReader reader;
 	private String linhaCorrente;
 	
-	public Leitor(File file) throws FileNotFoundException {
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+	public Leitor(File file) throws IOException {
+		FileInputStream fis = new FileInputStream(file);
+		if (file.getName().endsWith(".gz")) {
+			reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis)));
+		}
+		else {
+			reader = new BufferedReader(new InputStreamReader(fis));
+		}
 	}
 	
-	public Leitor(File file, String charset) throws FileNotFoundException, UnsupportedEncodingException {
-		reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+	public Leitor(File file, String charset) throws IOException {
+		FileInputStream fis = new FileInputStream(file);
+		if (file.getName().endsWith(".gz")) {
+			reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis), charset));
+		}
+		else {
+			reader = new BufferedReader(new InputStreamReader(fis, charset));
+		}
 	}
 	
-	public Leitor(String fileName) throws FileNotFoundException {
+	public Leitor(String fileName) throws IOException {
 		this(new File(fileName));
 	}
 	
-	public Leitor(String fileName, String charset) throws FileNotFoundException, UnsupportedEncodingException {
+	public Leitor(String fileName, String charset) throws IOException {
 		this(new File(fileName), charset);
 	}
 	
