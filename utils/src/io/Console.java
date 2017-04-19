@@ -6,29 +6,29 @@ import utils.SwingUtils;
 
 public class Console {
 	
-	private JTextArea textArea;
-	private JScrollPane scrollPane;
+	private static JTextArea textArea;
+	private static JScrollPane scrollPane;
 	
-	public Console() {
+	static {
 		textArea = new JTextArea("");
 		textArea.setEditable(false);
 		scrollPane = SwingUtils.createScrollPane(textArea, 20, true);
 		scrollPane.setVisible(false);
 	}
 	
-	public void imprime(String s) {
+	public static void imprime(String s) {
 		textArea.setText(textArea.getText() + "\n" + s);
 	}
 	
-	public JScrollPane getPanel() {
+	public static JScrollPane getPanel() {
 		return scrollPane;
 	}
 	
-	public void ligar() {
+	public static void ligar() {
 		scrollPane.setVisible(true);
 	}
 	
-	public String getText() {
+	public static String getText() {
 		return textArea.getText();
 	}
 
