@@ -63,6 +63,7 @@ public class SwingUtils {
 	
 	public static RelativeLayout createLayout(int axis, int scale, boolean fill) {
 		RelativeLayout layout = new RelativeLayout(axis, scale);
+		layout.setBorderGap(0);
 	    if (fill)
 	    	layout.setFill(true);
 	    return layout;

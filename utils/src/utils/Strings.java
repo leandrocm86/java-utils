@@ -30,4 +30,33 @@ public class Strings {
 			time += ",000";
 		return TIME_FORMAT.parse(time);
 	}
+	
+	public static String substringDesde(String texto, String inicio, boolean inicioIncluso) {
+		return substring(texto, inicio, null, inicioIncluso, false);
+	}
+	
+	public static String substringAte(String texto, String fim, boolean fimIncluso) {
+		return substring(texto, null, fim, false, fimIncluso);
+	}
+	
+	public static String substring(String texto, String inicio, String fim, boolean inicioIncluso, boolean fimIncluso) {
+		int indexInicio = 0;
+		if (inicio != null) {
+			indexInicio = texto.indexOf(inicio);
+			if (indexInicio == -1)
+				return "";
+			else if (!inicioIncluso)
+				indexInicio += inicio.length();
+		}
+		int indexFim = texto.length();
+		if (fim != null) {
+			indexFim = texto.indexOf(fim);
+			if (indexFim == -1)
+				indexFim = texto.length();
+			else if (fimIncluso)
+				indexFim += fim.length();
+		}
+		
+		return texto.substring(indexInicio, indexFim);
+	}
 }

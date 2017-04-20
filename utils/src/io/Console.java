@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import utils.RelativeLayout;
+import utils.Strings;
 import utils.SwingUtils;
 
 public class Console {
@@ -56,5 +57,8 @@ public class Console {
 	public static String getText() {
 		return textArea.getText();
 	}
-
+	
+	public static void printError(Throwable t) {
+		imprime(Strings.stackTrace(t));
+	}
 }
