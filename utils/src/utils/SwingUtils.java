@@ -30,17 +30,16 @@ public class SwingUtils {
 	
 	/**
 	 * Seta a fonte para um componente e todos os seus filhos.
-	 * A alteracao eh final, ou seja, depois que uma fonte customizada eh setada ela nao sera trocada.
 	 * Os filhos que ja tiverem uma fonte customizada nao sao alterados.
 	 */
 	public static void setFont(Component component, CustomFont font) {
-		if (component.getFont() == null || !(component.getFont() instanceof CustomFont))
-			component.setFont(font);
+		component.setFont(font);
 	    if (component instanceof Container)
 	    {
 	        for (Component child : ((Container) component).getComponents())
 	        {
-	            setFont(child, font);
+	        	if (child.getFont() == null || !(child.getFont() instanceof CustomFont))
+	        		setFont(child, font);
 	        }
 	    }
 	}

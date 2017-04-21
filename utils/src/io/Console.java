@@ -58,7 +58,7 @@ public class Console {
 		return textArea.getText();
 	}
 	
-	public static void printError(Throwable t) {
+	public static void imprimeErro(Throwable t) {
 		imprime(Strings.stackTrace(t));
 	}
 }
