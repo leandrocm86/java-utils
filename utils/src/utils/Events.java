@@ -1,28 +1,33 @@
 package utils;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class Events {
 	
-	private static HashMap<String, ArrayList<Observer>> monitoramento = new HashMap<>();
+	private static HashMap<String, List<Observer>> monitoramento = new HashMap<>();
 	
-	public static void addObserver(Observer observer, String... events) {
+	public static synchronized void addObserver(Observer observer, String... events) {
 		for (String event : events) {
 			String eventId = extractEventId(event);
-			ArrayList<Observer> list = monitoramento.get(eventId);
+			List<Observer> list = monitoramento.get(eventId);
 			if (list == null) {
-				list = new ArrayList<>();
+				list = Collections.synchronizedList(new ArrayList<>());
 				monitoramento.put(eventId, list);
 			}
 			list.add(observer);
 		}
 	}
 	
-	public static void notify(String event) {
-		ArrayList<Observer> list = monitoramento.get(extractEventId(event));
-		if (list != null)
-			for (Observer o : list)
-				o.update(event);
+	public static synchronized void notify(String event) {
+		List<Observer> list = monitoramento.get(extractEventId(event));
+		if (list != null) {
+			Iterator<Observer> iterator = list.iterator();
+			while(iterator.hasNext())
+				iterator.next().update(event);
+		}
 	}
 	
 	private static String extractEventId(String event) {
