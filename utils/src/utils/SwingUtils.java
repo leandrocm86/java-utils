@@ -44,6 +44,11 @@ public class SwingUtils {
 	    }
 	}
 	
+	public static void setFont(CustomFont font, Component... components) {
+		for (Component component : components)
+			setFont(component, font);
+	}
+	
 	public static Font getDefaultFont() {
 		return defaultFont;
 	}
