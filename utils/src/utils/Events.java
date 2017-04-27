@@ -9,7 +9,7 @@ public class Events {
 	
 	private static HashMap<String, List<Observer>> monitoramento = new HashMap<>();
 	
-	public static synchronized void addObserver(Observer observer, String... events) {
+	public static void addObserver(Observer observer, String... events) {
 		for (String event : events) {
 			String eventId = extractEventId(event);
 			List<Observer> list = monitoramento.get(eventId);
@@ -21,7 +21,7 @@ public class Events {
 		}
 	}
 	
-	public static synchronized void notify(String event) {
+	public static void notify(String event) {
 		List<Observer> list = monitoramento.get(extractEventId(event));
 		if (list != null) {
 			Iterator<Observer> iterator = list.iterator();
