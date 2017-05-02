@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
-import utils.ArrayList;
+import utils.Lista;
 
 public class Leitor {
 	
@@ -69,8 +69,12 @@ public class Leitor {
 		return null;
 	}
 	
-	public ArrayList<StringBuffer> toList() throws IOException {
-		ArrayList<StringBuffer> lista = new ArrayList<>();
+	public Lista<StringBuffer> toListStringBuffer() throws IOException {
+		return this.toListStringBuffer(false);
+	}
+	
+	public Lista<StringBuffer> toListStringBuffer(boolean linkedList) throws IOException {
+		Lista<StringBuffer> lista = new Lista<>(linkedList);
 		String proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();
@@ -82,8 +86,12 @@ public class Leitor {
 		return lista;
 	}
 	
-	public ArrayList<String> toStringList() throws IOException {
-		ArrayList<String> lista = new ArrayList<>();
+	public Lista<String> toList() throws IOException {
+		return this.toList(false);
+	}
+	
+	public Lista<String> toList(boolean linkedList) throws IOException {
+		Lista<String> lista = new Lista<>(linkedList);
 		String proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();

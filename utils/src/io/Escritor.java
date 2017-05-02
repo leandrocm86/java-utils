@@ -7,7 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+
+import utils.Lista;
 
 public class Escritor {
 	
@@ -17,11 +18,15 @@ public class Escritor {
 	
 	private BufferedWriter writer;
 	
+	private File file;
+	
 	public Escritor(File file) throws FileNotFoundException {
+		this.file = file;
 		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
 	}
 	
 	public Escritor(File file, String encoding) throws FileNotFoundException, UnsupportedEncodingException {
+		this.file = file;
 		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), encoding));
 	}
 	
@@ -50,11 +55,22 @@ public class Escritor {
 			writer.newLine();
 	}
 	
-	public void escreveTudo(ArrayList<StringBuffer> texto) throws IOException {
+	public void escreveTudoStringBuffer(Lista<StringBuffer> texto) throws IOException {
 		for (StringBuffer linha : texto) {
+			writer.append(linha).append("\r\n");
+		}
+		this.terminar();
+	}
+	
+	public void escreveTudo(Lista<String> texto) throws IOException {
+		for (String linha : texto) {
 			writer.write(linha + "\r\n");
 		}
 		this.terminar();
+	}
+	
+	public File getFile() {
+		return this.file;
 	}
 	
 	public void terminar() throws IOException {

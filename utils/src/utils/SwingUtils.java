@@ -61,13 +61,25 @@ public class SwingUtils {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
-	public static RelativeLayout createLayout(int axis, int scale) {
-		return createLayout(axis, scale, false);
+	public static RelativeLayout createLayout(int axis) {
+		return createLayout(axis, 0);
 	}
 	
-	public static RelativeLayout createLayout(int axis, int scale, boolean fill) {
-		RelativeLayout layout = new RelativeLayout(axis, scale);
-		layout.setBorderGap(0);
+	public static RelativeLayout createLayout(int axis, int gap) {
+		return createLayout(axis, gap, true);
+	}
+	
+	public static RelativeLayout createLayout(int axis, int gap, int borderGap) {
+		return createLayout(axis, gap, borderGap, true);
+	}
+	
+	public static RelativeLayout createLayout(int axis, int gap, boolean fill) {
+		return createLayout(axis, gap, 0, fill);
+	}
+	
+	public static RelativeLayout createLayout(int axis, int gap, int borderGap, boolean fill) {
+		RelativeLayout layout = new RelativeLayout(axis, gap);
+		layout.setBorderGap(borderGap);
 	    if (fill)
 	    	layout.setFill(true);
 	    return layout;

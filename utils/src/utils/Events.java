@@ -14,7 +14,7 @@ public class Events {
 			String eventId = extractEventId(event);
 			List<Observer> list = monitoramento.get(eventId);
 			if (list == null) {
-				list = Collections.synchronizedList(new ArrayList<>());
+				list = Collections.synchronizedList(new Lista<>());
 				monitoramento.put(eventId, list);
 			}
 			list.add(observer);
