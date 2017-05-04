@@ -39,6 +39,17 @@ public class Strings {
 		return substring(texto, null, fim, false, fimIncluso);
 	}
 	
+	public static String substringAte(String texto, char[] possiveisFins, boolean fimIncluso) {
+		String retorno = "";
+		for (char c : texto.toCharArray()) {
+			for (Character C : possiveisFins)
+				if (C == c)
+					return retorno;
+			retorno += c;
+		}
+		return retorno;
+	}
+	
 	public static String substring(String texto, String inicio, String fim, boolean inicioIncluso, boolean fimIncluso) {
 		int indexInicio = 0;
 		if (inicio != null) {
@@ -50,7 +61,7 @@ public class Strings {
 		}
 		int indexFim = texto.length();
 		if (fim != null) {
-			indexFim = texto.indexOf(fim);
+			indexFim = texto.indexOf(fim, indexInicio);
 			if (indexFim == -1)
 				indexFim = texto.length();
 			else if (fimIncluso)
