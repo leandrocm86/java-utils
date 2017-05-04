@@ -14,13 +14,18 @@ public class Leitor {
 	private BufferedReader reader;
 	private String linhaCorrente;
 	
-	public Leitor(File file) throws IOException {
-		FileInputStream fis = new FileInputStream(file);
-		if (file.getName().endsWith(".gz")) {
-			reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis)));
+	public Leitor(File file) {
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			if (file.getName().endsWith(".gz")) {
+				reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis)));
+			}
+			else {
+				reader = new BufferedReader(new InputStreamReader(fis));
+			}
 		}
-		else {
-			reader = new BufferedReader(new InputStreamReader(fis));
+		catch(Exception e) {
+			throw new IllegalArgumentException("Excecao lancada ao tentar ler arquivo!", e);
 		}
 	}
 	
