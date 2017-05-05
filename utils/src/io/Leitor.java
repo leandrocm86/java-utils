@@ -79,7 +79,7 @@ public class Leitor {
 	}
 	
 	public Lista<StringBuffer> toListStringBuffer(boolean linkedList) throws IOException {
-		Lista<StringBuffer> lista = new Lista<>(linkedList);
+		Lista<StringBuffer> lista = new Lista<>(Lista.Tipo.LINKED);
 		String proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();
@@ -96,7 +96,7 @@ public class Leitor {
 	}
 	
 	public Lista<String> toList(boolean linkedList) throws IOException {
-		Lista<String> lista = new Lista<>(linkedList);
+		Lista<String> lista = new Lista<>(Lista.Tipo.LINKED);
 		String proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();
