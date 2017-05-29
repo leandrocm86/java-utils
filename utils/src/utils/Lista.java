@@ -16,6 +16,8 @@ public class Lista<T> implements List<T> {
 	
 	private Collection<T> colecao;
 	
+	private boolean podeRepetir = true;
+	
 	public Lista() {
 		this(Tipo.ARRAY);
 	}
@@ -37,6 +39,14 @@ public class Lista<T> implements List<T> {
 		colecao.add(elementoInicial);
 	}
 	
+	public boolean podeRepetir() {
+		return podeRepetir;
+	}
+
+	public void setPodeRepetir(boolean podeRepetir) {
+		this.podeRepetir = podeRepetir;
+	}
+
 	public T ultimo() {
 		assert(colecao instanceof List);
 		return ((List<T>)colecao).get(colecao.size() - 1);
@@ -58,7 +68,7 @@ public class Lista<T> implements List<T> {
 	
 	public void addAll(T[] array) {
 		for (T elemento : array) {
-			colecao.add(elemento);
+			this.add(elemento);
 		}
 	}
 	
@@ -85,7 +95,14 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean add(T e) {
-		return this.colecao.add(e);
+		if (this.podeRepetir)
+			return this.colecao.add(e);
+		else {
+			if (!this.colecao.contains(e))
+				return this.colecao.add(e);
+			else
+				return false;
+		}
 	}
 
 	/**
@@ -93,7 +110,14 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
-		return this.colecao.addAll(c);
+		if (this.podeRepetir)
+			return this.colecao.addAll(c);
+		else {
+			int tamanhoInicial = this.colecao.size();
+			for (T element : c)
+				this.add(element);
+			return tamanhoInicial != this.colecao.size();
+		}
 	}
 
 	/**

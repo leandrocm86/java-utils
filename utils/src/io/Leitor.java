@@ -92,11 +92,11 @@ public class Leitor {
 	}
 	
 	public Lista<String> toList() throws IOException {
-		return this.toList(false);
+		return this.toList(Lista.Tipo.ARRAY);
 	}
 	
-	public Lista<String> toList(boolean linkedList) throws IOException {
-		Lista<String> lista = new Lista<>(Lista.Tipo.LINKED);
+	public Lista<String> toList(Lista.Tipo tipo) throws IOException {
+		Lista<String> lista = new Lista<>(tipo);
 		String proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();
