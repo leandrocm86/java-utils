@@ -9,6 +9,7 @@ public class Str {
 	public Str(String val) {
 		this.val = val;
 	}
+	
 	public char	charAt(int index) {
 		return val.charAt(index);
 	}
@@ -134,7 +135,19 @@ public class Str {
 	}
 	
 	// Metodos customizados
+	public String val() {
+		return this.val;
+	}
+	
+	public void val(String novoValor) {
+		this.val = novoValor;
+	}
+	
 	public boolean notEmpty() {
 		return !this.isEmpty();
+	}
+	
+	public boolean startsWithIgnoreCase(String texto) {
+		return val.toLowerCase().startsWith(texto.toLowerCase());
 	}
 }
