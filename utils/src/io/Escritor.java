@@ -56,17 +56,27 @@ public class Escritor {
 	}
 	
 	public void escreveTudoStringBuffer(Lista<StringBuffer> texto) throws IOException {
+		this.escreveTudoStringBuffer(texto, true);
+	}
+	
+	public void escreveTudoStringBuffer(Lista<StringBuffer> texto, boolean terminar) throws IOException {
 		for (StringBuffer linha : texto) {
 			writer.append(linha).append("\r\n");
 		}
-		this.terminar();
+		if (terminar)
+			this.terminar();
 	}
 	
 	public void escreveTudo(Lista<String> texto) throws IOException {
+		this.escreveTudo(texto, true);
+	}
+	
+	public void escreveTudo(Lista<String> texto, boolean terminar) throws IOException {
 		for (String linha : texto) {
 			writer.write(linha + "\r\n");
 		}
-		this.terminar();
+		if (terminar)
+			this.terminar();
 	}
 	
 	public File getFile() {

@@ -12,7 +12,7 @@ public class Lista<T> implements List<T> {
 	
 	public enum Tipo {ARRAY, LINKED, SET};
 
-	private Iterator<T> ultimoIterador;
+	private Iterador ultimoIterador;
 	
 	private Collection<T> colecao;
 	
@@ -54,8 +54,11 @@ public class Lista<T> implements List<T> {
 	
 	public void troca(int index, T element) {
 		assert(colecao instanceof List);
-		colecao.remove(index);
-		((List<T>)colecao).add(index, element);
+		((List<T>)colecao).set(index, element);
+	}
+	
+	public void trocaAtual(T element) {
+		this.troca(this.ultimoIterador.index, element);
 	}
 	
 	public int ultimoIndex() {
@@ -77,7 +80,7 @@ public class Lista<T> implements List<T> {
 		// Quando o Iterator for solicitado, por exemplo implicidamente no For aprimorado (1.5),
 		// precisamos guardar sua referencia para mantermos o controle da iteracao e podermos
 		// remover o elemento correto quando for solicitado.
-		this.ultimoIterador = colecao.iterator();
+		this.ultimoIterador = new Iterador(colecao.iterator());
 		return this.ultimoIterador;
 	}
 	
@@ -85,7 +88,7 @@ public class Lista<T> implements List<T> {
 	 * Remove o ultimo elemento iterado na Colecao.
 	 */
 	public void remove() {
-		this.ultimoIterador.remove();
+		this.ultimoIterador.iterator.remove();
 	}
 
 	// -- METODOS COLLECTION COM IMPLEMENTACAO PADRAO, OU SEJA, APENAS REPASSANDO PARA A COLECAO ORIGINAL -- 
@@ -281,5 +284,32 @@ public class Lista<T> implements List<T> {
 	@Override
 	public List<T> subList(int fromIndex, int toIndex) {
 		return ((List<T>) this.colecao).subList(fromIndex, toIndex);
+	}
+	
+	private class Iterador implements Iterator<T> {
+		Iterator<T> iterator;
+		int index;
+		T elemento;
+		
+		Iterador(Iterator<T> iterator) {
+			this.iterator = iterator;
+			this.index = -1;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+		@Override
+		public T next() {
+			this.index++;
+			this.elemento = iterator.next(); 
+			return this.elemento;
+		}
+		@Override
+		public void remove() {
+			this.iterator.remove();
+			this.index--;
+		}
 	}
 }
