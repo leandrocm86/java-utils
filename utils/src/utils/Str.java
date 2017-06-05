@@ -1,10 +1,10 @@
 package utils;
 
-import java.util.Locale;
-
 public class Str {
 	
 	private String val;
+	
+	public Str() {}
 	
 	public Str(String val) {
 		this.val = val;
@@ -31,7 +31,7 @@ public class Str {
 	public boolean equals(Object anObject) {
 		return val.equals(anObject);
 	}
-	boolean equalsIgnoreCase(String anotherString) {
+	public boolean equalsIgnoreCase(String anotherString) {
 		return val.equalsIgnoreCase(anotherString);
 	}
 	public int hashCode() {
@@ -103,9 +103,6 @@ public class Str {
 	public String toLowerCase() {
 		return val.toLowerCase();
 	}
-	public String toLowerCase(Locale locale) {
-		return val.toLowerCase(locale);
-	}
 	public String toString() {
 		return val.toString();
 	}
@@ -157,5 +154,18 @@ public class Str {
 	
 	public Character characterAt(int index) {
 		return new Character(val.charAt(index));
+	}
+	
+	public Str lowerCase() {
+		val = val.toLowerCase();
+		return this;
+	}
+	
+	public int compare(Str str) {
+		return val.compareTo(str.val());
+	}
+	
+	public int compareIgnoreCase(Str str) {
+		return val.compareToIgnoreCase(str.val());
 	}
 }

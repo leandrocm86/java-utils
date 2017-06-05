@@ -156,7 +156,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.colecao.isEmpty();
+		return this.colecao == null || this.colecao.isEmpty();
 	}
 
 	/**
@@ -318,6 +318,10 @@ public class Lista<T> implements List<T> {
 	}
 	
 	// METODOS CUSTOMIZADOS
+	public boolean notEmpty() {
+		return !this.isEmpty();
+	}
+	
 	public Lista<T> primeiraMetade() {
 		return new Lista<T>(this.subList(0, Math.round(this.size()/2)));
 	}
