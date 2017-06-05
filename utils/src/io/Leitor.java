@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
 import utils.Lista;
+import utils.Str;
 
 public class Leitor {
 	
@@ -91,17 +92,17 @@ public class Leitor {
 		return lista;
 	}
 	
-	public Lista<String> toList() throws IOException {
+	public Lista<Str> toList() throws IOException {
 		return this.toList(Lista.Tipo.ARRAY);
 	}
 	
-	public Lista<String> toList(Lista.Tipo tipo) throws IOException {
-		Lista<String> lista = new Lista<>(tipo);
+	public Lista<Str> toList(Lista.Tipo tipo) throws IOException {
+		Lista<Str> lista = new Lista<>(tipo);
 		String proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();
 			if (proximaLinha != null)
-				lista.add(proximaLinha);
+				lista.add(new Str(proximaLinha));
 			else
 				break;
 		}

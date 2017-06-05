@@ -147,7 +147,15 @@ public class Str {
 		return !this.isEmpty();
 	}
 	
+	public boolean equalsIgnoreCase(Str anotherString) {
+		return val.equalsIgnoreCase(anotherString.val());
+	}
+	
 	public boolean startsWithIgnoreCase(String texto) {
 		return val.toLowerCase().startsWith(texto.toLowerCase());
+	}
+	
+	public Character characterAt(int index) {
+		return new Character(val.charAt(index));
 	}
 }

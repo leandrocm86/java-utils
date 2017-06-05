@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
 import utils.Lista;
+import utils.Str;
 
 public class Escritor {
 	
@@ -67,12 +68,12 @@ public class Escritor {
 			this.terminar();
 	}
 	
-	public void escreveTudo(Lista<String> texto) throws IOException {
+	public void escreveTudo(Lista<Str> texto) throws IOException {
 		this.escreveTudo(texto, true);
 	}
 	
-	public void escreveTudo(Lista<String> texto, boolean terminar) throws IOException {
-		for (String linha : texto) {
+	public void escreveTudo(Lista<Str> texto, boolean terminar) throws IOException {
+		for (Str linha : texto) {
 			writer.write(linha + "\r\n");
 		}
 		if (terminar)

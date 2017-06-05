@@ -39,6 +39,10 @@ public class Lista<T> implements List<T> {
 		colecao.add(elementoInicial);
 	}
 	
+	public Lista(Collection<T> colecao) {
+		this.colecao = colecao;
+	}
+	
 	public boolean podeRepetir() {
 		return podeRepetir;
 	}
@@ -312,4 +316,14 @@ public class Lista<T> implements List<T> {
 			this.index--;
 		}
 	}
+	
+	// METODOS CUSTOMIZADOS
+	public Lista<T> primeiraMetade() {
+		return new Lista<T>(this.subList(0, Math.round(this.size()/2)));
+	}
+	
+	public Lista<T> segundaMetade() {
+		return new Lista<T>(this.subList(Math.round(this.size()/2), this.size()));
+	}
+	
 }
