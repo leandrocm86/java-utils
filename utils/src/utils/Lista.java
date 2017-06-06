@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ import java.util.ListIterator;
 
 public class Lista<T> implements List<T> {
 	
-	public enum Tipo {ARRAY, LINKED, SET};
+	public enum Tipo {ARRAY, LINKED};
 
 	private Iterador ultimoIterador;
 	
@@ -52,12 +53,10 @@ public class Lista<T> implements List<T> {
 	}
 
 	public T ultimo() {
-		assert(colecao instanceof List);
 		return ((List<T>)colecao).get(colecao.size() - 1);
 	}
 	
 	public void troca(int index, T element) {
-		assert(colecao instanceof List);
 		((List<T>)colecao).set(index, element);
 	}
 	
@@ -94,7 +93,7 @@ public class Lista<T> implements List<T> {
 	public void remove() {
 		this.ultimoIterador.iterator.remove();
 	}
-
+	
 	// -- METODOS COLLECTION COM IMPLEMENTACAO PADRAO, OU SEJA, APENAS REPASSANDO PARA A COLECAO ORIGINAL -- 
 	
 	/**
@@ -126,7 +125,7 @@ public class Lista<T> implements List<T> {
 			return tamanhoInicial != this.colecao.size();
 		}
 	}
-
+	
 	/**
 	 * @see java.util.Collection#clear()
 	 */
@@ -330,4 +329,26 @@ public class Lista<T> implements List<T> {
 		return new Lista<T>(this.subList(Math.round(this.size()/2), this.size()));
 	}
 	
+	public T buscaBinaria(T objeto, Comparator<T> comparador) {
+		return this.buscaBinaria(0, this.colecao.size() - 1, objeto, comparador, '-');
+	}
+	
+	private T buscaBinaria(int min, int max, T objeto, Comparator<T> comparador, char direcao) {
+		if (min == max)
+			if (comparador.compare(this.get(min), objeto) == 0)
+				return this.get(min);
+			else
+				return null;
+		
+		int diferenca = (int)((max - min)/2);
+		int proximoIndice = direcao == '-' ? min + diferenca : max - diferenca;
+		int comparacao = comparador.compare(this.get(proximoIndice), objeto);
+		
+		if (comparacao == 0)
+			return this.get(min);
+		else if (comparacao > 0)
+			return buscaBinaria(min, proximoIndice, objeto, comparador, '-');
+		else
+			return buscaBinaria(proximoIndice, max, objeto, comparador, '+');
+	}
 }
