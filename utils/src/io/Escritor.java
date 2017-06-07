@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 
-import utils.Lista;
+import estruturas.Lista;
 import utils.Str;
 
 public class Escritor {

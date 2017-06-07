@@ -1,9 +1,8 @@
-package utils;
+package estruturas;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,16 +18,22 @@ public class Lista<T> implements List<T> {
 	
 	private boolean podeRepetir = true;
 	
+	private Tipo tipo;
+	
 	public Lista() {
 		this(Tipo.ARRAY);
 	}
 	
 	public Lista(Tipo tipo) {
+		this.tipo = tipo;
+		this.colecao = this.criaLista(tipo);
+	}
+	
+	private List<T> criaLista(Tipo tipo) {
 		if (tipo == Tipo.ARRAY)
-			this.colecao = new ArrayList<T>();
-		else if (tipo == Tipo.LINKED)
-			this.colecao = new LinkedList<T>();
-		else this.colecao = new HashSet<T>();
+			return new ArrayList<T>();
+		else
+			return new LinkedList<T>();
 	}
 	
 	public Lista(T elementoInicial) {
@@ -91,7 +96,7 @@ public class Lista<T> implements List<T> {
 	 * Remove o ultimo elemento iterado na Colecao.
 	 */
 	public void remove() {
-		this.ultimoIterador.iterator.remove();
+		this.ultimoIterador.remove();
 	}
 	
 	// -- METODOS COLLECTION COM IMPLEMENTACAO PADRAO, OU SEJA, APENAS REPASSANDO PARA A COLECAO ORIGINAL -- 
@@ -294,9 +299,9 @@ public class Lista<T> implements List<T> {
 		int index;
 		T elemento;
 		
-		Iterador(Iterator<T> iterator) {
-			this.iterator = iterator;
-			this.index = -1;
+		Iterador(Iterator<T> iteratorOriginal) {
+			iterator = iteratorOriginal;
+			index = -1;
 		}
 		
 		@Override
@@ -305,14 +310,14 @@ public class Lista<T> implements List<T> {
 		}
 		@Override
 		public T next() {
-			this.index++;
-			this.elemento = iterator.next(); 
+			index++;
+			elemento = iterator.next(); 
 			return this.elemento;
 		}
 		@Override
 		public void remove() {
-			this.iterator.remove();
-			this.index--;
+			iterator.remove();
+			index--;
 		}
 	}
 	
@@ -329,9 +334,20 @@ public class Lista<T> implements List<T> {
 		return new Lista<T>(this.subList(Math.round(this.size()/2), this.size()));
 	}
 	
+	/**
+	 * Restrito para objetos que implementam a interface Comparable.
+	 * A busca binaria soh eh recomendada para tipos ArrayList.
+	 */
+	public T buscaBinaria(T objeto) {
+		assert(objeto instanceof Comparable);
+		return this.buscaBinaria(objeto, new Comparador<T>());
+	}
+	
+	/**
+	 * A busca binaria soh eh recomendada para tipos ArrayList.
+	 * Nesse caso a performance da busca eh muito alto. 
+	 */
 	public T buscaBinaria(T objeto, Comparator<T> comparador) {
-		if (objeto.toString().equals("agudo"))
-			System.out.println("aeow");
 		return this.buscaBinaria(0, this.colecao.size() - 1, objeto, comparador, '-');
 	}
 	
@@ -354,5 +370,13 @@ public class Lista<T> implements List<T> {
 			return buscaBinaria(min, proximoIndice - 1, objeto, comparador, '-');
 		else
 			return buscaBinaria(proximoIndice + 1, max, objeto, comparador, '+');
+	}
+	
+	public Lista<T> subconjunto(Condicao<T> condicao) {
+		Lista<T> subconjunto = new Lista<>(this.tipo);
+		for (T elemento : this.colecao)
+			if (condicao.avaliar(elemento))
+				subconjunto.add(elemento);
+		return subconjunto;
 	}
 }

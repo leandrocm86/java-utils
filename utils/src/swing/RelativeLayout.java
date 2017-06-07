@@ -1,4 +1,4 @@
-package utils;
+package swing;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -333,7 +333,7 @@ public class RelativeLayout implements LayoutManager2, java.io.Serializable
 	 * @param	 target   the container in which to do the layout
 	 * @return	the preferred dimensions to lay out the
 	 *					  subcomponents of the specified container
-	 * @see	   java.utils.RelativeLayout#minimumLayoutSize
+	 * @see	   swing.utils.RelativeLayout#minimumLayoutSize
 	 * @see	   java.awt.Container#getPreferredSize()
 	 */
 	public Dimension preferredLayoutSize(Container parent)
@@ -361,7 +361,7 @@ public class RelativeLayout implements LayoutManager2, java.io.Serializable
 	 * @param	 target   the container in which to do the layout
 	 * @return	 the minimum dimensions needed to lay out the
 	 *			 subcomponents of the specified container
-	 * @see		 java.utils.RelativeLayout#preferredLayoutSize
+	 * @see		 swing.utils.RelativeLayout#preferredLayoutSize
 	 * @see		 java.awt.Container#doLayout
 	 */
 	public Dimension minimumLayoutSize(Container parent)

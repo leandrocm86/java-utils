@@ -1,4 +1,4 @@
-package utils;
+package swing;
 
 public class CustomFont extends java.awt.Font {
 

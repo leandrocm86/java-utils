@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
-import utils.Lista;
+import estruturas.Lista;
 import utils.Str;
 
 public class Leitor {
@@ -25,61 +25,76 @@ public class Leitor {
 				reader = new BufferedReader(new InputStreamReader(fis));
 			}
 		}
-		catch(Exception e) {
+		catch(IOException e) {
 			throw new IllegalArgumentException("Excecao lancada ao tentar ler arquivo!", e);
 		}
 	}
 	
-	public Leitor(File file, String charset) throws IOException {
-		FileInputStream fis = new FileInputStream(file);
-		if (file.getName().endsWith(".gz")) {
-			reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis), charset));
+	public Leitor(File file, String charset) {
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			if (file.getName().endsWith(".gz")) {
+				reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis), charset));
+			}
+			else {
+				reader = new BufferedReader(new InputStreamReader(fis, charset));
+			}
 		}
-		else {
-			reader = new BufferedReader(new InputStreamReader(fis, charset));
+		catch(Exception e) {
+			throw new IllegalArgumentException(e);
 		}
 	}
 	
-	public Leitor(String fileName) throws IOException {
+	public Leitor(String fileName) {
 		this(new File(fileName));
 	}
 	
-	public Leitor(String fileName, String charset) throws IOException {
+	public Leitor(String fileName, String charset) {
 		this(new File(fileName), charset);
 	}
 	
 	/**
 	 * Retorna a proxima linha do arquivo, ou nulo quando terminar.
 	 */
-	public String lerLinha() throws IOException {
-		this.linhaCorrente = this.reader.readLine();
-		if (this.linhaCorrente == null) {
-			this.reader.close();
+	public String lerLinha() {
+		try {
+			this.linhaCorrente = this.reader.readLine();
+			if (this.linhaCorrente == null) {
+				this.reader.close();
+			}
+			return this.linhaCorrente;
 		}
-		return this.linhaCorrente;
+		catch(IOException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 	
 	/**
 	 * Retorna a primeira linha no arquivo que contenha uma dada String, ou nulo se nao encontrar.
 	 */
-	public String procurarLinha(String texto) throws IOException {
-		do {
-			this.lerLinha();
-			if (this.linhaCorrente.contains(texto)) {
-				this.reader.close();
-				return this.linhaCorrente;
+	public String procurarLinha(String texto) {
+		try{
+			do {
+				this.lerLinha();
+				if (this.linhaCorrente.contains(texto)) {
+					this.reader.close();
+					return this.linhaCorrente;
+				}
 			}
+			while(this.linhaCorrente != null);
 		}
-		while(this.linhaCorrente != null);
+		catch(IOException e) {
+			throw new IllegalArgumentException(e);
+		}
 		
 		return null;
 	}
 	
-	public Lista<StringBuffer> toListStringBuffer() throws IOException {
+	public Lista<StringBuffer> toListStringBuffer() {
 		return this.toListStringBuffer(false);
 	}
 	
-	public Lista<StringBuffer> toListStringBuffer(boolean linkedList) throws IOException {
+	public Lista<StringBuffer> toListStringBuffer(boolean linkedList) {
 		Lista<StringBuffer> lista = new Lista<>(Lista.Tipo.LINKED);
 		String proximaLinha;
 		while(true) {
@@ -92,11 +107,11 @@ public class Leitor {
 		return lista;
 	}
 	
-	public Lista<Str> toList() throws IOException {
+	public Lista<Str> toList() {
 		return this.toList(Lista.Tipo.ARRAY);
 	}
 	
-	public Lista<Str> toList(Lista.Tipo tipo) throws IOException {
+	public Lista<Str> toList(Lista.Tipo tipo) {
 		Lista<Str> lista = new Lista<>(tipo);
 		String proximaLinha;
 		while(true) {

@@ -6,9 +6,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import utils.RelativeLayout;
+import swing.RelativeLayout;
+import swing.SwingUtils;
 import utils.Strings;
-import utils.SwingUtils;
 
 public class Console {
 	

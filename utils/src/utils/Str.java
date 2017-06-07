@@ -1,6 +1,6 @@
 package utils;
 
-public class Str implements Comparable<String> {
+public class Str implements Comparable<Str> {
 	
 	private String val;
 	

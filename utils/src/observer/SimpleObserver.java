@@ -1,7 +1,4 @@
-package utils;
-
-import observer.Events;
-import observer.Observer;
+package observer;
 
 public abstract class SimpleObserver implements Observer {
 
