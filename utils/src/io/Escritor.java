@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 
 import utils.Lista;
 import utils.Str;
@@ -100,11 +101,11 @@ public class Escritor {
 		}
 	}
 	
-	public void escreveTudo(Lista<Str> texto) throws IOException {
+	public void escreveTudo(Collection<Str> texto) throws IOException {
 		this.escreveTudo(texto, true);
 	}
 	
-	public void escreveTudo(Lista<Str> texto, boolean terminar) {
+	public void escreveTudo(Collection<Str> texto, boolean terminar) {
 		try {
 			for (Str linha : texto) {
 				writer.write(linha + "\r\n");
@@ -115,7 +116,6 @@ public class Escritor {
 		catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
-
 	}
 	
 	public File getFile() {

@@ -1,6 +1,6 @@
 package utils;
 
-public class Str {
+public class Str implements Comparable<String> {
 	
 	private String val;
 	
@@ -29,7 +29,11 @@ public class Str {
 		return val.endsWith(suffix);
 	}
 	public boolean equals(Object anObject) {
-		return val.equals(anObject);
+		if (anObject instanceof Str)
+			return val.equals(((Str) anObject).val());
+		else if (anObject instanceof String)
+			return val.equals(anObject);
+		else return false;
 	}
 	public boolean equalsIgnoreCase(String anotherString) {
 		return val.equalsIgnoreCase(anotherString);
@@ -132,6 +136,10 @@ public class Str {
 	}
 	
 	// Metodos customizados
+	public int compareTo(Str str) {
+		return val.compareTo(str.val());
+	}
+	
 	public String val() {
 		return this.val;
 	}
@@ -157,8 +165,16 @@ public class Str {
 	}
 	
 	public Str lowerCase() {
-		val = val.toLowerCase();
-		return this;
+		return this.lowerCase(false);
+	}
+	
+	public Str lowerCase(boolean copia) {
+		if (copia)
+			return new Str(val.toLowerCase());
+		else {
+			val = val.toLowerCase();
+			return this;
+		}
 	}
 	
 	public int compare(Str str) {

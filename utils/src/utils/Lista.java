@@ -33,7 +33,7 @@ public class Lista<T> implements List<T> {
 	
 	public Lista(T elementoInicial) {
 		this(Tipo.ARRAY, elementoInicial);
-	}
+ 	}
 	
 	public Lista(Tipo tipo, T elementoInicial) {
 		this(tipo);
@@ -330,10 +330,14 @@ public class Lista<T> implements List<T> {
 	}
 	
 	public T buscaBinaria(T objeto, Comparator<T> comparador) {
+		if (objeto.toString().equals("agudo"))
+			System.out.println("aeow");
 		return this.buscaBinaria(0, this.colecao.size() - 1, objeto, comparador, '-');
 	}
 	
 	private T buscaBinaria(int min, int max, T objeto, Comparator<T> comparador, char direcao) {
+		if (min > max)
+			return null; // Ja percorremos toda a lista. 
 		if (min == max)
 			if (comparador.compare(this.get(min), objeto) == 0)
 				return this.get(min);
@@ -347,8 +351,8 @@ public class Lista<T> implements List<T> {
 		if (comparacao == 0)
 			return this.get(min);
 		else if (comparacao > 0)
-			return buscaBinaria(min, proximoIndice, objeto, comparador, '-');
+			return buscaBinaria(min, proximoIndice - 1, objeto, comparador, '-');
 		else
-			return buscaBinaria(proximoIndice, max, objeto, comparador, '+');
+			return buscaBinaria(proximoIndice + 1, max, objeto, comparador, '+');
 	}
 }
