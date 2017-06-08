@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -16,8 +15,6 @@ import javax.swing.UIManager;
 public class SwingUtils {
 	
 	private static final CustomFont defaultFont = new CustomFont("Arial", 0, 40);
-	
-	private static HashMap<String, Component> componentsByName = new HashMap<>();
 	
 	static {
 		javax.swing.UIManager.put("OptionPane.messageFont", defaultFont);
@@ -108,13 +105,5 @@ public class SwingUtils {
 	public static void centralizarJanela(Window window) {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-	}
-	
-	public static void registerComponent(String name, Component component) {
-		componentsByName.put(name, component);
-	}
-	
-	public static Component getComponent(String name) {
-		return componentsByName.get(name);
 	}
 }
