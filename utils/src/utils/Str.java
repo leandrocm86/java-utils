@@ -10,6 +10,10 @@ public class Str implements Comparable<Str> {
 		this.val = val;
 	}
 	
+	public Str(Object object) {
+		this.val = object.toString();
+	}
+	
 	public char	charAt(int index) {
 		return val.charAt(index);
 	}
@@ -183,5 +187,13 @@ public class Str implements Comparable<Str> {
 	
 	public int compareIgnoreCase(Str str) {
 		return val.compareToIgnoreCase(str.val());
+	}
+	
+	public void append(String string) {
+		this.val += string;
+	}
+	
+	public void appendLn(String string) {
+		this.val += string + "\n";
 	}
 }

@@ -8,7 +8,8 @@ import javax.swing.JTextArea;
 
 import swing.RelativeLayout;
 import swing.SwingUtils;
-import utils.Strings;
+import utils.Erros;
+import utils.Str;
 
 public class Console {
 	
@@ -22,6 +23,10 @@ public class Console {
 	
 	public static void imprime(String s) {
 		textArea.setText(textArea.getText() + "\n" + s);
+	}
+	
+	public static void imprime(Str s) {
+		imprime(s.val());
 	}
 	
 	public static JPanel getPanel() {
@@ -59,6 +64,6 @@ public class Console {
 	}
 	
 	public static void imprimeErro(Throwable t) {
-		imprime(Strings.stackTrace(t));
+		imprime(Erros.stackTrace(t));
 	}
 }
