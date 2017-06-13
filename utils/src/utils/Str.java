@@ -1,10 +1,12 @@
 package utils;
 
-public class Str implements Comparable<Str> {
+public class Str implements Comparable<Str>, CharSequence {
 	
 	private String val;
 	
-	public Str() {}
+	public Str() {
+		this.val = "";
+	}
 	
 	public Str(String val) {
 		this.val = val;
@@ -12,6 +14,11 @@ public class Str implements Comparable<Str> {
 	
 	public Str(Object object) {
 		this.val = object.toString();
+	}
+	
+	@Override
+	public CharSequence subSequence(int start, int end) {
+		return val.subSequence(start, end);
 	}
 	
 	public char	charAt(int index) {
@@ -189,11 +196,96 @@ public class Str implements Comparable<Str> {
 		return val.compareToIgnoreCase(str.val());
 	}
 	
-	public void append(String string) {
-		this.val += string;
+	public Str[] corta(String regex) {
+		String[] split = val.split(regex);
+		Str[] corte = new Str[split.length];
+		for (int i = 0; i < split.length; i++)
+			corte[i] = new Str(split[i]);
+		return corte;
 	}
 	
-	public void appendLn(String string) {
+	public Str append(Str str) {
+		return this.append(str.val);
+	}
+	
+	public Str appendLn(Str str) {
+		return this.appendLn(str.val);
+	}
+	
+	public Str append(String string) {
+		this.val += string;
+		return this;
+	}
+	
+	public Str appendLn(String string) {
 		this.val += string + "\n";
+		return this;
+	}
+	
+	public void append(char c) {
+		this.val += c;
+	}
+	
+	public Str desde(String inicio, boolean inicioIncluso) {
+		return substring(inicio, null, inicioIncluso, false);
+	}
+	
+	public Str ate(String fim, boolean fimIncluso) {
+		return substring(null, fim, true, fimIncluso);
+	}
+	
+	public Str desde(boolean inicioIncluso, String... possiveisInicios) {
+		int menorIndex = val.length();
+		int tamanhoInicio = 0;
+		for (String inicio : possiveisInicios) {
+			int index = val.indexOf(inicio);
+			if (index != -1 && index < menorIndex) {
+				menorIndex = index;
+				tamanhoInicio = inicio.length();
+			}
+		}
+		
+		if (menorIndex == val.length())
+			return new Str();
+		
+		return new Str(val.substring(inicioIncluso ? menorIndex : menorIndex + tamanhoInicio, val.length()));
+	}
+	
+	public Str ate(boolean fimIncluso, String... possiveisFins) {
+		int menorIndex = val.length() - 1;
+		int tamanhoFim = 0;
+		for (String fim : possiveisFins) {
+			int index = val.indexOf(fim);
+			if (index != -1 && index < menorIndex) {
+				menorIndex = index;
+				tamanhoFim = fim.length();
+			}
+		}
+		
+		// Se precisa de um fim e ele nao foi encontrado, retornamos vazio.
+		if (fimIncluso && menorIndex + tamanhoFim > val.length())
+			return new Str();
+		else // Caso contrario, retornamos tudo ou ate o fim que encontramos.
+			return new Str(val.substring(0, fimIncluso ? menorIndex + tamanhoFim : menorIndex));
+	}
+	
+	public Str substring(String inicio, String fim, boolean inicioIncluso, boolean fimIncluso) {
+		int indexInicio = 0;
+		if (inicio != null) {
+			indexInicio = val.indexOf(inicio);
+			if (indexInicio == -1)
+				return new Str();
+			else if (!inicioIncluso)
+				indexInicio += inicio.length();
+		}
+		int indexFim = val.length();
+		if (fim != null) {
+			indexFim = val.indexOf(fim, indexInicio);
+			if (indexFim == -1)
+				indexFim = val.length();
+			else if (fimIncluso)
+				indexFim += fim.length();
+		}
+		return new Str(val.substring(indexInicio, indexFim));
 	}
 }

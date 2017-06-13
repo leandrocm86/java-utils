@@ -1,11 +1,14 @@
 package io;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import swing.CustomFont;
 import swing.RelativeLayout;
 import swing.SwingUtils;
 import utils.Erros;
@@ -19,6 +22,16 @@ public class Console {
 	static {
 		textArea = new JTextArea("");
 		textArea.setEditable(false);
+		
+		consolePane = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
+		consolePane.add(SwingUtils.createScrollPane(textArea, 20, true), new Float(9));
+		JButton button = new JButton("clear");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textArea.setText("");
+			}
+		});
+		consolePane.add(button, new Float(1));
 	}
 	
 	public static void imprime(String s) {
@@ -30,33 +43,22 @@ public class Console {
 	}
 	
 	public static JPanel getPanel() {
-		return getPanel(false);
-	}
-	
-	public static JPanel getPanel(boolean clearButton) {
-		if (consolePane == null) {
-			if (clearButton) {
-				consolePane = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS, 10, true));
-				consolePane.add(SwingUtils.createScrollPane(textArea, 20, true), new Float(9));
-					JButton button = new JButton("clear");
-					button.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							textArea.setText("");
-						}
-					});
-				consolePane.add(button, new Float(1));
-			}
-			else {
-				consolePane = new JPanel();
-				consolePane.add(SwingUtils.createScrollPane(textArea, 20, true));
-			}
-		}
-		
 		return consolePane;
 	}
 	
-	public static void ligar() {
+	public static void ligar(boolean criarFrame) {
 		consolePane.setVisible(true);
+		
+		if (criarFrame) {
+			JFrame mainFrame = new JFrame("Console");
+		    mainFrame.setLayout(new BorderLayout());
+		    mainFrame.add(consolePane);
+		    SwingUtils.setFont(mainFrame, new CustomFont("Arial", 0, 20));
+		    mainFrame.setSize(400, 400);
+		    mainFrame.setAlwaysOnTop(true);
+			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			mainFrame.setVisible(true);
+		}
 	}
 	
 	public static String getText() {
