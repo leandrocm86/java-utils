@@ -40,6 +40,8 @@ public class Str implements Comparable<Str>, CharSequence {
 		return val.endsWith(suffix);
 	}
 	public boolean equals(Object anObject) {
+		if (anObject == null || val == null)
+			return false;
 		if (anObject instanceof Str)
 			return val.equals(((Str) anObject).val());
 		else if (anObject instanceof String)

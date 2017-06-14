@@ -1,7 +1,6 @@
 package swing;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -14,7 +13,7 @@ import javax.swing.UIManager;
 
 public class SwingUtils {
 	
-	private static final CustomFont defaultFont = new CustomFont("Arial", 0, 40);
+	private static final Fonte defaultFont = Fonte.ARIAL_40;
 	
 	static {
 		javax.swing.UIManager.put("OptionPane.messageFont", defaultFont);
@@ -25,33 +24,12 @@ public class SwingUtils {
 		UIManager.put("Tree.leafIcon", new ImageIcon(SwingUtils.class.getResource("dot.png")));
 	}
 	
-	/**
-	 * Seta a fonte para um componente e todos os seus filhos.
-	 * Os filhos que ja tiverem uma fonte customizada nao sao alterados.
-	 */
-	public static void setFont(Component component, CustomFont font) {
-		component.setFont(font);
-	    if (component instanceof Container)
-	    {
-	        for (Component child : ((Container) component).getComponents())
-	        {
-	        	if (child.getFont() == null || !(child.getFont() instanceof CustomFont))
-	        		setFont(child, font);
-	        }
-	    }
-	}
-	
-	public static void setFont(CustomFont font, Component... components) {
-		for (Component component : components)
-			setFont(component, font);
-	}
-	
 	public static Font getDefaultFont() {
 		return defaultFont;
 	}
 	
 	public static void setDefaultFont(Component component) {
-	    setFont(component, defaultFont);
+	    defaultFont.set(component);
 	}
 	
 	public static void showMessage(String message) {

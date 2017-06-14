@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import swing.CustomFont;
+import swing.Fonte;
 import swing.RelativeLayout;
 import swing.SwingUtils;
 import utils.Erros;
@@ -53,7 +53,7 @@ public class Console {
 			JFrame mainFrame = new JFrame("Console");
 		    mainFrame.setLayout(new BorderLayout());
 		    mainFrame.add(consolePane);
-		    SwingUtils.setFont(mainFrame, new CustomFont("Arial", 0, 20));
+		    Fonte.ARIAL_20.set(mainFrame);
 		    mainFrame.setSize(400, 400);
 		    mainFrame.setAlwaysOnTop(true);
 			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -30,4 +30,14 @@ public class Events {
 				iterator.next().update(event);
 		}
 	}
+	
+	public static void notify(String eventID) {
+		Event event = new Event(eventID);
+		List<Observer> list = monitoramento.get(eventID);
+		if (list != null) {
+			Iterator<Observer> iterator = list.iterator();
+			while(iterator.hasNext())
+				iterator.next().update(event);
+		}
+	}
 }
