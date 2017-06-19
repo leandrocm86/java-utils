@@ -1,6 +1,6 @@
 package utils;
 
-public class Str implements Comparable<Str>, CharSequence {
+public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	
 	private String val;
 	
@@ -111,6 +111,12 @@ public class Str implements Comparable<Str>, CharSequence {
 	public boolean startsWith(String prefix, int toffset) {
 		return val.startsWith(prefix, toffset);
 	}
+	public boolean startsWith(Str prefix) {
+		return val.startsWith(prefix.val);
+	}
+	public boolean startsWith(Str prefix, int toffset) {
+		return val.startsWith(prefix.val, toffset);
+	}
 	public String substring(int beginIndex) {
 		return val.substring(beginIndex);
 	}
@@ -173,6 +179,10 @@ public class Str implements Comparable<Str>, CharSequence {
 		return val.toLowerCase().startsWith(texto.toLowerCase());
 	}
 	
+	public boolean startsWithIgnoreCase(Str texto) {
+		return val.toLowerCase().startsWith(texto.toLowerCase());
+	}
+	
 	public Character characterAt(int index) {
 		return new Character(val.charAt(index));
 	}
@@ -232,8 +242,28 @@ public class Str implements Comparable<Str>, CharSequence {
 		return substring(inicio, null, inicioIncluso, false);
 	}
 	
+	public Str desde(int inicio) {
+		return this.ate(inicio, true);
+	}
+	
+	public Str desde(int inicio, boolean inicioIncluso) {
+		if (!inicioIncluso)
+			inicio++;
+		return new Str(val.substring(inicio));
+	}
+	
 	public Str ate(String fim, boolean fimIncluso) {
 		return substring(null, fim, true, fimIncluso);
+	}
+	
+	public Str ate(int fim) {
+		return this.ate(fim, false);
+	}
+	
+	public Str ate(int fim, boolean fimIncluso) {
+		if (fimIncluso)
+			fim++;
+		return new Str(val.substring(0, fim));
 	}
 	
 	public Str desde(boolean inicioIncluso, String... possiveisInicios) {
@@ -289,5 +319,13 @@ public class Str implements Comparable<Str>, CharSequence {
 				indexFim += fim.length();
 		}
 		return new Str(val.substring(indexInicio, indexFim));
+	}
+	
+	public void limpar() {
+		val = "";
+	}
+	
+	public void retem(int indexInicio, int indexFim) {
+		val = val.substring(indexInicio, indexFim); 
 	}
 }

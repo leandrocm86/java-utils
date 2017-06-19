@@ -14,8 +14,14 @@ import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 
+import observer.Event;
+import observer.Events;
+
 public class SystemTrayFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
+	
+	public static final String EVENT_WINDOW_MINIMIZED = "WINDOW_MINIMIZED";
+	
 	TrayIcon trayIcon;
     SystemTray tray;
     public SystemTrayFrame(String name){
@@ -61,6 +67,7 @@ public class SystemTrayFrame extends JFrame{
                     try {
                         tray.add(trayIcon);
                         setVisible(false);
+                        Events.notify(new Event(EVENT_WINDOW_MINIMIZED, this));
 //                        System.out.println("added to SystemTray");
                     } catch (AWTException ex) {
 //                        System.out.println("unable to add to tray");
