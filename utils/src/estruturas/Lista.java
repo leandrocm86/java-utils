@@ -24,16 +24,19 @@ public class Lista<T> implements List<T> {
 		this(Tipo.ARRAY);
 	}
 	
+	public Lista(boolean podeRepetir) {
+		this();
+		this.podeRepetir = podeRepetir;
+	}
+	
 	public Lista(Tipo tipo) {
 		this.tipo = tipo;
 		this.colecao = this.criaLista(tipo);
 	}
 	
-	private List<T> criaLista(Tipo tipo) {
-		if (tipo == Tipo.ARRAY)
-			return new ArrayList<T>();
-		else
-			return new LinkedList<T>();
+	public Lista(Tipo tipo, boolean podeRepetir) {
+		this(tipo);
+		this.podeRepetir = podeRepetir;
 	}
 	
 	public Lista(T elementoInicial) {
@@ -47,6 +50,13 @@ public class Lista<T> implements List<T> {
 	
 	public Lista(Collection<T> colecao) {
 		this.colecao = colecao;
+	}
+	
+	private List<T> criaLista(Tipo tipo) {
+		if (tipo == Tipo.ARRAY)
+			return new ArrayList<T>();
+		else
+			return new LinkedList<T>();
 	}
 	
 	public boolean podeRepetir() {
