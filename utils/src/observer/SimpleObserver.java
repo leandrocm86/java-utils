@@ -2,7 +2,7 @@ package observer;
 
 public abstract class SimpleObserver implements Observer {
 
-	public SimpleObserver(String... events) {
+	public SimpleObserver(CharSequence... events) {
 		Events.addObserver(this, events);
 	}
 

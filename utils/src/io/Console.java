@@ -12,7 +12,6 @@ import swing.Fonte;
 import swing.RelativeLayout;
 import swing.SwingUtils;
 import utils.Erros;
-import utils.Str;
 
 public class Console {
 	
@@ -39,12 +38,8 @@ public class Console {
 		consolePane.setVisible(false); // Console escondido enquanto nao for ligado.
 	}
 	
-	public static void imprime(String s) {
-		textArea.setText(textArea.getText() + "\n" + s);
-	}
-	
-	public static void imprime(Str s) {
-		imprime(s.val());
+	public static void imprime(CharSequence s) {
+		textArea.setText(textArea.getText() + "\n" + s.toString());
 	}
 	
 	public static JPanel getPanel(boolean botaoClear) {

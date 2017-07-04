@@ -28,23 +28,23 @@ public class Data extends Date {
 		super(date.getTime());
 	}
 	
-	public Data(Str data, SimpleDateFormat format) {
+	public Data(CharSequence data, SimpleDateFormat format) {
 		super(parse(data, format).getTime());
 	}
 	
-	public Data(Str data) {
+	public Data(CharSequence data) {
 		this(data, getFormat(data));
 	}
 	
-	private static Date parse(Str data, SimpleDateFormat format) {
+	private static Date parse(CharSequence data, SimpleDateFormat format) {
 		try {
-			return format.parse(data.val());
+			return format.parse(data.toString());
 		} catch (ParseException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 	
-	private static SimpleDateFormat getFormat(Str data) {
+	private static SimpleDateFormat getFormat(CharSequence data) {
 		switch(data.length()) {
 			case  5: return DATA_dd_MM;
 			case 10: return DATA_dd_MM_yyyy;

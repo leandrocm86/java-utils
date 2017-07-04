@@ -2,24 +2,24 @@ package observer;
 
 public class Event {
 	
-	private String eventID;
+	private CharSequence eventID;
 	
 	private Object param;
 	
-	public Event(String eventID) {
+	public Event(CharSequence eventID) {
 		this(eventID, null);
 	}
 	
-	public Event(String eventID, Object param) {
+	public Event(CharSequence eventID, Object param) {
 		this.eventID = eventID;
 		this.param = param;
 	}
 
-	public String getEventID() {
+	public CharSequence getEventID() {
 		return eventID;
 	}
 
-	public void setEventID(String eventID) {
+	public void setEventID(CharSequence eventID) {
 		this.eventID = eventID;
 	}
 

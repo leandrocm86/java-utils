@@ -1,6 +1,6 @@
 package utils;
 
-public class Str extends Objeto implements Comparable<Str>, CharSequence {
+public class Str extends Objeto implements Comparable<CharSequence>, CharSequence {
 	
 	private String val;
 	
@@ -9,6 +9,8 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	}
 	
 	public Str(String val) {
+		if (val == null)
+			val = "";
 		this.val = val;
 	}
 	
@@ -24,20 +26,20 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	public char	charAt(int index) {
 		return val.charAt(index);
 	}
-	public int compareTo(String anotherString) {
-		return val.compareTo(anotherString);
+	public int compareTo(CharSequence anotherString) {
+		return val.compareTo(anotherString.toString());
 	}
-	public int compareToIgnoreCase(String str) {
-		return val.compareToIgnoreCase(str);
+	public int compareToIgnoreCase(CharSequence str) {
+		return val.compareToIgnoreCase(str.toString());
 	}
-	public String concat(String str) {
-		return val.concat(str);
+	public String concat(CharSequence str) {
+		return val.concat(str.toString());
 	}
 	public boolean contains(CharSequence s) {
-		return val.contains(s);
+		return val.contains(s.toString());
 	}
-	public boolean endsWith(String suffix) {
-		return val.endsWith(suffix);
+	public boolean endsWith(CharSequence suffix) {
+		return val.endsWith(suffix.toString());
 	}
 	public boolean equals(Object anObject) {
 		if (anObject == null || val == null)
@@ -48,8 +50,8 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 			return val.equals(anObject);
 		else return false;
 	}
-	public boolean equalsIgnoreCase(String anotherString) {
-		return val.equalsIgnoreCase(anotherString);
+	public boolean equalsIgnoreCase(CharSequence anotherString) {
+		return val.equalsIgnoreCase(anotherString.toString());
 	}
 	public int hashCode() {
 		return val.hashCode();
@@ -60,11 +62,11 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	public int indexOf(int ch, int fromIndex) {
 		return val.indexOf(ch, fromIndex);
 	}
-	public int indexOf(String str) {
-		return val.indexOf(str);
+	public int indexOf(CharSequence str) {
+		return val.indexOf(str.toString());
 	}
-	public int indexOf(String str, int fromIndex) {
-		return val.indexOf(str, fromIndex);
+	public int indexOf(CharSequence str, int fromIndex) {
+		return val.indexOf(str.toString(), fromIndex);
 	}
 	public boolean isEmpty() {
 		return val == null || val.isEmpty();
@@ -75,17 +77,17 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	public int lastIndexOf(int ch, int fromIndex) {
 		return val.lastIndexOf(ch, fromIndex);
 	}
-	public int lastIndexOf(String str) {
-		return val.lastIndexOf(str);
+	public int lastIndexOf(CharSequence str) {
+		return val.lastIndexOf(str.toString());
 	}
-	public int lastIndexOf(String str, int fromIndex) {
-		return val.lastIndexOf(str, fromIndex);
+	public int lastIndexOf(CharSequence str, int fromIndex) {
+		return val.lastIndexOf(str.toString(), fromIndex);
 	}
 	public int length() {
-		return val != null ? val.length() : 0;
+		return val.length();
 	}
-	public boolean matches(String regex) {
-		return val.matches(regex);
+	public boolean matches(CharSequence regex) {
+		return val.matches(regex.toString());
 	}
 	public String replace(char oldChar, char newChar) {
 		return val.replace(oldChar, newChar);
@@ -93,29 +95,23 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	public String replace(CharSequence target, CharSequence replacement) {
 		return val.replace(target, replacement);
 	}
-	public String replaceAll(String regex, String replacement) {
-		return val.replaceAll(regex, replacement);
+	public String replaceAll(CharSequence regex, CharSequence replacement) {
+		return val.replaceAll(regex.toString(), replacement.toString());
 	}
-	public String replaceFirst(String regex, String replacement) {
-		return val.replaceFirst(regex, replacement);
+	public String replaceFirst(CharSequence regex, CharSequence replacement) {
+		return val.replaceFirst(regex.toString(), replacement.toString());
 	}
-	public String[] split(String regex) {
-		return val.split(regex);
+	public String[] split(CharSequence regex) {
+		return val.split(regex.toString());
 	}
-	public String[] split(String regex, int limit) {
-		return val.split(regex, limit);
+	public String[] split(CharSequence regex, int limit) {
+		return val.split(regex.toString(), limit);
 	}
-	public boolean startsWith(String prefix) {
-		return val.startsWith(prefix);
+	public boolean startsWith(CharSequence prefix) {
+		return val.startsWith(prefix.toString());
 	}
-	public boolean startsWith(String prefix, int toffset) {
-		return val.startsWith(prefix, toffset);
-	}
-	public boolean startsWith(Str prefix) {
-		return val.startsWith(prefix.val);
-	}
-	public boolean startsWith(Str prefix, int toffset) {
-		return val.startsWith(prefix.val, toffset);
+	public boolean startsWith(CharSequence prefix, int toffset) {
+		return val.startsWith(prefix.toString(), toffset);
 	}
 	public String substring(int beginIndex) {
 		return val.substring(beginIndex);
@@ -155,32 +151,20 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 	}
 	
 	// Metodos customizados
-	public int compareTo(Str str) {
-		return val.compareTo(str.val());
-	}
-	
 	public String val() {
 		return this.val;
 	}
 	
-	public void val(String novoValor) {
-		this.val = novoValor;
+	public void val(CharSequence novoValor) {
+		this.val = novoValor.toString();
 	}
 	
 	public boolean notEmpty() {
 		return !this.isEmpty();
 	}
 	
-	public boolean equalsIgnoreCase(Str anotherString) {
-		return val.equalsIgnoreCase(anotherString.val());
-	}
-	
-	public boolean startsWithIgnoreCase(String texto) {
-		return val.toLowerCase().startsWith(texto.toLowerCase());
-	}
-	
-	public boolean startsWithIgnoreCase(Str texto) {
-		return val.toLowerCase().startsWith(texto.toLowerCase());
+	public boolean startsWithIgnoreCase(CharSequence texto) {
+		return val.toLowerCase().startsWith(texto.toString().toLowerCase());
 	}
 	
 	public Character characterAt(int index) {
@@ -200,37 +184,21 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		}
 	}
 	
-	public int compare(Str str) {
-		return val.compareTo(str.val());
-	}
-	
-	public int compareIgnoreCase(Str str) {
-		return val.compareToIgnoreCase(str.val());
-	}
-	
-	public Str[] corta(String regex) {
-		String[] split = val.split(regex);
+	public Str[] corta(CharSequence regex) {
+		String[] split = val.split(regex.toString());
 		Str[] corte = new Str[split.length];
 		for (int i = 0; i < split.length; i++)
 			corte[i] = new Str(split[i]);
 		return corte;
 	}
 	
-	public Str append(Str str) {
-		return this.append(str.val);
-	}
-	
-	public Str appendLn(Str str) {
-		return this.appendLn(str.val);
-	}
-	
-	public Str append(String string) {
-		this.val += string;
+	public Str append(CharSequence string) {
+		this.val += string.toString();
 		return this;
 	}
 	
-	public Str appendLn(String string) {
-		this.val += string + "\n";
+	public Str appendLn(CharSequence string) {
+		this.val += string.toString() + "\n";
 		return this;
 	}
 	
@@ -238,7 +206,7 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		this.val += c;
 	}
 	
-	public Str desde(String inicio, boolean inicioIncluso) {
+	public Str desde(CharSequence inicio, boolean inicioIncluso) {
 		return substring(inicio, null, inicioIncluso, false);
 	}
 	
@@ -252,7 +220,7 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		return new Str(val.substring(inicio));
 	}
 	
-	public Str ate(String fim, boolean fimIncluso) {
+	public Str ate(CharSequence fim, boolean fimIncluso) {
 		return substring(null, fim, true, fimIncluso);
 	}
 	
@@ -266,11 +234,11 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		return new Str(val.substring(0, fim));
 	}
 	
-	public Str desde(boolean inicioIncluso, String... possiveisInicios) {
+	public Str desde(boolean inicioIncluso, CharSequence... possiveisInicios) {
 		int menorIndex = val.length();
 		int tamanhoInicio = 0;
-		for (String inicio : possiveisInicios) {
-			int index = val.indexOf(inicio);
+		for (CharSequence inicio : possiveisInicios) {
+			int index = val.indexOf(inicio.toString());
 			if (index != -1 && index < menorIndex) {
 				menorIndex = index;
 				tamanhoInicio = inicio.length();
@@ -283,11 +251,11 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		return new Str(val.substring(inicioIncluso ? menorIndex : menorIndex + tamanhoInicio, val.length()));
 	}
 	
-	public Str ate(boolean fimIncluso, String... possiveisFins) {
+	public Str ate(boolean fimIncluso, CharSequence... possiveisFins) {
 		int menorIndex = val.length() - 1;
 		int tamanhoFim = 0;
-		for (String fim : possiveisFins) {
-			int index = val.indexOf(fim);
+		for (CharSequence fim : possiveisFins) {
+			int index = val.indexOf(fim.toString());
 			if (index != -1 && index < menorIndex) {
 				menorIndex = index;
 				tamanhoFim = fim.length();
@@ -301,10 +269,10 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 			return new Str(val.substring(0, fimIncluso ? menorIndex + tamanhoFim : menorIndex));
 	}
 	
-	public Str substring(String inicio, String fim, boolean inicioIncluso, boolean fimIncluso) {
+	public Str substring(CharSequence inicio, CharSequence fim, boolean inicioIncluso, boolean fimIncluso) {
 		int indexInicio = 0;
 		if (inicio != null) {
-			indexInicio = val.indexOf(inicio);
+			indexInicio = val.indexOf(inicio.toString());
 			if (indexInicio == -1)
 				return new Str();
 			else if (!inicioIncluso)
@@ -312,7 +280,7 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		}
 		int indexFim = val.length();
 		if (fim != null) {
-			indexFim = val.indexOf(fim, indexInicio);
+			indexFim = val.indexOf(fim.toString(), indexInicio);
 			if (indexFim == -1)
 				indexFim = val.length();
 			else if (fimIncluso)

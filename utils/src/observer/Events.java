@@ -9,10 +9,10 @@ import estruturas.Lista;
 
 public class Events {
 	
-	private static HashMap<String, List<Observer>> monitoramento = new HashMap<>();
+	private static HashMap<CharSequence, List<Observer>> monitoramento = new HashMap<>();
 	
-	public static void addObserver(Observer observer, String... events) {
-		for (String eventId : events) {
+	public static void addObserver(Observer observer, CharSequence... events) {
+		for (CharSequence eventId : events) {
 			List<Observer> list = monitoramento.get(eventId);
 			if (list == null) {
 				list = Collections.synchronizedList(new Lista<>());
@@ -31,7 +31,7 @@ public class Events {
 		}
 	}
 	
-	public static void notify(String eventID) {
+	public static void notify(CharSequence eventID) {
 		Event event = new Event(eventID);
 		List<Observer> list = monitoramento.get(eventID);
 		if (list != null) {
