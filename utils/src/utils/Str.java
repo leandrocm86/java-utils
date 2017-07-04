@@ -321,6 +321,10 @@ public class Str extends Objeto implements Comparable<Str>, CharSequence {
 		return new Str(val.substring(indexInicio, indexFim));
 	}
 	
+	public Str sub(int indexInicio, int indexFim) {
+		return new Str(val.substring(indexInicio, indexFim));
+	}
+	
 	public void limpar() {
 		val = "";
 	}

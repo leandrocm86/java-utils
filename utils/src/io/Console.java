@@ -22,16 +22,21 @@ public class Console {
 	static {
 		textArea = new JTextArea("");
 		textArea.setEditable(false);
-		
+	}
+
+	private static void createPane(boolean botaoClear) {
 		consolePane = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
 		consolePane.add(SwingUtils.createScrollPane(textArea, 20, true), new Float(9));
-		JButton button = new JButton("clear");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textArea.setText("");
-			}
-		});
-		consolePane.add(button, new Float(1));
+		if (botaoClear) {
+			JButton button = new JButton("clear");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					textArea.setText("");
+				}
+			});
+			consolePane.add(button, new Float(1));
+		}
+		consolePane.setVisible(false); // Console escondido enquanto nao for ligado.
 	}
 	
 	public static void imprime(String s) {
@@ -42,14 +47,16 @@ public class Console {
 		imprime(s.val());
 	}
 	
-	public static JPanel getPanel() {
+	public static JPanel getPanel(boolean botaoClear) {
+		if (consolePane == null)
+			createPane(botaoClear);
 		return consolePane;
 	}
 	
 	public static void ligar(boolean criarFrame) {
-		consolePane.setVisible(true);
-		
 		if (criarFrame) {
+			if (consolePane == null)
+				createPane(true);
 			JFrame mainFrame = new JFrame("Console");
 		    mainFrame.setLayout(new BorderLayout());
 		    mainFrame.add(consolePane);
@@ -59,6 +66,7 @@ public class Console {
 			mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			mainFrame.setVisible(true);
 		}
+		consolePane.setVisible(true);
 	}
 	
 	public static String getText() {
