@@ -41,5 +41,15 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>>{
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Retorna uma lista com todos os elementos no mapa, ie, todos elementos de cada lista do mapa juntos.
+	 */
+	public Lista<T> valores() {
+		Lista<T> listaTotal = new Lista<T>();
+		for (Lista<T> lista : super.values())
+			for (T valor : lista)
+				listaTotal.add(valor);
+		return listaTotal;
+	}
 }

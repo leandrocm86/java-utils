@@ -45,16 +45,16 @@ public class Escritor {
 		}
 	}
 	
-	public Escritor(String fileName) {
-		this(new File(fileName));
+	public Escritor(CharSequence fileName) {
+		this(new File(fileName.toString()));
 	}
 	
-	public Escritor(String fileName, boolean append) {
-		this(new File(fileName), append);
+	public Escritor(CharSequence fileName, boolean append) {
+		this(new File(fileName.toString()), append);
 	}
 	
-	public Escritor(String fileName, String encoding) {
-		this(new File(fileName), encoding);
+	public Escritor(CharSequence fileName, String encoding) {
+		this(new File(fileName.toString()), encoding);
 	}
 	
 	public void escreve(String texto) {
