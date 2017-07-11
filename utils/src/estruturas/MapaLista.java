@@ -9,6 +9,8 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>>{
 
 	private static final long serialVersionUID = 1L;
 	
+	private int totalElementos = 0;
+	
 	public void add(S chave, T valor) {
 		Lista<T> lista = super.get(chave);
 		if (lista == null) {
@@ -16,6 +18,7 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>>{
 			super.put(chave, lista);
 		}
 		lista.add(valor);
+		this.totalElementos++;
 	}
 	
 	/**
@@ -48,8 +51,14 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>>{
 	public Lista<T> valores() {
 		Lista<T> listaTotal = new Lista<T>();
 		for (Lista<T> lista : super.values())
-			for (T valor : lista)
-				listaTotal.add(valor);
+			listaTotal.addAll(lista);
 		return listaTotal;
+	}
+	
+	/**
+	 * Retorna o total de elementos na estrutura, ou seja, a soma de todos elementos em cada lista.
+	 */
+	public int total() {
+		return this.totalElementos;
 	}
 }
