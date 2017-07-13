@@ -1,20 +1,26 @@
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import utils.CDI;
 
 public class Teste {
 
 	public static void main(String[] args) throws ParseException {
-		Date date = new SimpleDateFormat("dd/MM/yyyy").parse("05/01/1986");
-		String d = "Data " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss,SSS").format(date);
-		System.out.println(d);
-		
-		String t = "abc";
-		testar(t);
+		String a = "ABC";
+		String b = "def";
+		Boolean c = Boolean.TRUE;
+		Boolean d = Boolean.FALSE;
+		CDI.set(a, "a");
+		CDI.set(b, "b");
+		CDI.set(c, "c");
+		CDI.set(d, "d");
+		System.out.println(CDI.get(String.class, "a"));
+		System.out.println(CDI.get(String.class, "b"));
+		System.out.println(CDI.get(Boolean.class, "c"));
+		System.out.println(CDI.get(Boolean.class, "d"));
 	}
 	
-	private static void testar(CharSequence a) {
-		System.out.println(a);
-	}
+//	private static void testar(CharSequence a) {
+//		System.out.println(a);
+//	}
 
 }

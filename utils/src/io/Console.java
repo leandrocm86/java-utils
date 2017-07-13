@@ -12,6 +12,7 @@ import swing.Fonte;
 import swing.RelativeLayout;
 import swing.SwingUtils;
 import utils.Erros;
+import utils.Str;
 
 public class Console {
 	
@@ -69,6 +70,8 @@ public class Console {
 	}
 	
 	public static void imprimeErro(Throwable t) {
-		imprime(Erros.stackTrace(t));
+		Str erros = Erros.stackTrace(t);
+		imprime(erros);
+		System.out.println(erros);
 	}
 }
