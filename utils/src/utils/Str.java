@@ -1,6 +1,6 @@
 package utils;
 
-public class Str extends Objeto implements Comparable<CharSequence>, CharSequence {
+public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
 	private String val;
 	

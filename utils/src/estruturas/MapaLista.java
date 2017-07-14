@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * HashMap com lista (objetos com mesma chave sao agrupados em lista).
  */
-public class MapaLista<S, T> extends HashMap<S, Lista<T>>{
+public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 
 	private static final long serialVersionUID = 1L;
 	

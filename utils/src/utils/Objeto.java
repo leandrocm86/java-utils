@@ -1,16 +1,19 @@
 package utils;
 
-public abstract class Objeto {
+public interface Objeto {
 	
-	public boolean em(Object... objetos) {
+	default boolean em(Object... objetos) {
 		for (Object o : objetos)
 			if (this.equals(o))
 				return true;
 		return false;
 	}
 	
-	public boolean nenhum(Object... objetos) {
+	default boolean nenhum(Object... objetos) {
 		return !em(objetos);
 	}
-
+	
+	default <T> T to(Class<T> classe) {
+		return classe.cast(this);
+	}
 }
