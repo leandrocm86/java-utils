@@ -14,7 +14,7 @@ import utils.Str;
 
 public class Escritor {
 	
-	private final static int LIMITE_BUFFER = 100;
+	private int limiteBuffer = 100;
 	
 	private int escritas = 0;
 	
@@ -57,10 +57,10 @@ public class Escritor {
 		this(new File(fileName.toString()), encoding);
 	}
 	
-	public void escreve(String texto) {
+	public void escreve(CharSequence texto) {
 		try {
-			writer.write(texto);
-			if (++this.escritas == LIMITE_BUFFER) {
+			writer.write(texto.toString());
+			if (++this.escritas == limiteBuffer) {
 				writer.flush();
 				this.escritas = 0;
 			}
@@ -118,6 +118,14 @@ public class Escritor {
 		}
 	}
 	
+	public int getLimiteBuffer() {
+		return limiteBuffer;
+	}
+
+	public void setLimiteBuffer(int limiteBuffer) {
+		this.limiteBuffer = limiteBuffer;
+	}
+
 	public File getFile() {
 		return this.file;
 	}
