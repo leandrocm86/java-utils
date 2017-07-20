@@ -27,7 +27,7 @@ public class Log {
 	}
 	
 	public static void msgLn(CharSequence msg, boolean destaque) {
-		msg(msg, destaque);
+		msg(msg+"\n", destaque);
 		escritor.enter();
 	}
 	
