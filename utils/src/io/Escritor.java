@@ -14,6 +14,8 @@ import utils.Str;
 
 public class Escritor {
 	
+	public static boolean logar = false;
+	
 	private int limiteBuffer = 100;
 	
 	private int escritas = 0;
@@ -23,26 +25,28 @@ public class Escritor {
 	private File file;
 	
 	public Escritor(File file) {
-		this(file, false);
+		this(file, null, false);
 	}
 	
-	public Escritor(File file, boolean append) {
+	public Escritor(File file, String encoding, boolean append) {
+		if (logar)
+			Log.msgLn("Escrevendo em arquivo de tamanho (bytes): " + file.length());
 		this.file = file;
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, append)));
-		} catch (FileNotFoundException e) {
+			FileOutputStream fos = new FileOutputStream(file, append);
+			OutputStreamWriter osw = encoding == null ? new OutputStreamWriter(fos) : new OutputStreamWriter(fos, encoding);
+			writer = new BufferedWriter(osw);
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 	
 	public Escritor(File file, String encoding) {
-		this.file = file;
-		try{
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), encoding));
-		}
-		catch (FileNotFoundException | UnsupportedEncodingException e) {
-			throw new IllegalArgumentException(e);
-		}
+		this(file, encoding, false);
+	}
+	
+	public Escritor(File file, boolean append) {
+		this(file, null, append);
 	}
 	
 	public Escritor(CharSequence fileName) {
@@ -55,6 +59,10 @@ public class Escritor {
 	
 	public Escritor(CharSequence fileName, String encoding) {
 		this(new File(fileName.toString()), encoding);
+	}
+	
+	public Escritor(CharSequence fileName, String encoding, boolean append) {
+		this(new File(fileName.toString()), encoding, append);
 	}
 	
 	public void escreve(CharSequence texto) {
@@ -133,6 +141,8 @@ public class Escritor {
 	public void terminar() {
 		try {
 			writer.close();
+			if (logar)
+				Log.msgLn("Terminada escrita em arquivo de tamanho (bytes): " + file.length());
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}

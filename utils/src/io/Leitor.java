@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
@@ -12,36 +13,32 @@ import utils.Str;
 
 public class Leitor {
 	
+	public static boolean logar;
+	
 	private BufferedReader reader;
 	private String linhaCorrente;
 	
 	public Leitor(File file) {
-		try {
-			FileInputStream fis = new FileInputStream(file);
-			if (file.getName().endsWith(".gz")) {
-				reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis)));
-			}
-			else {
-				reader = new BufferedReader(new InputStreamReader(fis));
-			}
-		}
-		catch(IOException e) {
-			throw new IllegalArgumentException("Excecao lancada ao tentar ler arquivo!", e);
-		}
+		this(file, null);
 	}
 	
 	public Leitor(File file, String charset) {
 		try {
+			if (logar)
+				Log.msgLn("Lendo arquivo de tamanho (bytes): " + file.length());
+			
 			FileInputStream fis = new FileInputStream(file);
-			if (file.getName().endsWith(".gz")) {
-				reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(fis), charset));
+			InputStream in = file.getName().endsWith(".gz") ? new GZIPInputStream(fis) : fis;
+			
+			if (charset != null) {
+				reader = new BufferedReader(new InputStreamReader(in, charset));
 			}
 			else {
-				reader = new BufferedReader(new InputStreamReader(fis, charset));
+				reader = new BufferedReader(new InputStreamReader(in));
 			}
 		}
-		catch(Exception e) {
-			throw new IllegalArgumentException(e);
+		catch(IOException e) {
+			throw new IllegalArgumentException("Excecao lancada ao tentar ler arquivo!", e);
 		}
 	}
 	
