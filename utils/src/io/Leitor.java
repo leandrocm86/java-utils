@@ -17,6 +17,7 @@ public class Leitor {
 	
 	private BufferedReader reader;
 	private String linhaCorrente;
+	private long inicio;
 	
 	public Leitor(File file) {
 		this(file, null);
@@ -24,8 +25,10 @@ public class Leitor {
 	
 	public Leitor(File file, String charset) {
 		try {
-			if (logar)
+			if (logar) {
+				inicio = System.currentTimeMillis();
 				Log.msgLn("Lendo arquivo de tamanho (bytes): " + file.length());
+			}
 			
 			FileInputStream fis = new FileInputStream(file);
 			InputStream in = file.getName().endsWith(".gz") ? new GZIPInputStream(fis) : fis;
@@ -57,7 +60,7 @@ public class Leitor {
 		try {
 			this.linhaCorrente = this.reader.readLine();
 			if (this.linhaCorrente == null) {
-				this.reader.close();
+				this.terminar();
 			}
 			return this.linhaCorrente;
 		}
@@ -70,21 +73,16 @@ public class Leitor {
 	 * Retorna a primeira linha no arquivo que contenha uma dada String, ou nulo se nao encontrar.
 	 */
 	public String procurarLinha(String texto) {
-		try{
-			do {
-				this.lerLinha();
-				if (this.linhaCorrente.contains(texto)) {
-					this.reader.close();
-					return this.linhaCorrente;
-				}
+		do {
+			this.lerLinha();
+			if (this.linhaCorrente.contains(texto)) {
+				this.terminar();
+				return this.linhaCorrente;
 			}
-			while(this.linhaCorrente != null);
 		}
-		catch(IOException e) {
-			throw new IllegalArgumentException(e);
-		}
-		
-		return null;
+		while(this.linhaCorrente != null);
+	
+	return null;
 	}
 	
 	public Lista<StringBuffer> toListStringBuffer() {
@@ -119,5 +117,15 @@ public class Leitor {
 				break;
 		}
 		return lista;
+	}
+	
+	public void terminar() {
+		try {
+			this.reader.close();
+			if (logar)
+				Log.msgLn("Leitura encerrada em " + (System.currentTimeMillis() - inicio) + "ms.");
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 }

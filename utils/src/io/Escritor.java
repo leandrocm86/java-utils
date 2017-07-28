@@ -19,18 +19,19 @@ public class Escritor {
 	private int limiteBuffer = 100;
 	
 	private int escritas = 0;
-	
 	private BufferedWriter writer;
-	
 	private File file;
+	private long inicio;
 	
 	public Escritor(File file) {
 		this(file, null, false);
 	}
 	
 	public Escritor(File file, String encoding, boolean append) {
-		if (logar)
+		if (logar) {
+			inicio = System.currentTimeMillis();
 			Log.msgLn("Escrevendo em arquivo de tamanho (bytes): " + file.length());
+		}
 		this.file = file;
 		try {
 			FileOutputStream fos = new FileOutputStream(file, append);
@@ -141,8 +142,10 @@ public class Escritor {
 	public void terminar() {
 		try {
 			writer.close();
-			if (logar)
-				Log.msgLn("Terminada escrita em arquivo de tamanho (bytes): " + file.length());
+			if (logar) {
+				Log.msgLn("Terminada escrita em arquivo de tamanho (bytes): " + file.length() + ". Tempo: "
+					+ (System.currentTimeMillis() - inicio) + "ms.");
+			}
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
