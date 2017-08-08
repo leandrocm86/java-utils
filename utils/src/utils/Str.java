@@ -300,4 +300,25 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public void retem(int indexInicio, int indexFim) {
 		val = val.substring(indexInicio, indexFim); 
 	}
+	
+	public Str retem(char... caracteres) {
+		Str retorno = new Str();
+		for (int i = 0; i < this.length(); i++) {
+			char caractere = this.charAt(i);
+			for (int j = 0; j < caracteres.length; j++)
+				if (caractere == caracteres[j]) {
+					retorno.append(this.charAt(i));
+					break;
+				}
+		}
+		return retorno;
+	}
+	
+	public Str retemNumeros() {
+		return this.retem('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+	}
+	
+	public Str ultimos(int quantidade) {
+		return this.sub(this.length() - quantidade, this.length());
+	}
 }
