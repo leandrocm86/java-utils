@@ -21,13 +21,24 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 		this.totalElementos++;
 	}
 	
+	public interface CondicaoBusca<T> {
+		boolean testa(T elem);
+	}
+	
 	/**
-	 * Busca um objeto em todo o map (procura em cada lista).
+	 * Busca um elemento em todo o map (procura em cada lista).
 	 */
 	public T busca(Object valor) {
+		return this.busca(elem -> valor.equals(elem));
+	}
+	
+	/**
+	 * Busca o primeiro objeto que encontrar em todo o map que satisfaca a condicao dada.
+	 */
+	public T busca(CondicaoBusca<T> condicao) {
 		for (Lista<T> lista : super.values())
 			for (T elemento : lista)
-				if (elemento.equals(valor))
+				if (condicao.testa(elemento))
 					return elemento;
 		return null;
 	}

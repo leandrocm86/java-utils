@@ -382,6 +382,20 @@ public class Lista<T> implements List<T> {
 			return buscaBinaria(proximoIndice + 1, max, objeto, comparador, '+');
 	}
 	
+	public interface CondicaoBusca<T> {
+		boolean testa(T elem);
+	}
+	
+	/**
+	 * Retorna o primeiro elemento encontrado que satisfaz o predicao dado, ou nulo se nao encontrar.
+	 */
+	public T busca(CondicaoBusca<T> condicao) {
+		for (T elemento : this.colecao)
+			if (condicao.testa(elemento))
+				return elemento;
+		return null;
+	}
+	
 	public Lista<T> subconjunto(Condicao<T> condicao) {
 		Lista<T> subconjunto = new Lista<>(this.tipo);
 		for (T elemento : this.colecao)
