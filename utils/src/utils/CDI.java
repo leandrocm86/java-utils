@@ -16,6 +16,14 @@ public class CDI {
 	}
 	
 	/**
+	 * Grava um objeto como referencia de sua classe CONCRETA.
+	 * Caso ja exista um, pode sobrescrever de acordo com o parametro.
+	 */
+	public static void set(Object objeto, boolean sobrescreve) {
+		objetosPorClasse.put(objeto.getClass(), objeto);
+	}
+	
+	/**
 	 * Grava um objeto como referencia da classe especificada por parametro.
 	 */
 	public static void set(Object objeto, Class<?> tipo) {
