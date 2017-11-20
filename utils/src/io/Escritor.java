@@ -100,7 +100,7 @@ public class Escritor {
 	public void escreveTudoStringBuffer(Lista<StringBuffer> texto, boolean terminar) {
 		try {
 			for (StringBuffer linha : texto) {
-				writer.append(linha).append("\r\n");
+				writer.append(linha).append(Str.LN);
 			}
 			if (terminar)
 				this.terminar();
@@ -117,7 +117,7 @@ public class Escritor {
 	public void escreveTudo(Collection<Str> texto, boolean terminar) {
 		try {
 			for (Str linha : texto) {
-				writer.write(linha + "\r\n");
+				writer.write(linha + Str.LN);
 			}
 			if (terminar)
 				this.terminar();

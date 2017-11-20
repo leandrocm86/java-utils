@@ -2,6 +2,8 @@ package utils;
 
 public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
+	public static final String LN = System.getProperty("line.separator");
+	
 	private String val;
 	
 	public Str() {
@@ -198,7 +200,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str appendLn(CharSequence string) {
-		this.val += string.toString() + "\n";
+		this.val += string.toString() + LN;
 		return this;
 	}
 	
