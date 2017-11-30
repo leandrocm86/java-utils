@@ -11,7 +11,7 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 	
 	private int totalElementos = 0;
 	
-	public void add(S chave, T valor) {
+	public T add(S chave, T valor) {
 		Lista<T> lista = super.get(chave);
 		if (lista == null) {
 			lista = new Lista<>();
@@ -19,6 +19,7 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 		}
 		lista.add(valor);
 		this.totalElementos++;
+		return valor;
 	}
 	
 	public interface CondicaoBusca<T> {
@@ -40,6 +41,20 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 			for (T elemento : lista)
 				if (condicao.testa(elemento))
 					return elemento;
+		return null;
+	}
+	
+	/**
+	 * Busca o primeiro objeto de uma dada chave no map que satisfaca a condicao dada.
+	 */
+	public T busca(S chave, CondicaoBusca<T> condicao) {
+		Lista<T> lista = super.get(chave);
+		if (lista != null) {
+			for (T elemento : lista)
+				if (condicao.testa(elemento)) {
+					return elemento;
+				}
+		}
 		return null;
 	}
 	

@@ -70,7 +70,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public int indexOf(CharSequence str, int fromIndex) {
 		return val.indexOf(str.toString(), fromIndex);
 	}
-	public boolean isEmpty() {
+	public boolean vazio() {
 		return val == null || val.isEmpty();
 	}
 	public int lastIndexOf(int ch) {
@@ -161,8 +161,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		this.val = novoValor.toString();
 	}
 	
-	public boolean notEmpty() {
-		return !this.isEmpty();
+	public boolean naoVazio() {
+		return !this.vazio();
 	}
 	
 	public boolean startsWithIgnoreCase(CharSequence texto) {
@@ -208,6 +208,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		this.val += c;
 	}
 	
+	public Str desde(CharSequence inicio) {
+		return this.desde(inicio, false);
+	}
+	
 	public Str desde(CharSequence inicio, boolean inicioIncluso) {
 		return substring(inicio, null, inicioIncluso, false);
 	}
@@ -220,6 +224,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		if (!inicioIncluso)
 			inicio++;
 		return new Str(val.substring(inicio));
+	}
+	
+	public Str ate(CharSequence fim) {
+		return this.ate(fim, false);
 	}
 	
 	public Str ate(CharSequence fim, boolean fimIncluso) {
@@ -322,5 +330,9 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
 	public Str ultimos(int quantidade) {
 		return this.sub(this.length() - quantidade, this.length());
+	}
+	
+	public Integer toInt() {
+		return Integer.parseInt(this.val());
 	}
 }
