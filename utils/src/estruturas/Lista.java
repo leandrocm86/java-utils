@@ -2,6 +2,7 @@ package estruturas;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -19,6 +20,8 @@ public class Lista<T> implements List<T> {
 	private boolean podeRepetir = true;
 	
 	private Tipo tipo;
+	
+	private Comparator<T> comparador;
 	
 	public Lista() {
 		this(Tipo.ARRAY);
@@ -116,14 +119,21 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean add(T e) {
+		boolean retorno = false;
 		if (this.podeRepetir)
-			return this.colecao.add(e);
+			retorno = this.colecao.add(e);
 		else {
 			if (!this.colecao.contains(e))
-				return this.colecao.add(e);
-			else
-				return false;
+				retorno =  this.colecao.add(e);
 		}
+		
+		if (this.comparador != null)
+//			long t0 = System.currentTimeMillis();
+			Collections.sort((List<T>)this.colecao, comparador);
+//			Log.msgLn("Ordenada lista em " + (System.currentTimeMillis() - t0));
+//		}
+		
+		return retorno;
 	}
 
 	/**
@@ -345,62 +355,91 @@ public class Lista<T> implements List<T> {
 	}
 	
 	/**
-	 * Restrito para objetos que implementam a interface Comparable.
-	 * A busca binaria soh eh recomendada para tipos ArrayList.
+	 * Faz uma ordenação com o comparador dado e o armazena
+	 * para manter a lista ordenada a cada inserção.
+	 * @param comparador - Comparador a ser usado para ordenacao.
 	 */
-	public T buscaBinaria(T objeto) {
-		assert(objeto instanceof Comparable);
-		return this.buscaBinaria(objeto, new Comparador<T>());
+	public void manterOrdem(Comparator<T> comparador) {
+//		long t0 = System.currentTimeMillis();
+		Collections.sort((List<T>)this.colecao, comparador);
+//		Log.msgLn("Ordenada lista em " + (System.currentTimeMillis() - t0));
+		this.comparador = comparador;
 	}
 	
 	/**
 	 * A busca binaria soh eh recomendada para tipos ArrayList.
-	 * Nesse caso a performance da busca eh muito alto. 
+	 * Nesse caso a performance da busca eh muito alta. 
 	 */
-	public T buscaBinaria(T objeto, Comparator<T> comparador) {
-		return this.buscaBinaria(0, this.colecao.size() - 1, objeto, comparador, '-');
+	public T buscaBinaria(T elemento, Comparator<T> comparador) {
+		CondicaoBinaria<T> condicao = new CondicaoBinaria<T>() {
+			public int testar(T objeto) {
+				return comparador.compare(objeto, elemento);
+			}
+		};
+		int index = this.indexBuscaBinaria(condicao);
+		return index == -1 ? null : this.get(index);
 	}
 	
-	private T buscaBinaria(int min, int max, T objeto, Comparator<T> comparador, char direcao) {
+	/**
+	 * Retorna o indice do dado objeto na lista, procurando binariamente.
+	 * A busca binaria soh eh recomendada para tipos ArrayList.
+	 * Nesse caso a performance da busca eh muito alta.
+	 */
+	public int indexBuscaBinaria(CondicaoBinaria<T> condicao) {
+		return this.buscaBinaria(0, this.colecao.size() - 1, condicao);
+	}
+	
+	private int buscaBinaria(int min, int max, CondicaoBinaria<T> condicao) {
 		if (min > max)
-			return null; // Ja percorremos toda a lista. 
+			return -1; // Ja percorremos toda a lista. 
 		if (min == max)
-			if (comparador.compare(this.get(min), objeto) == 0)
-				return this.get(min);
+			if (condicao.testar(this.get(min)) == 0)
+				return min;
 			else
-				return null;
+				return -1;
 		
 		int diferenca = (int)((max - min)/2);
-		int proximoIndice = direcao == '-' ? min + diferenca : max - diferenca;
-		int comparacao = comparador.compare(this.get(proximoIndice), objeto);
+		int proximoIndice = min + diferenca;
+//		Log.msgLn("Testando indice " + proximoIndice + " (min = " + min + "; max = " + max + ")");
+		int comparacao = condicao.testar(this.get(proximoIndice));
 		
 		if (comparacao == 0)
-			return this.get(min);
+			return proximoIndice;
 		else if (comparacao > 0)
-			return buscaBinaria(min, proximoIndice - 1, objeto, comparador, '-');
+			return buscaBinaria(min, proximoIndice-1, condicao);
 		else
-			return buscaBinaria(proximoIndice + 1, max, objeto, comparador, '+');
-	}
-	
-	public interface CondicaoBusca<T> {
-		boolean testa(T elem);
+			return buscaBinaria(proximoIndice+1, max, condicao);
 	}
 	
 	/**
 	 * Retorna o primeiro elemento encontrado que satisfaz o predicao dado, ou nulo se nao encontrar.
 	 */
-	public T busca(CondicaoBusca<T> condicao) {
+	public T busca(Condicao<T> condicao) {
 		for (T elemento : this.colecao)
-			if (condicao.testa(elemento))
+			if (condicao.testar(elemento))
 				return elemento;
 		return null;
 	}
 	
-	public Lista<T> subconjunto(Condicao<T> condicao) {
+	public Lista<T> subConjunto(Condicao<T> condicao) {
 		Lista<T> subconjunto = new Lista<>(this.tipo);
 		for (T elemento : this.colecao)
-			if (condicao.avaliar(elemento))
+			if (condicao.testar(elemento))
 				subconjunto.add(elemento);
 		return subconjunto;
+	}
+	
+	/**
+	 * Extrai uma lista de um indice (inclusivo) ate outro (exclusivo), 
+	 * podendo ser uma copia ou um espelho (apontador) para a lista original.
+	 */
+	public Lista<T> subLista(int inicio, int fim, boolean copia) {
+		if (!copia)
+			return new Lista<T>(this.subList(inicio, fim));
+		
+		Lista<T> subLista = new Lista<T>();
+		for (int i = inicio; i < fim; i++)
+			subLista.add(((List<T>)this.colecao).get(i));
+		return subLista;
 	}
 }

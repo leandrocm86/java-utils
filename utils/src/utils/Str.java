@@ -11,13 +11,16 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str(String val) {
-		if (val == null)
-			val = "";
-		this.val = val;
+		if (val != null)
+			this.val = val;
+		else
+			this.val = "";
 	}
 	
 	public Str(Object object) {
-		this.val = object.toString();
+		if (object != null)
+			this.val = object.toString();
+		else this.val = "";
 	}
 	
 	@Override
