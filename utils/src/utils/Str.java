@@ -176,11 +176,11 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Character(val.charAt(index));
 	}
 	
-	public Str lowerCase() {
-		return this.lowerCase(false);
+	public Str minusculo() {
+		return this.minusculo(false);
 	}
 	
-	public Str lowerCase(boolean copia) {
+	public Str minusculo(boolean copia) {
 		if (copia)
 			return new Str(val.toLowerCase());
 		else {
