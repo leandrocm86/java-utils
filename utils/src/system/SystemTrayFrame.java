@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 
 import observer.Event;
 import observer.Events;
+import swing.SwingUtils;
 
 public class SystemTrayFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -34,14 +35,12 @@ public class SystemTrayFrame extends JFrame{
 //            System.out.println("Unable to set LookAndFeel");
 //        }
         if(SystemTray.isSupported()){
-//            System.out.println("system tray supported");
             tray=SystemTray.getSystemTray();
 
-            Image image=Toolkit.getDefaultToolkit().getImage("/media/faisal/DukeImg/Duke256.png");
+            Image image=Toolkit.getDefaultToolkit().getImage(""); // Inserir icone aqui
             ActionListener exitListener=new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-//                    System.out.println("Exiting....");
-                    System.exit(0);
+                    System.exit(0); // Exiting....
                 }
             };
             PopupMenu popup=new PopupMenu();
@@ -58,6 +57,13 @@ public class SystemTrayFrame extends JFrame{
             popup.add(defaultItem);
             trayIcon=new TrayIcon(image, name, popup);
             trayIcon.setImageAutoSize(true);
+            
+            // Adicionando icone na Tray
+            try {
+				tray.add(trayIcon);
+			} catch (AWTException e1) {
+				SwingUtils.showMessage("Erro em SystemTrayFrame: " + e1.getMessage());
+			}
         }else{
 //            System.out.println("system tray not supported");
         }
@@ -83,18 +89,18 @@ public class SystemTrayFrame extends JFrame{
         }
             }
         if(e.getNewState()==MAXIMIZED_BOTH){
-                    tray.remove(trayIcon);
+//                    tray.remove(trayIcon);
                     setVisible(true);
 //                    System.out.println("Tray icon removed");
                 }
                 if(e.getNewState()==NORMAL){
-                    tray.remove(trayIcon);
+//                    tray.remove(trayIcon);
                     setVisible(true);
 //                    System.out.println("Tray icon removed");
                 }
             }
         });
-        setIconImage(Toolkit.getDefaultToolkit().getImage("Duke256.png"));
+        setIconImage(Toolkit.getDefaultToolkit().getImage("")); // Icone
 
 //        setVisible(true);
 //        setSize(300, 200);

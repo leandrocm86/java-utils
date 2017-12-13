@@ -79,6 +79,11 @@ public class Escritor {
 		}
 	}
 	
+	public void escreveLn(CharSequence texto) {
+		this.escreve(texto);
+		this.enter();
+	}
+	
 	public void enter() {
 		this.enter(1);
 	}

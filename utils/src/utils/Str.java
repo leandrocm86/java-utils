@@ -268,13 +268,13 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return corte;
 	}
 	
-	public Str append(CharSequence string) {
-		this.val += string.toString();
+	public Str append(Object obj) {
+		this.val += obj.toString();
 		return this;
 	}
 	
-	public Str appendLn(CharSequence string) {
-		this.val += string.toString() + LN;
+	public Str appendLn(Object obj) {
+		this.val += obj.toString() + LN;
 		return this;
 	}
 	
