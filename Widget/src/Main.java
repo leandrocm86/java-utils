@@ -5,6 +5,7 @@ import io.Escritor;
 import io.Leitor;
 import swing.Fonte;
 import swing.Widget;
+import system.Agenda;
 import utils.Str;
 
 public class Main {
@@ -19,9 +20,12 @@ public class Main {
 		widget = new Widget("widget");
 		widget.setSize(50, 42);
 		widget.setFont(new Fonte("Arial", 1, 17));
-		widget.setPosition(1540, 1035);
+		
+		// Espera 10 segundos pra posicionar (a taskbar precisa carregar primeiro)
+		Agenda.agendar(()->widget.setPosition(1540, 1035), 10000);
 		
 		fazerLeitura();
+		Agenda.agendarCiclo(()->fazerLeitura(), 300000); // Releitura a cada 5 minutos
 	}
 	
 	private static void fazerLeitura() {
@@ -33,15 +37,6 @@ public class Main {
 		
 		atualizarTexto();
 		limparRegistrosAntigos(registros);
-		
-		new java.util.Timer().schedule(
-	        new java.util.TimerTask() {
-	            public void run() {
-	                fazerLeitura();
-	            }
-	        }, 
-	        300000 // Releitura a cada 5 minutos
-		);
 	}
 	
 	private static void atualizarTexto() {
