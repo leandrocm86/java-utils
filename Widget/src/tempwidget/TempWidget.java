@@ -18,8 +18,8 @@ public class TempWidget {
 	private static int umid;
 
 	public static void main(String[] args) {
-		umidWidget = new Widget("Umidade");
 		tempWidget = new Widget("Temperatura");
+		umidWidget = new Widget("Umidade");
 		Agenda.agendar(()->fazerLeitura(), 10000); // Primeira leitura espera 10 segundos
 		Agenda.agendarCiclo(()->fazerLeitura(), 300000); // Releitura a cada 5 minutos
 	}
@@ -28,8 +28,8 @@ public class TempWidget {
 		Leitor leitor = new Leitor(URL);
 		Lista<Str> registros = leitor.toList();
 		Str ultimaLinha = registros.ultimo(); // formato: 2017-12-08 00:12:38,30,31,59,79
-		umid = Integer.parseInt(ultimaLinha.substring(26, 28));
 		temp = Integer.parseInt(ultimaLinha.substring(20, 22)) - 2;
+		umid = Integer.parseInt(ultimaLinha.substring(26, 28));
 		
 		atualizarTexto();
 		limparRegistrosAntigos(registros);
@@ -42,8 +42,8 @@ public class TempWidget {
 			tempWidget.setTextColor(Color.RED);
 		else
 			tempWidget.setTextColor(Color.WHITE);
-		umidWidget.updateIcon();
 		tempWidget.updateIcon();
+		umidWidget.updateIcon();
 	}
 	
 	private static void limparRegistrosAntigos(Lista<Str> registros) {

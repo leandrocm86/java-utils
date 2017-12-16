@@ -10,7 +10,7 @@ public class Widget {
 	
 	private SystemTrayFrame frame;
 	private Color textColor = Color.WHITE;
-	private Fonte fonte = new Fonte("Arial", 1, 17);
+	private Fonte fonte = new Fonte("Arial", 1, 15);
 	private CharSequence text;
 	
 	public Widget(String title) {
