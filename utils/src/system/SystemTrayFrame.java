@@ -23,9 +23,10 @@ public class SystemTrayFrame extends JFrame{
 	
 	public static final String EVENT_WINDOW_MINIMIZED = "WINDOW_MINIMIZED";
 	
-	TrayIcon trayIcon;
-    SystemTray tray;
-    public SystemTrayFrame(String name){
+	private TrayIcon trayIcon;
+    private SystemTray tray;
+    
+    public SystemTrayFrame(String name) {
         super(name);
 //        System.out.println("creating instance");
 //        try{
@@ -34,42 +35,16 @@ public class SystemTrayFrame extends JFrame{
 //        }catch(Exception e){
 //            System.out.println("Unable to set LookAndFeel");
 //        }
-        if(SystemTray.isSupported()){
-            tray=SystemTray.getSystemTray();
-
-            Image image=Toolkit.getDefaultToolkit().getImage(""); // Inserir icone aqui
-            ActionListener exitListener=new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    System.exit(0); // Exiting....
-                }
-            };
-            PopupMenu popup=new PopupMenu();
-            MenuItem defaultItem=new MenuItem("Exit");
-            defaultItem.addActionListener(exitListener);
-            popup.add(defaultItem);
-            defaultItem=new MenuItem("Open");
-            defaultItem.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    setVisible(true);
-                    setExtendedState(JFrame.NORMAL);
-                }
-            });
-            popup.add(defaultItem);
-            trayIcon=new TrayIcon(image, name, popup);
-            trayIcon.setImageAutoSize(true);
-            
-            // Adicionando icone na Tray
-            try {
-				tray.add(trayIcon);
-			} catch (AWTException e1) {
-				SwingUtils.showMessage("Erro em SystemTrayFrame: " + e1.getMessage());
-			}
-        }else{
-//            System.out.println("system tray not supported");
+        if (SystemTray.isSupported()) {
+            Image image = Toolkit.getDefaultToolkit().getImage("");
+            this.setTrayImage(image, "Sem título");
+        } else {
+            SwingUtils.showMessage("ERRO! SystemTray nao suportado!");
         }
-        addWindowStateListener(new WindowStateListener() {
+        
+        super.addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent e) {
-                if(e.getNewState()==ICONIFIED){
+                if (e.getNewState() == ICONIFIED) {
                     try {
                         tray.add(trayIcon);
                         setVisible(false);
@@ -79,31 +54,52 @@ public class SystemTrayFrame extends JFrame{
 //                        System.out.println("unable to add to tray");
                     }
                 }
-        if(e.getNewState()==7){
-                    try{
-            tray.add(trayIcon);
-            setVisible(false);
-//            System.out.println("added to SystemTray");
-            }catch(AWTException ex){
-//            System.out.println("unable to add to system tray");
-        }
-            }
-        if(e.getNewState()==MAXIMIZED_BOTH){
+		        if (e.getNewState() == 7) {
+		        	try {
+			            tray.add(trayIcon);
+			            setVisible(false);
+		//            System.out.println("added to SystemTray");
+		            } catch (AWTException ex) {
+		//            System.out.println("unable to add to system tray");
+		            }
+		        }
+		        if (e.getNewState() == MAXIMIZED_BOTH) {
 //                    tray.remove(trayIcon);
                     setVisible(true);
 //                    System.out.println("Tray icon removed");
                 }
-                if(e.getNewState()==NORMAL){
+                if (e.getNewState() == NORMAL) {
 //                    tray.remove(trayIcon);
                     setVisible(true);
 //                    System.out.println("Tray icon removed");
                 }
             }
         });
-        setIconImage(Toolkit.getDefaultToolkit().getImage("")); // Icone
-
-//        setVisible(true);
-//        setSize(300, 200);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        super.setIconImage(Toolkit.getDefaultToolkit().getImage("")); // Icone da janela
+    }
+    
+    public void setTrayImage(Image image, String title) {
+    	SystemTray.getSystemTray().remove(this.trayIcon);
+    	
+    	ActionListener exitListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0); // Exiting....
+            }
+        };
+        PopupMenu popup = new PopupMenu();
+        MenuItem defaultItem = new MenuItem("Exit");
+        defaultItem.addActionListener(exitListener);
+        popup.add(defaultItem);
+    	
+        this.trayIcon = new TrayIcon(image, title, popup);
+        this.trayIcon.setImageAutoSize(true);
+        
+        // Adicionando icone na Tray
+        try {
+        	SystemTray.getSystemTray().add(trayIcon);
+		} catch (AWTException e1) {
+			SwingUtils.showMessage("Erro ao tentar colocar icone na SystemTray: " + e1.getMessage());
+		}
     }
 }

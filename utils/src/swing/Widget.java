@@ -1,42 +1,41 @@
 package swing;
 
 import java.awt.Color;
-
-import javax.swing.JTextPane;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import system.SystemTrayFrame;
 
 public class Widget {
 	
 	private SystemTrayFrame frame;
-	private JTextPane pane;
+	private Color textColor = Color.WHITE;
+	private Fonte fonte = new Fonte("Arial", 1, 17);
+	private CharSequence text;
 	
 	public Widget(String title) {
 		frame = new SystemTrayFrame(title);
-		pane = new JTextPane();
-		frame.add(pane);
-		frame.setUndecorated(true);
-		frame.setFocusableWindowState(false);
-		frame.setVisible(true);
-	}
-	
-	public void setSize(int largura, int altura) {
-		frame.setSize(largura, altura);
-	}
-	
-	public void setPosition(int x, int y) {
-		frame.setLocation(x, y);
 	}
 	
 	public void setText(CharSequence text) {
-		pane.setText(text.toString());
+		this.text = text;
 	}
 	
 	public void setTextColor(Color color) {
-		pane.setForeground(color);
+		this.textColor = color;
 	}
 	
-	public void setFont(Fonte font) {
-		pane.setFont(font);
+	public void setFont(Fonte fonte) {
+		this.fonte = fonte;
+	}
+	
+	public void updateIcon() {
+		BufferedImage bi = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g = bi.createGraphics();
+	    g.setColor(this.textColor);
+	    g.setFont(this.fonte);
+	    g.drawString(this.text.toString(), 0, 15);
+	    g.dispose();
+	    frame.setTrayImage(bi, frame.getTitle());
 	}
 }
