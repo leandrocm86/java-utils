@@ -10,7 +10,7 @@ import utils.Str;
 
 public class TempWidget {
 	
-	private static final String URL = "W:\\Temps\\TEMPer1F_H1\\TEMPer1F_H1\\1.txt";
+	private static final String URL = "C:\\Users\\leand\\Documents\\PCsensor\\TEMPer\\Data\\TEMPer1F_H1\\1.txt";
 	
 	private static Widget tempWidget;
 	private static Widget umidWidget;
