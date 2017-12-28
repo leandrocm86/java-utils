@@ -10,7 +10,7 @@ import utils.Str;
 
 public class TempWidget {
 	
-	private static final String URL = "C:\\Users\\leand\\Documents\\PCsensor\\TEMPer\\Data\\TEMPer1F_H1\\1.txt";
+	private static final String URL = "C:\\Users\\leandro\\Documents\\PCsensor\\TEMPer\\Data\\TEMPer1F_H1\\1.txt";
 	
 	private static Widget tempWidget;
 	private static Widget umidWidget;
@@ -28,8 +28,8 @@ public class TempWidget {
 		Leitor leitor = new Leitor(URL);
 		Lista<Str> registros = leitor.toList();
 		Str ultimaLinha = registros.ultimo(); // formato: 2017-12-08 00:12:38,30,31,59,79
-		temp = Integer.parseInt(ultimaLinha.substring(20, 22)) - 2;
-		umid = Integer.parseInt(ultimaLinha.substring(26, 28));
+		temp = Math.round(ultimaLinha.sub(20, 22).toFloat());
+		umid = Math.round(ultimaLinha.sub(26, 28).toFloat());
 		
 		atualizarTexto();
 		limparRegistrosAntigos(registros);
