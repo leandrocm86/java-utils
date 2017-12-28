@@ -348,7 +348,7 @@ public class Lista<T> implements List<T> {
 	}
 	
 	// METODOS CUSTOMIZADOS
-	public boolean notEmpty() {
+	public boolean naoVazia() {
 		return !this.isEmpty();
 	}
 	
