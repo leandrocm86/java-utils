@@ -94,4 +94,9 @@ public class SystemTrayFrame extends JFrame{
 			SwingUtils.showMessage("Erro ao tentar colocar icone na SystemTray: " + e1.getMessage());
 		}
     }
+    
+    public void updateIcon(Image image, String tooltip) {
+    	this.trayIcon.setImage(image);
+    	this.trayIcon.setToolTip(tooltip);
+    }
 }

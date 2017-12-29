@@ -12,13 +12,19 @@ public class Widget {
 	private Color textColor = Color.WHITE;
 	private Fonte fonte = new Fonte("Arial", 1, 15);
 	private CharSequence text;
+	private CharSequence title;
 	
 	public Widget(String title) {
 		frame = new SystemTrayFrame(title);
+		this.title = title;
 	}
 	
 	public void setText(CharSequence text) {
 		this.text = text;
+	}
+	
+	public void setTitle(CharSequence title) {
+		this.title = title;
 	}
 	
 	public void setTextColor(Color color) {
@@ -36,6 +42,6 @@ public class Widget {
 	    g.setFont(this.fonte);
 	    g.drawString(this.text.toString(), 0, 15);
 	    g.dispose();
-	    frame.setTrayImage(bi, frame.getTitle());
+	    frame.updateIcon(bi, title.toString());
 	}
 }
