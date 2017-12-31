@@ -1,5 +1,6 @@
 package swing;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,6 +9,7 @@ import java.awt.Window;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
@@ -30,6 +32,16 @@ public class SwingUtils {
 	
 	public static void setDefaultFont(Component component) {
 	    defaultFont.set(component);
+	}
+	
+	public static void setBackgroundColor(JPanel panel, Color color) {
+		panel.setBackground(color);
+		for (Component component : panel.getComponents()) {
+			if (component instanceof JPanel)
+				setBackgroundColor((JPanel) component, color);
+			else
+				component.setBackground(color);
+		}
 	}
 	
 	public static void showMessage(String message) {

@@ -9,11 +9,11 @@ import estruturas.Lista;
 
 public class Events {
 	
-	private static HashMap<CharSequence, List<Observer>> monitoramento = new HashMap<>();
+	private static HashMap<CharSequence, List<Observador>> monitoramento = new HashMap<>();
 	
-	public static void addObserver(Observer observer, CharSequence... events) {
+	public static void addObserver(Observador observer, CharSequence... events) {
 		for (CharSequence eventId : events) {
-			List<Observer> list = monitoramento.get(eventId);
+			List<Observador> list = monitoramento.get(eventId);
 			if (list == null) {
 				list = Collections.synchronizedList(new Lista<>());
 				monitoramento.put(eventId, list);
@@ -22,22 +22,22 @@ public class Events {
 		}
 	}
 	
-	public static void notify(Event event) {
-		List<Observer> list = monitoramento.get(event.getEventID());
+	public static void notify(Evento event) {
+		List<Observador> list = monitoramento.get(event.getEventID());
 		if (list != null) {
-			Iterator<Observer> iterator = list.iterator();
+			Iterator<Observador> iterator = list.iterator();
 			while(iterator.hasNext())
-				iterator.next().update(event);
+				iterator.next().ouvir(event);
 		}
 	}
 	
 	public static void notify(CharSequence eventID) {
-		Event event = new Event(eventID);
-		List<Observer> list = monitoramento.get(eventID);
+		Evento event = new Evento(eventID);
+		List<Observador> list = monitoramento.get(eventID);
 		if (list != null) {
-			Iterator<Observer> iterator = list.iterator();
+			Iterator<Observador> iterator = list.iterator();
 			while(iterator.hasNext())
-				iterator.next().update(event);
+				iterator.next().ouvir(event);
 		}
 	}
 }

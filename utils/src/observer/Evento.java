@@ -1,16 +1,16 @@
 package observer;
 
-public class Event {
+public class Evento {
 	
 	private CharSequence eventID;
 	
 	private Object param;
 	
-	public Event(CharSequence eventID) {
+	public Evento(CharSequence eventID) {
 		this(eventID, null);
 	}
 	
-	public Event(CharSequence eventID, Object param) {
+	public Evento(CharSequence eventID, Object param) {
 		this.eventID = eventID;
 		this.param = param;
 	}

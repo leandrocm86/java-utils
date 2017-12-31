@@ -14,7 +14,7 @@ import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 
-import observer.Event;
+import observer.Evento;
 import observer.Events;
 import swing.SwingUtils;
 
@@ -63,7 +63,7 @@ public class SystemTrayFrame extends JFrame{
                     }
                     setVisible(false);
                     if (e.getNewState() == ICONIFIED)
-                    	Events.notify(new Event(EVENT_WINDOW_MINIMIZED, this));
+                    	Events.notify(new Evento(EVENT_WINDOW_MINIMIZED, this));
                 }
             }
         });
