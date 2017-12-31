@@ -26,10 +26,17 @@ public class Layout extends JPanel {
 	//DDDB
 	public static final int FORMATO_3 = 3;
 	
-	private JPanel A = new JPanel(SwingUtils.createLayout(RelativeLayout.X_AXIS)); // O Layout aqui eh irrelevante, mas tem que ter algum para preencher tudo.
-	private JPanel B = new JPanel(SwingUtils.createLayout(RelativeLayout.X_AXIS));
-	private JPanel C = new JPanel(SwingUtils.createLayout(RelativeLayout.X_AXIS));
-	private JPanel D = new JPanel(SwingUtils.createLayout(RelativeLayout.X_AXIS));
+	//AAAB
+	//CCCB
+	//CCCB
+	//DDDD
+	//DDDD
+	public static final int FORMATO_4 = 4;
+	
+	private JPanel A;
+	private JPanel B;
+	private JPanel C;
+	private JPanel D;
 	
 	
 	/**
@@ -39,6 +46,15 @@ public class Layout extends JPanel {
 	 */
 	public Layout(int formato, int menorAltura, int menorLargura) {
 		super(getRelativeLayout(formato));
+		
+		// Formatos com sublayouts. Nao precisam iniciar alguns paineis que serao intanciados pelos sublayouts.
+		if (formato != FORMATO_4) {
+			this.A = new JPanel(SwingUtils.createLayout(0)); // O Layout aqui eh irrelevante, mas tem que ter algum para preencher tudo.
+			this.B = new JPanel(SwingUtils.createLayout(0));
+			this.C = new JPanel(SwingUtils.createLayout(0));
+		}
+		
+		this.D = new JPanel(SwingUtils.createLayout(0));
 		
 		Float menorX = new Float(menorLargura);
 		Float menorY = new Float(menorAltura);
@@ -68,6 +84,14 @@ public class Layout extends JPanel {
 				super.add(ACD, maiorX);
 				super.add(B, menorX);
 			} break;
+			case FORMATO_4: {
+				Layout ACB = new Layout(FORMATO_1, menorAltura, menorLargura);
+				this.A = ACB.getA();
+				this.B = ACB.getB();
+				this.C = ACB.getC();
+				super.add(ACB, maiorY*1.1f/2);
+				super.add(D, maiorY*0.9f/2);
+			} break;
 		}
 	}
 	
@@ -77,7 +101,9 @@ public class Layout extends JPanel {
 			case FORMATO_1:
 			case FORMATO_3:
 				return SwingUtils.createLayout(RelativeLayout.X_AXIS);
-			case FORMATO_2: return SwingUtils.createLayout(RelativeLayout.Y_AXIS);
+			case FORMATO_2:
+			case FORMATO_4:
+				return SwingUtils.createLayout(RelativeLayout.Y_AXIS);
 			default: throw new IllegalArgumentException("Formato invalido de layout!");
 		}
 	}
@@ -98,22 +124,25 @@ public class Layout extends JPanel {
 		return D;
 	}
 	
-	// Em vez de mudarmos os paineis, apenas colocamos os componentes do usuario dentro dos paineis da moldura (para manter as posicoes).
-	
 	public void setA(JComponent component) {
-		A.add(component, 1f); // O tamanho aqui eh irrelevante, mas eh necessario para o preenchimento total do espaco.
+		this.setComponent(component, A);
 	}
 	
 	public void setB(JComponent component) {
-		B.add(component, 1f); // O tamanho aqui eh irrelevante, mas eh necessario para o preenchimento total do espaco.
+		this.setComponent(component, B);
 	}
 	
 	public void setC(JComponent component) {
-		C.add(component, 1f); // O tamanho aqui eh irrelevante, mas eh necessario para o preenchimento total do espaco.
+		this.setComponent(component, C);
 	}
 	
 	public void setD(JComponent component) {
-		D.removeAll();
-		D.add(component, 1f); // O tamanho aqui eh irrelevante, mas eh necessario para o preenchimento total do espaco.
+		this.setComponent(component, D);
+	}
+	
+	// Em vez de mudarmos os paineis, apenas colocamos os componentes do usuario dentro dos paineis da moldura (para manter as posicoes).
+	private void setComponent(JComponent component, JPanel panel) {
+		panel.removeAll();
+		panel.add(component, 1f); // O tamanho aqui eh irrelevante, mas eh necessario para o preenchimento total do espaco.
 	}
 }
