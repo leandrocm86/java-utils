@@ -11,6 +11,9 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 	
 	private int totalElementos = 0;
 	
+	/**
+	 * Adiciona o valor na lista contida na dada chave do mapa.
+	 */
 	public T add(S chave, T valor) {
 		Lista<T> lista = super.get(chave);
 		if (lista == null) {
@@ -20,6 +23,13 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 		lista.add(valor);
 		this.totalElementos++;
 		return valor;
+	}
+	
+	/**
+	 * Limpa a lista de uma dada chave.
+	 */
+	public void limpaChave(S chave) {
+		super.put(chave, null);
 	}
 	
 	public interface CondicaoBusca<T> {

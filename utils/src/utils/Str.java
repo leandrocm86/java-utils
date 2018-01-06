@@ -283,7 +283,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str desde(CharSequence inicio) {
-		return this.desde(inicio, false);
+		return this.desde(inicio, true);
 	}
 	
 	public Str desde(CharSequence inicio, boolean inicioIncluso) {
@@ -291,7 +291,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str desde(int inicio) {
-		return this.ate(inicio, true);
+		return this.desde(inicio, true);
 	}
 	
 	public Str desde(int inicio, boolean inicioIncluso) {
@@ -300,12 +300,22 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Str(val.substring(inicio));
 	}
 	
+	public Str desdeUltimo(CharSequence inicio, boolean inicioIncluso) {
+		int ultimoIndex = this.lastIndexOf(inicio);
+		return this.desde(ultimoIndex, inicioIncluso);
+	}
+	
 	public Str ate(CharSequence fim) {
 		return this.ate(fim, false);
 	}
 	
 	public Str ate(CharSequence fim, boolean fimIncluso) {
 		return substring(null, fim, true, fimIncluso);
+	}
+	
+	public Str ateUltimo(CharSequence fim, boolean fimIncluso) {
+		int ultimoIndex = this.lastIndexOf(fim);
+		return this.ate(ultimoIndex, fimIncluso);
 	}
 	
 	public Str ate(int fim) {
