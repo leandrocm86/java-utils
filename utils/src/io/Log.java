@@ -9,12 +9,18 @@ public class Log {
 	
 	private static Escritor escritor;
 	
-	private static Lista<CharSequence> debugMsgs = new Lista<>(Tipo.LINKED); 
+	private static Lista<CharSequence> debugMsgs = new Lista<>(Tipo.LINKED);
+	
+	private static boolean consoleLigado = false;
 	
 	public static void iniciar(String path) {
 		escritor = new Escritor(path, true);
 		escritor.setLimiteBuffer(1);
 		msgLn("Iniciando LOG", true);
+	}
+	
+	public static void setConsoleLigado() {
+		consoleLigado = true;
 	}
 	
 	public static void msg(CharSequence msg) {
@@ -24,7 +30,10 @@ public class Log {
 	public static void msg(CharSequence msg, boolean destaque) {
 		if (destaque)
 			msg = "########## " + msg.toString() + " ##########";
-		escritor.escreve(new Data() + " " + msg);
+		msg = new Data() + " " + msg;
+		escritor.escreve(msg);
+		if (consoleLigado)
+			Console.imprime(msg);
 	}
 	
 	public static void msgLn(CharSequence msg) {
@@ -37,9 +46,12 @@ public class Log {
 	}
 	
 	public static void debug(CharSequence msg) {
-		if (debugMsgs.size() == 5)
+		if (debugMsgs.size() == 10)
 			debugMsgs.remove(0);
-		debugMsgs.add(new Data() + ": " + msg);
+		msg = new Data() + ": " + msg;
+		debugMsgs.add(msg);
+		if (consoleLigado)
+			Console.imprime("DEBUG: " + msg);
 	}
 	
 	public static void logaErro(Throwable e) {

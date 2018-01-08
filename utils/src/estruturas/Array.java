@@ -2,40 +2,55 @@ package estruturas;
 
 import java.util.Iterator;
 
-public class Array implements Iterable<Object> {
+public class Array<T> implements Iterable<T> {
 	
-	private Object[] elementos;
+	private T[] elementos;
 	
-	public Array(Object... elementos) {
+	public Array(T... elementos) {
 		this.elementos = elementos;
 	}
 	
 	public int length() {
-		return this.elementos.length;
+		return this.elementos != null ? this.elementos.length : 0;
 	}
 	
-	public boolean contem(Object objeto) {
-		for (Object elemento : elementos)
+	public T i(int index) {
+		return this.elementos[index];
+	}
+	
+	public boolean contem(T objeto) {
+		for (T elemento : elementos)
 			if (elemento.equals(objeto))
 				return true;
 		return false;
 	}
 	
-	public boolean naoContem(Object objeto) {
+	public boolean naoContem(T objeto) {
 		return !this.contem(objeto);
 	}
 
 	@Override
-	public Iterator<Object> iterator() {
-		return new Iterator<Object>() {
+	public Iterator<T> iterator() {
+		return new Iterator<T>() {
 			private int index = -1;
 			public boolean hasNext() {
 				return index + 1 < elementos.length;
 			}
-			public Object next() {
+			public T next() {
 				return elementos[++index];
 			}
 		};
+	}
+	
+	@Override
+	public String toString() {
+		String msg = "";
+		for (int i = 0; i < length(); i++) {
+			msg += this.elementos[i].toString();
+			if (i < length() - 1)
+				msg += "; ";
+		}
+		return msg;
 	}
 
 }
