@@ -9,12 +9,12 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public static final String SEM_CASE = "sem_case";
 	public static final String SEM_CASE_E_ACENTO = "sem_case_acento";
 	
-	private static final Array conjuntoC = new Array('c', 'ç');
-	private static final Array conjuntoA = new Array('a', 'á', 'à', 'ã', 'â');
-	private static final Array conjuntoE = new Array('e', 'é', 'ê');
-	private static final Array conjuntoI = new Array('i', 'í');
-	private static final Array conjuntoO = new Array('o', 'ó', 'õ', 'ô');
-	private static final Array conjuntoU = new Array('u', 'ú');
+	private static final Array<Character> conjuntoC = new Array<>('c', 'ç');
+	private static final Array<Character> conjuntoA = new Array<>('a', 'á', 'à', 'ã', 'â');
+	private static final Array<Character> conjuntoE = new Array<>('e', 'é', 'ê');
+	private static final Array<Character> conjuntoI = new Array<>('i', 'í');
+	private static final Array<Character> conjuntoO = new Array<>('o', 'ó', 'õ', 'ô');
+	private static final Array<Character> conjuntoU = new Array<>('u', 'ú');
 	
 	
 	private String val;
