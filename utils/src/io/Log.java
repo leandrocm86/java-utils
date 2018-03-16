@@ -64,7 +64,7 @@ public class Log {
 		}
 		else {
 			Log.msgLn("Primeiras linhas:");
-			Log.msgLn(Erros.stackTrace(e, 5));
+			Log.msgLn(Erros.stackTrace(e, 10));
 		}
 		if (debugMsgs.naoVazia()) {
 			msgLn("Ultimas mensagens de nivel DEBUG antes do erro:");
