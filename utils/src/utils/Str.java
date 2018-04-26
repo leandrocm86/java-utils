@@ -66,7 +66,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			return val.equals(((Str) anObject).val());
 		else if (anObject instanceof String)
 			return val.equals(anObject);
-		else return false;
+		else return val.equals(anObject.toString());
 	}
 	public boolean equalsIgnoreCase(CharSequence anotherString) {
 		return val.equalsIgnoreCase(anotherString.toString());
