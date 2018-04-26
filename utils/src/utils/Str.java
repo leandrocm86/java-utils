@@ -428,4 +428,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		this.val(this.val.replaceAll(de.toString(), para.toString()));
 		return this;
 	}
+	
+	public boolean notEquals(Object o) {
+		return !this.equals(o);
+	}
 }

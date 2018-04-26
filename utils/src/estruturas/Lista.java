@@ -448,4 +448,23 @@ public class Lista<T> implements List<T> {
 			subLista.add(((List<T>)this.colecao).get(i));
 		return subLista;
 	}
+	
+	/**
+	 * Esse metodo difere do 'contains' de Collection, na medida que
+	 * ele usa o equals dos elementos da lista recebendo o parametro buscado,
+	 * enquanto o 'contains' usa o equals do objeto buscado passando os elementos da lista como parametro.
+	 */
+	public boolean contem(Object elemento) {
+		for (T elem : this.colecao)
+			if (elem.equals(elemento))
+				return true;
+		return false;
+	}
+	
+	/**
+	 * @see #contem(Object elemento)
+	 */
+	public boolean naoContem(Object elemento) {
+		return !this.contem(elemento);
+	}
 }
