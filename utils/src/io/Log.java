@@ -52,6 +52,8 @@ public class Log {
 		debugMsgs.add(msg);
 		if (consoleLigado)
 			Console.imprime("DEBUG: " + msg);
+		else
+			System.out.println(msg);
 	}
 	
 	public static void logaErro(Throwable e) {

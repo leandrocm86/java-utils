@@ -80,6 +80,10 @@ public class Lista<T> implements List<T> {
 		return ((List<T>)colecao).get(colecao.size() - 1);
 	}
 	
+	public T primeiro() {
+		return ((List<T>)colecao).get(0);
+	}
+	
 	public void troca(int index, T element) {
 		((List<T>)colecao).set(index, element);
 	}

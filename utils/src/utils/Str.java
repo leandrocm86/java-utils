@@ -323,6 +323,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str ate(int fim, boolean fimIncluso) {
+		if (fim > val.length())
+			fim = val.length();
 		if (fimIncluso)
 			fim++;
 		return new Str(val.substring(0, fim));
