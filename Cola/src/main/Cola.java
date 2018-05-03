@@ -1,12 +1,13 @@
 package main;
 
-import swing.Widget;
+import system.SystemTrayFrame;
 
 public class Cola {
 	
 	public static void main(String[] args) {
 		Clip clip = new Clip();
-		Widget icon = new Widget("Cola");
+		SystemTrayFrame frame = new SystemTrayFrame("Cola");
+		frame.addListener(clip);
 	}
 	
 

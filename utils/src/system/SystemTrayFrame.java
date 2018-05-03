@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
@@ -18,7 +19,7 @@ import observer.Evento;
 import observer.Events;
 import swing.SwingUtils;
 
-public class SystemTrayFrame extends JFrame{
+public class SystemTrayFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String EVENT_WINDOW_MINIMIZED = "WINDOW_MINIMIZED";
@@ -98,5 +99,9 @@ public class SystemTrayFrame extends JFrame{
     public void updateIcon(Image image, String tooltip) {
     	this.trayIcon.setImage(image);
     	this.trayIcon.setToolTip(tooltip);
+    }
+    
+    public void addListener(MouseListener listener) {
+    	this.trayIcon.addMouseListener(listener);
     }
 }
