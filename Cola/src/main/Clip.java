@@ -18,6 +18,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import estruturas.Cache;
+import estruturas.Lista.Tipo;
+import io.Escritor;
+import io.Leitor;
 import swing.Fonte;
 import swing.SwingUtils;
 import utils.CDI;
@@ -29,26 +32,36 @@ public class Clip implements ClipboardOwner, MouseListener {
 	private Clipboard clipboard;
 	private Cache<Str> items;
 	private Point posicao;
+	private Str urlArquivo;
 	
-	public Clip() {
+	public Clip(Str urlArquivo) {
 		CDI.set(this);
+		this.urlArquivo = urlArquivo;
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		items = new Cache<>(1000);
+		try {
+			Leitor leitor = new Leitor(urlArquivo);
+			items = new Cache<>(1000, leitor.toList(Tipo.LINKED));
+		}
+		catch(IllegalArgumentException e) { // Arquivo ainda nao existe.
+			items = new Cache<>(1000);
+		}
 		this.fazLeitura();
 	}
 	
 	private void fazLeitura() {
-		System.out.println("Fazendo leitura");
+//		System.out.println("Fazendo leitura");
 		try {
 			Transferable ultimaCola = clipboard.getContents(null);
 			Object conteudo = ultimaCola.getTransferData(DataFlavor.stringFlavor);
 			if (items.naoContem(conteudo)) {
 				items.add(new Str(conteudo));
+				salvaArquivo();
 			}
 			else if (items.primeiro().notEquals(conteudo)){
-				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
+//				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
 				items.remove(conteudo);
 				items.add(new Str(conteudo));
+				salvaArquivo();
 			}
 			clipboard.setContents(ultimaCola, this);
 		} catch (UnsupportedFlavorException | IOException e) {
@@ -59,8 +72,12 @@ public class Clip implements ClipboardOwner, MouseListener {
 	private void exibirLista() {
 		JPopupMenu trayPopup = new JPopupMenu();
 		
+		short items = 0;
 		for (Str item : this.items) {
-			System.out.println("Criando item " + item);
+			items++;
+			if (items == 31) // Soh exibe os 30 primeiros.
+				break;
+//			System.out.println("Criando item " + item);
 			trayPopup.add(criarMenuItem(item));
 		}
 		
@@ -75,14 +92,19 @@ public class Clip implements ClipboardOwner, MouseListener {
 		menuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Selecionando " + item);
+//				System.out.println("Selecionando " + item);
 				StringSelection conteudoSelecionado = new StringSelection(item.val());
 				clipboard.setContents(conteudoSelecionado, CDI.get(Clip.class));
 				items.remove(item);
 				items.add(new Str(item));
+				salvaArquivo();
 			}
 		});
 		return menuItem;
+	}
+	
+	private void salvaArquivo() {
+		new Escritor(this.urlArquivo).escreveTudo(items);
 	}
 
 	@Override
@@ -92,7 +114,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Clicou no Clip");
+//		System.out.println("Clicou no Clip");
 		this.posicao = e.getLocationOnScreen();
 		this.exibirLista();
 	}

@@ -45,12 +45,12 @@ public class Leitor {
 		}
 	}
 	
-	public Leitor(String fileName) {
-		this(new File(fileName));
+	public Leitor(CharSequence fileName) {
+		this(new File(fileName.toString()));
 	}
 	
-	public Leitor(String fileName, String charset) {
-		this(new File(fileName), charset);
+	public Leitor(CharSequence fileName, String charset) {
+		this(new File(fileName.toString()), charset);
 	}
 	
 	/**

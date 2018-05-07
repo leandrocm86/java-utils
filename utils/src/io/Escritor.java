@@ -115,7 +115,7 @@ public class Escritor {
 		}
 	}
 	
-	public void escreveTudo(Collection<Str> texto) throws IOException {
+	public void escreveTudo(Collection<Str> texto) {
 		this.escreveTudo(texto, true);
 	}
 	

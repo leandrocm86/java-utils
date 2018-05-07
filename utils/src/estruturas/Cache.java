@@ -13,6 +13,13 @@ public class Cache<T> extends Lista<T> {
 		this.capacidade = capacidade;
 	}
 	
+	public Cache(int capacidade, Lista<T> listaInicial) {
+		super(listaInicial);
+		if (listaInicial.size() > capacidade) {
+			throw new IllegalArgumentException("Lista passada para Cache ultrapassa o tamanho maximo.");
+		}
+	}
+	
 	/**
 	 * Retorna TRUE se o elemento ja existia, ou FALSE caso contrario.
 	 * Elementos que ja se encontram na lista apenas passam para frente, nao sao duplicados.
