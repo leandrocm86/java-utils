@@ -427,7 +427,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str troca(CharSequence de, CharSequence para) {
-		this.val(this.val.replaceAll(de.toString(), para.toString()));
+		this.val(this.val.replace(de.toString(), para.toString()));
 		return this;
 	}
 	
