@@ -62,11 +62,11 @@ public class Log {
 			Throwable e2 = e.getCause();
 			Log.msgLn("CAUSADO POR " + e2.getClass().getName() + e2.getMessage());
 			Log.msgLn("Primeiras linhas da causa:");
-			Log.msgLn(Erros.stackTrace(e2, 5));
+			Log.msgLn(Erros.stackTraceToStr(e2, 5));
 		}
 		else {
 			Log.msgLn("Primeiras linhas:");
-			Log.msgLn(Erros.stackTrace(e, 10));
+			Log.msgLn(Erros.stackTraceToStr(e, 10));
 		}
 		if (debugMsgs.naoVazia()) {
 			msgLn("Ultimas mensagens de nivel DEBUG antes do erro:");

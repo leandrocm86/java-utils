@@ -70,7 +70,7 @@ public class Console {
 	}
 	
 	public static void imprimeErro(Throwable t) {
-		Str erros = Erros.stackTrace(t);
+		Str erros = Erros.stackTraceToStr(t);
 		imprime(erros);
 		System.out.println(erros);
 	}

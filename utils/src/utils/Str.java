@@ -1,5 +1,7 @@
 package utils;
 
+import java.nio.charset.StandardCharsets;
+
 import estruturas.Array;
 
 public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
@@ -34,6 +36,11 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		if (object != null)
 			this.val = object.toString();
 		else this.val = "";
+	}
+	
+	public Str toUTF8() {
+		this.val = new String(this.val.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
+		return this;
 	}
 	
 	@Override
