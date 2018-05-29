@@ -34,8 +34,7 @@ public class SystemTrayFrame extends JFrame {
     
     public SystemTrayFrame(String name, String imgURL) {
         super(name);
-        this.imgURL = imgURL;
-        this.tray = SystemTray.getSystemTray();
+        
 //        System.out.println("creating instance");
 //        try{
 //            System.out.println("setting look and feel");
@@ -44,6 +43,8 @@ public class SystemTrayFrame extends JFrame {
 //            System.out.println("Unable to set LookAndFeel");
 //        }
         if (SystemTray.isSupported()) {
+        	this.imgURL = imgURL;
+            this.tray = SystemTray.getSystemTray();
             Image image = Toolkit.getDefaultToolkit().getImage(this.imgURL);
             this.setTrayImage(image, name);
         } else {

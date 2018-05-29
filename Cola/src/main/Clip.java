@@ -22,7 +22,7 @@ import estruturas.Lista.Tipo;
 import io.Escritor;
 import io.Leitor;
 import swing.Fonte;
-import swing.SwingUtils;
+import system.Sistema;
 import utils.CDI;
 import utils.Str;
 
@@ -34,12 +34,12 @@ public class Clip implements ClipboardOwner, MouseListener {
 	private Point posicao;
 	private Str urlArquivo;
 	
-	public Clip(Str urlArquivo) {
+	public Clip(Str urlArquivo) throws UnsupportedFlavorException, IOException {
 		CDI.set(this);
 		this.urlArquivo = urlArquivo;
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
-			Leitor leitor = new Leitor(urlArquivo);
+			Leitor leitor = new Leitor(urlArquivo, "UTF-8");
 			items = new Cache<>(1000, leitor.toList(Tipo.LINKED));
 		}
 		catch(IllegalArgumentException e) { // Arquivo ainda nao existe.
@@ -48,29 +48,39 @@ public class Clip implements ClipboardOwner, MouseListener {
 		this.fazLeitura();
 	}
 	
-	private void fazLeitura() {
+	private void fazLeitura() throws UnsupportedFlavorException, IOException {
 //		System.out.println("Fazendo leitura");
+		Transferable ultimaCola = clipboard.getContents(null);
 		try {
-			Transferable ultimaCola = clipboard.getContents(null);
 			Object conteudo = ultimaCola.getTransferData(DataFlavor.stringFlavor);
 			if (items.naoContem(conteudo)) {
-				items.add(new Str(conteudo));
+				items.add(new Str(conteudo).toUTF8());
 				salvaArquivo();
 			}
 			else if (items.primeiro().notEquals(conteudo)){
-//				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
+	//				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
 				items.remove(conteudo);
-				items.add(new Str(conteudo));
+				items.add(new Str(conteudo).toUTF8());
 				salvaArquivo();
 			}
 			clipboard.setContents(ultimaCola, this);
-		} catch (UnsupportedFlavorException | IOException e) {
-			SwingUtils.showMessage("Erro ao buscar dados no Clipboard! " + e.getMessage());
+		}
+		catch(Throwable t) {
+			t.printStackTrace();
 		}
 	}
 	
 	private void exibirLista() {
 		JPopupMenu trayPopup = new JPopupMenu();
+		
+		JMenuItem primeiroItem = new JMenuItem("Mais antigos...");
+		primeiroItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Sistema.executaFile(urlArquivo);
+			}
+		});
+		trayPopup.add(primeiroItem);
 		
 		short items = 0;
 		for (Str item : this.items) {
@@ -88,7 +98,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 	}
 
 	private JMenuItem criarMenuItem(Str item) {
-		JMenuItem menuItem = new JMenuItem(item.ate(60).val());
+		JMenuItem menuItem = new JMenuItem(item.ate(70).val());
 		menuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -104,12 +114,16 @@ public class Clip implements ClipboardOwner, MouseListener {
 	}
 	
 	private void salvaArquivo() {
-		new Escritor(this.urlArquivo).escreveTudo(items);
+		new Escritor(this.urlArquivo, "UTF-8").escreveTudo(items);
 	}
 
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		fazLeitura();
+		try {
+			fazLeitura();
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
