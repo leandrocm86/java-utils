@@ -2,21 +2,19 @@ package utils;
 
 import java.nio.charset.StandardCharsets;
 
-import estruturas.Array;
-
 public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
 	public static final String LN = System.getProperty("line.separator");
 	
 	public static final String SEM_CASE = "sem_case";
-	public static final String SEM_CASE_E_ACENTO = "sem_case_acento";
+	//public static final String SEM_CASE_E_ACENTO = "sem_case_acento";
 	
-	private static final Array<Character> conjuntoC = new Array<>('c', 'ç');
-	private static final Array<Character> conjuntoA = new Array<>('a', 'á', 'à', 'ã', 'â');
-	private static final Array<Character> conjuntoE = new Array<>('e', 'é', 'ê');
-	private static final Array<Character> conjuntoI = new Array<>('i', 'í');
-	private static final Array<Character> conjuntoO = new Array<>('o', 'ó', 'õ', 'ô');
-	private static final Array<Character> conjuntoU = new Array<>('u', 'ú');
+//	private static final Array<Character> conjuntoC = new Array<>('c', 'ç');
+//	private static final Array<Character> conjuntoA = new Array<>('a', 'á', 'à', 'ã', 'â');
+//	private static final Array<Character> conjuntoE = new Array<>('e', 'é', 'ê');
+//	private static final Array<Character> conjuntoI = new Array<>('i', 'í');
+//	private static final Array<Character> conjuntoO = new Array<>('o', 'ó', 'õ', 'ô');
+//	private static final Array<Character> conjuntoU = new Array<>('u', 'ú');
 	
 	
 	private String val;
@@ -200,11 +198,11 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		switch(opcao) {
 			case SEM_CASE:
 				return val.toLowerCase().startsWith(texto.toString().toLowerCase());
-			case SEM_CASE_E_ACENTO: {
+			/*case SEM_CASE_E_ACENTO: {
 				Str str1 = val.length() >= texto.length() ? this.ate(texto.length()) : this;
 				Str str2 = val.length() >= texto.length() ? new Str(texto) : new Str(texto).ate(val.length());
 				return str1.comparar(str2, SEM_CASE_E_ACENTO) == 0;
-			}
+			}*/
 			default: return this.startsWith(texto);
 		}
 	}
@@ -212,7 +210,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public int comparar(CharSequence texto, String opcao) {
 		switch(opcao) {
 			case SEM_CASE: return this.compareToIgnoreCase(texto);
-			case SEM_CASE_E_ACENTO: {
+			/*case SEM_CASE_E_ACENTO: { CORRIGIR
 				if (texto.length() != val.length())
 					return val.length() - texto.length();
 				String valMinusculo = val.toLowerCase();
@@ -229,26 +227,26 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 					}
 				}
 				return 0;
-			}
+			}*/
 			default: return this.compareTo(texto);
 		}
 	}
 	
-	private boolean mesmoConjunto(char a, char b) {
-		if (conjuntoA.contem(a))
-			return conjuntoA.contem(b);
-		if (conjuntoE.contem(a))
-			return conjuntoE.contem(b);
-		if (conjuntoI.contem(a))
-			return conjuntoI.contem(b);
-		if (conjuntoO.contem(a))
-			return conjuntoO.contem(b);
-		if (conjuntoU.contem(a))
-			return conjuntoU.contem(b);
-		if (conjuntoC.contem(a))
-			return conjuntoC.contem(b);
-		return false;
-	}
+//	private boolean mesmoConjunto(char a, char b) {
+//		if (conjuntoA.contem(a))
+//			return conjuntoA.contem(b);
+//		if (conjuntoE.contem(a))
+//			return conjuntoE.contem(b);
+//		if (conjuntoI.contem(a))
+//			return conjuntoI.contem(b);
+//		if (conjuntoO.contem(a))
+//			return conjuntoO.contem(b);
+//		if (conjuntoU.contem(a))
+//			return conjuntoU.contem(b);
+//		if (conjuntoC.contem(a))
+//			return conjuntoC.contem(b);
+//		return false;
+//	}
 	
 	public Character characterAt(int index) {
 		return new Character(val.charAt(index));

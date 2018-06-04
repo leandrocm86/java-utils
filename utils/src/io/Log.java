@@ -1,7 +1,6 @@
 package io;
 
-import estruturas.Lista;
-import estruturas.Lista.Tipo;
+import estruturas.Cache;
 import utils.Data;
 import utils.Erros;
 
@@ -9,7 +8,7 @@ public class Log {
 	
 	private static Escritor escritor;
 	
-	private static Lista<CharSequence> debugMsgs = new Lista<>(Tipo.LINKED);
+	private static Cache<CharSequence> debugMsgs = new Cache<>(10);
 	
 	private static boolean consoleLigado = false;
 	
@@ -46,14 +45,10 @@ public class Log {
 	}
 	
 	public static void debug(CharSequence msg) {
-		if (debugMsgs.size() == 10)
-			debugMsgs.remove(0);
 		msg = new Data() + ": " + msg;
 		debugMsgs.add(msg);
 		if (consoleLigado)
 			Console.imprime("DEBUG: " + msg);
-		else
-			System.out.println(msg);
 	}
 	
 	public static void logaErro(Throwable e) {
