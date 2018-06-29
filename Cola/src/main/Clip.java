@@ -21,6 +21,7 @@ import estruturas.Cache;
 import estruturas.Lista.Tipo;
 import io.Escritor;
 import io.Leitor;
+import io.Log;
 import swing.Fonte;
 import system.Sistema;
 import utils.CDI;
@@ -49,16 +50,18 @@ public class Clip implements ClipboardOwner, MouseListener {
 	}
 	
 	private void fazLeitura() throws UnsupportedFlavorException, IOException {
+		Log.msgLn("Fazendo leitura...");
 //		System.out.println("Fazendo leitura");
-		Transferable ultimaCola = clipboard.getContents(null);
 		try {
+			Transferable ultimaCola = clipboard.getContents(null);
 			Object conteudo = ultimaCola.getTransferData(DataFlavor.stringFlavor);
+			Log.msgLn("Conteudo lido: " + conteudo);
 			if (items.naoContem(conteudo)) {
 				items.add(new Str(conteudo).toUTF8());
 				salvaArquivo();
 			}
 			else if (items.primeiro().notEquals(conteudo)){
-	//				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
+//				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
 				items.remove(conteudo);
 				items.add(new Str(conteudo).toUTF8());
 				salvaArquivo();
@@ -66,7 +69,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 			clipboard.setContents(ultimaCola, this);
 		}
 		catch(Throwable t) {
-			t.printStackTrace();
+			Log.logaErro(t);
 		}
 	}
 	
@@ -84,8 +87,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 		
 		short items = 0;
 		for (Str item : this.items) {
-			items++;
-			if (items == 31) // Soh exibe os 30 primeiros.
+			if (++items == 31) // Soh exibe os 30 primeiros.
 				break;
 //			System.out.println("Criando item " + item);
 			trayPopup.add(criarMenuItem(item));
