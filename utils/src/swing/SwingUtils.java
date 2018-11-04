@@ -96,4 +96,12 @@ public class SwingUtils {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
 	}
+	
+	public static int getScreenWidth() {
+		return (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	}
+	
+	public static int getScreenHeight() {
+		return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	}
 }
