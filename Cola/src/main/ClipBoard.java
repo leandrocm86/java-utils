@@ -38,7 +38,7 @@ public class ClipBoard {
 			Clip clip;
 			clip = new Clip(fileName);
 			SystemTrayFrame frame = new SystemTrayFrame("Clipboard", Sistema.getSystemPath() + "clipboard.png");
-			frame.addListener(clip);
+			clip.setAsListener(frame);
 			Log.msgLn("Terminando execucao...");
 		} catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();

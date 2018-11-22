@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -33,20 +34,24 @@ public class Clip implements ClipboardOwner, MouseListener {
 	private Clipboard clipboard;
 	private Cache<Str> items;
 	private Point posicao;
-	private Str urlArquivo;
+	private CharSequence urlArquivo;
 	
-	public Clip(Str urlArquivo) throws UnsupportedFlavorException, IOException {
+	public Clip(CharSequence urlArquivo) throws UnsupportedFlavorException, IOException {
 		CDI.set(this);
 		this.urlArquivo = urlArquivo;
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
 			Leitor leitor = new Leitor(urlArquivo, "UTF-8");
-			items = new Cache<>(1000, leitor.toList(Tipo.LINKED));
+			items = new Cache<>(10000, leitor.toList(Tipo.LINKED));
 		}
 		catch(IllegalArgumentException e) { // Arquivo ainda nao existe.
-			items = new Cache<>(1000);
+			items = new Cache<>(10000);
 		}
 		this.fazLeitura();
+	}
+	
+	public void setAsListener(Component component) {
+		component.addMouseListener(this);
 	}
 	
 	private void fazLeitura() throws UnsupportedFlavorException, IOException {

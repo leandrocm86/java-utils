@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -103,5 +106,12 @@ public class SwingUtils {
 	
 	public static int getScreenHeight() {
 		return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	}
+	
+	public static JButton createImageButton(CharSequence imageUrl) throws IOException {
+		JButton button = new JButton();
+		Image img = Toolkit.getDefaultToolkit().getImage(imageUrl.toString());
+		button.setIcon(new ImageIcon(img));
+		return button;
 	}
 }
