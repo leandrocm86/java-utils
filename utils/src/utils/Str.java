@@ -439,4 +439,17 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public boolean notEquals(Object o) {
 		return !this.equals(o);
 	}
+	
+	/**
+	 * Verifica se o primeiro texto eh igual a pelo menos um dos seguintes.
+	 */
+	public static boolean equals(CharSequence... textos) {
+		CharSequence textoAvaliado = textos[0];
+		for (int i = 1; i < textos.length; i++)
+			if (textoAvaliado != null && textoAvaliado.equals(textos[i]))
+				return true;
+			else if (textoAvaliado == null && textos[i] == null)
+				return true;
+		return false;
+	}
 }

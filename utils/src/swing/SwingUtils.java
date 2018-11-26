@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.io.IOException;
@@ -110,8 +110,9 @@ public class SwingUtils {
 	
 	public static JButton createImageButton(CharSequence imageUrl) throws IOException {
 		JButton button = new JButton();
-		Image img = Toolkit.getDefaultToolkit().getImage(imageUrl.toString());
-		button.setIcon(new ImageIcon(img));
+//		Image img = Toolkit.getDefaultToolkit().getImage(imageUrl.toString());
+		button.setMargin(new Insets(0, 0, 0, 0));
+		button.setIcon(new StretchIcon(imageUrl.toString(), false));
 		return button;
 	}
 }
