@@ -18,12 +18,15 @@ import java.util.Collection;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
 import estruturas.Cache;
 import estruturas.Lista.Tipo;
 import io.Escritor;
 import io.Leitor;
 import io.Log;
+import observer.Evento;
+import observer.Events;
 import swing.Fonte;
 import system.Sistema;
 import utils.CDI;
@@ -31,6 +34,9 @@ import utils.Str;
 
 
 public class Clip implements ClipboardOwner, MouseListener {
+	
+	public final static String EVENTO_SELECAO_BOTAO_ESQUERDO = "clip_selecao_esquerdo";
+	public final static String EVENTO_SELECAO_BOTAO_DIREITO = "clip_selecao_direito";
 	
 	private Clipboard clipboard;
 	private Cache<Str> items;
@@ -107,16 +113,26 @@ public class Clip implements ClipboardOwner, MouseListener {
 
 	private JMenuItem criarMenuItem(Str item) {
 		JMenuItem menuItem = new JMenuItem(item.ate(70).val());
-		menuItem.addActionListener(new ActionListener() {
+		menuItem.addMouseListener(new MouseListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mousePressed(MouseEvent e) {
 //				System.out.println("Selecionando " + item);
 				StringSelection conteudoSelecionado = new StringSelection(item.val());
 				clipboard.setContents(conteudoSelecionado, CDI.get(Clip.class));
 				items.remove(item);
 				items.add(new Str(item));
 				salvaArquivo();
+				if (SwingUtilities.isLeftMouseButton(e))
+					Events.notify(new Evento(EVENTO_SELECAO_BOTAO_ESQUERDO, item));
+				else
+					Events.notify(new Evento(EVENTO_SELECAO_BOTAO_DIREITO, item));
 			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseClicked(MouseEvent e) {}
 		});
 		return menuItem;
 	}
