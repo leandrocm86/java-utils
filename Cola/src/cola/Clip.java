@@ -54,16 +54,14 @@ public class Clip implements ClipboardOwner, MouseListener {
 		catch(IllegalArgumentException e) { // Arquivo ainda nao existe.
 			items = new Cache<>(10000);
 		}
-		this.fazLeitura();
 	}
 	
 	public void setAsListener(Component component) {
 		component.addMouseListener(this);
 	}
 	
-	private void fazLeitura() throws UnsupportedFlavorException, IOException {
+	private void fazLeitura() {
 		Log.msgLn("Fazendo leitura...");
-//		System.out.println("Fazendo leitura");
 		try {
 			Transferable ultimaCola = clipboard.getContents(null);
 			Object conteudo = ultimaCola.getTransferData(DataFlavor.stringFlavor);
@@ -73,7 +71,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 				salvaArquivo();
 			}
 			else if (items.primeiro().notEquals(conteudo)){
-//				System.out.println("Trazendo conteudo pra frente: " + conteudo.toString());
+//				Log.msgLn("Trazendo conteudo pra frente: " + conteudo.toString());
 				items.remove(conteudo);
 				items.add(new Str(conteudo).toUTF8());
 				salvaArquivo();
@@ -143,11 +141,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		try {
-			fazLeitura();
-		} catch (Exception e) {
-			throw new IllegalStateException(e);
-		}
+		fazLeitura();
 	}
 	
 	public Cache<Str> getItems() {
