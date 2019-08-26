@@ -48,6 +48,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 		this.urlArquivo = urlArquivo;
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
+			Log.msgLn("Carregando clipboard de " + urlArquivo);
 			Leitor leitor = new Leitor(urlArquivo, "UTF-8");
 			items = new Cache<>(10000, leitor.toList(Tipo.LINKED));
 		}
@@ -71,7 +72,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 				salvaArquivo();
 			}
 			else if (items.primeiro().notEquals(conteudo)){
-//				Log.msgLn("Trazendo conteudo pra frente: " + conteudo.toString());
+				Log.msgLn("Trazendo conteudo pra frente: " + conteudo.toString());
 				items.remove(conteudo);
 				items.add(new Str(conteudo).toUTF8());
 				salvaArquivo();
