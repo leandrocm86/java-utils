@@ -37,6 +37,7 @@ public class Clip implements ClipboardOwner, MouseListener {
 	
 	public final static String EVENTO_SELECAO_BOTAO_ESQUERDO = "clip_selecao_esquerdo";
 	public final static String EVENTO_SELECAO_BOTAO_DIREITO = "clip_selecao_direito";
+	public final static int TAMANHO_LISTA = 30;
 	
 	private Clipboard clipboard;
 	private Cache<Str> items;
@@ -50,10 +51,16 @@ public class Clip implements ClipboardOwner, MouseListener {
 		try {
 			Log.msgLn("Carregando clipboard de " + urlArquivo);
 			Leitor leitor = new Leitor(urlArquivo, "UTF-8");
-			items = new Cache<>(10000, leitor.toList(Tipo.LINKED));
+			items = new Cache<>(TAMANHO_LISTA, leitor.toList(Tipo.LINKED));
 		}
 		catch(IllegalArgumentException e) { // Arquivo ainda nao existe.
-			items = new Cache<>(10000);
+			items = new Cache<>(TAMANHO_LISTA);
+		}
+		
+		if (items.naoVazia()) {
+			// Inicializa a area de transferencia com o primeiro item na lista.
+			StringSelection initialContent = new StringSelection(items.get(0).val());
+			clipboard.setContents(initialContent, this);
 		}
 	}
 	
@@ -98,9 +105,8 @@ public class Clip implements ClipboardOwner, MouseListener {
 		
 		short items = 0;
 		for (Str item : this.items) {
-			if (++items == 31) // Soh exibe os 30 primeiros.
+			if (++items > TAMANHO_LISTA)
 				break;
-//			System.out.println("Criando item " + item);
 			trayPopup.add(criarMenuItem(item));
 		}
 		

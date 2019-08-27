@@ -14,10 +14,8 @@ public class Cache<T> extends Lista<T> {
 	}
 	
 	public Cache(int capacidade, Lista<T> listaInicial) {
-		super(listaInicial);
-		if (listaInicial.size() > capacidade) {
-			throw new IllegalArgumentException("Lista passada para Cache ultrapassa o tamanho maximo.");
-		}
+		for (int i = 0; i < capacidade && i < listaInicial.size(); i++)
+			super.add(i, listaInicial.get(i));
 	}
 	
 	/**
