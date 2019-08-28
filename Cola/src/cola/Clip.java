@@ -148,6 +148,11 @@ public class Clip implements ClipboardOwner, MouseListener {
 
 	@Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+		try {
+			Thread.sleep(50); // Para evitar erro na leitura do Clipboard.
+		} catch (InterruptedException e) {
+			Log.logaErro(e);
+		}
 		fazLeitura();
 	}
 	
