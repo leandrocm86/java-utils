@@ -40,7 +40,7 @@ public class Console {
 	}
 	
 	public static void imprime(CharSequence s) {
-		textArea.setText(textArea.getText() + "\n" + s.toString());
+		textArea.append("\n" + s.toString());
 	}
 	
 	public static JPanel getPanel(boolean botaoClear) {

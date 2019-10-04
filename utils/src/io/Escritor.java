@@ -16,7 +16,7 @@ public class Escritor {
 	
 	public static boolean logar = false;
 	
-	private int limiteBuffer = 100;
+	private int limiteBuffer = 1000;
 	
 	private int escritas = 0;
 	private BufferedWriter writer;
@@ -68,7 +68,7 @@ public class Escritor {
 	
 	public void escreve(CharSequence texto) {
 		try {
-			writer.write(texto.toString());
+			writer.append(texto);
 			if (++this.escritas == limiteBuffer) {
 				writer.flush();
 				this.escritas = 0;
@@ -122,7 +122,7 @@ public class Escritor {
 	public void escreveTudo(Collection<Str> texto, boolean terminar) {
 		try {
 			for (Str linha : texto) {
-				writer.write(linha + Str.LN);
+				writer.append(linha + Str.LN);
 			}
 			if (terminar)
 				this.terminar();
@@ -154,6 +154,10 @@ public class Escritor {
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+	
+	public int getTotalLinhasEscritas() {
+		return this.escritas;
 	}
 
 }

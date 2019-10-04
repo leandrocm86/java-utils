@@ -138,10 +138,7 @@ public class Lista<T> implements List<T> {
 		}
 		
 		if (this.comparador != null)
-//			long t0 = System.currentTimeMillis();
 			Collections.sort((List<T>)this.colecao, comparador);
-//			Log.msgLn("Ordenada lista em " + (System.currentTimeMillis() - t0));
-//		}
 		
 		return retorno;
 	}
