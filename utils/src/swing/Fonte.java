@@ -41,20 +41,29 @@ public class Fonte extends java.awt.Font {
 	
 	/**
 	 * Seta uma dada fonte para componentes e todos os seus filhos.
-	 * Os filhos que ja tiverem uma fonte customizada nao sao alterados.
+	 * O segundo parametro (force) define se a fonte sempre sera trocada nos filhos,
+	 * ou apenas se ja nao tiverem uma fonte customizada.
 	 */
-	public static void set(Fonte fonte, Component... components) {
+	public static void set(Fonte fonte, boolean force, Component... components) {
 		for (Component component : components) {
 			component.setFont(fonte);
 		    if (component instanceof Container)
 		    {
 		        for (Component child : ((Container) component).getComponents())
 		        {
-		        	if (child.getFont() == null || !(child.getFont() instanceof Fonte))
-		        		set(fonte, child);
+		        	if (force || (child.getFont() == null || !(child.getFont() instanceof Fonte)))
+		        		set(fonte, force, child);
 		        }
 		    }
 		}
+	}
+	
+	/**
+	 * Seta uma dada fonte para componentes e todos os seus filhos.
+	 * Os filhos que ja tiverem uma fonte customizada nao sao alterados.
+	 */
+	public static void set(Fonte fonte, Component... components) {
+		set(fonte, false, components);
 	}
 	
 	/**
@@ -63,5 +72,14 @@ public class Fonte extends java.awt.Font {
 	 */
 	public void set(Component... components) {
 		set(this, components);
+	}
+	
+	/**
+	 * Seta a fonte para componentes e todos os seus filhos.
+	 * O primeiro parametro (force) define se a fonte sempre sera trocada nos filhos,
+	 * ou apenas se ja nao tiverem uma fonte customizada.
+	 */
+	public void set(boolean force, Component... components) {
+		set(this, force, components);
 	}
 }
