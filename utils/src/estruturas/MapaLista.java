@@ -1,6 +1,9 @@
 package estruturas;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * HashMap com lista (objetos com mesma chave sao agrupados em lista).
@@ -96,5 +99,24 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 	 */
 	public int total() {
 		return this.totalElementos;
+	}
+	
+	/**
+	 * Retorna copia do mapa, mas ordenado decrescentemente pelos tamanhos das listas.
+	 * @param topResultados - Quantos resultados podem ter na lista.
+	 */
+	@SuppressWarnings("unchecked")
+	public SortedMap<S, Lista<T>> ordenaPorTamanho(int topResultados) {
+		Comparator<S> tamanho = new Comparator<S>() {
+			public int compare(S arg0, S arg1) {
+				return get(arg1).size() - get(arg0).size();
+			}
+		};
+		TreeMap<S, Lista<T>> mapaOrdenado = new TreeMap<S, Lista<T>>(tamanho);
+		mapaOrdenado.putAll(this);
+		if (mapaOrdenado.size() > topResultados) 
+			return mapaOrdenado.subMap(mapaOrdenado.firstKey(), (S)mapaOrdenado.keySet().toArray()[topResultados]);
+		else 
+			return mapaOrdenado;
 	}
 }

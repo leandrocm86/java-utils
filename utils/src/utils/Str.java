@@ -118,8 +118,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public String replace(CharSequence target, CharSequence replacement) {
 		return val.replace(target, replacement);
 	}
-	public String replaceAll(CharSequence regex, CharSequence replacement) {
-		return val.replaceAll(regex.toString(), replacement.toString());
+	public Str replaceAll(CharSequence regex, CharSequence replacement) {
+		return new Str(val.replaceAll(regex.toString(), replacement.toString()));
 	}
 	public String replaceFirst(CharSequence regex, CharSequence replacement) {
 		return val.replaceFirst(regex.toString(), replacement.toString());
@@ -151,8 +151,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public String toUpperCase() {
 		return val.toUpperCase();
 	}
-	public String trim() {
-		return val.trim();
+	public Str trim() {
+		return new Str(val.trim());
 	}
 	static String valueOf(boolean b) {
 		return String.valueOf(b);

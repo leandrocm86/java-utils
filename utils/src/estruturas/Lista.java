@@ -468,4 +468,17 @@ public class Lista<T> implements List<T> {
 	public boolean naoContem(Object elemento) {
 		return !this.contem(elemento);
 	}
+	
+	/**
+	 * Agrupa elementos da lista em um MapaLista, segundo o criterio passado como parametro.
+	 * @param classeChave Classe da chave a ser usada no mapa (que eh a classe retornada pelo metodo no outro parametro).
+	 * @param metodo (lambda) Metodo a ser executado para extrair a chave que um elemento tera no mapa.
+	 */
+	@SuppressWarnings("unchecked")
+	public <S> MapaLista<S, T> agrupar(Class<S> classeChave, Metodo<T> metodo) {
+		MapaLista<S, T> mapaLista = new MapaLista<S, T>();
+		for (T elemento : this.colecao)
+			mapaLista.add((S)metodo.executar(elemento), elemento);
+		return mapaLista;
+	}
 }
