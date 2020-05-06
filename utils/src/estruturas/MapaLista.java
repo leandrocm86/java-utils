@@ -119,4 +119,8 @@ public class MapaLista<S, T> extends HashMap<S, Lista<T>> {
 		else 
 			return mapaOrdenado;
 	}
+	
+	public Lista<S> getListaChaves() {
+		return new Lista<S>(super.keySet());
+	}
 }

@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 
+import org.apache.commons.io.IOUtils;
+
+import utils.Str;
+
 public class Sistema {
 	
 	private static final String NEWLINE = System.getProperty("line.separator");
@@ -99,5 +103,21 @@ public class Sistema {
         return retorno;
     }
 
-
+    /**
+     * Executa sequencia de comandos separados por espaco.
+     * Os argumentos tambem devem ser separados por espaco, exatamente como escrito direto no terminal.
+     * @return string com toda a saida da execucao, incluindo possiveis erros.
+     */
+    public static Str executaComandos(String comandos) {
+	   String[] comandosArray = comandos.split(" ");
+	   ProcessBuilder builder = new ProcessBuilder(comandosArray);
+	   builder.redirectErrorStream(true);
+	   try {
+		   String output = IOUtils.toString(builder.start().getInputStream(), "UTF-8");
+		   return new Str(output);
+	   } catch (IOException e) {
+		   throw new IllegalStateException(e);
+	   }
+   }
+    
 }

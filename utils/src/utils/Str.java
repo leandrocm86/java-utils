@@ -390,6 +390,18 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Str(val.substring(indexInicio, indexFim));
 	}
 	
+	public Str substring(CharSequence inicio, boolean inicioIncluso) {
+		int indexInicio = 0;
+		if (inicio != null) {
+			indexInicio = val.indexOf(inicio.toString());
+			if (indexInicio == -1)
+				return new Str();
+			else if (!inicioIncluso)
+				indexInicio += inicio.length();
+		}
+		return new Str(val.substring(indexInicio));
+	}
+	
 	public Str sub(int indexInicio, int indexFim) {
 		return new Str(val.substring(indexInicio, indexFim));
 	}
@@ -436,9 +448,14 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return this;
 	}
 	
-	public boolean notEquals(Object o) {
+	public Str remover(CharSequence regex) {
+		return new Str(val.replaceAll(regex.toString(), ""));
+	}
+	
+	public boolean diferente(Object o) {
 		return !this.equals(o);
 	}
+	
 	
 	/**
 	 * Verifica se o primeiro texto eh igual a pelo menos um dos seguintes.

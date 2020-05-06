@@ -481,4 +481,16 @@ public class Lista<T> implements List<T> {
 			mapaLista.add((S)metodo.executar(elemento), elemento);
 		return mapaLista;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("[");
+		for (int i = 0; i < this.colecao.size(); i++) {
+			sb.append(this.get(i).toString());
+			if (i+1 < this.colecao.size())
+				sb.append(", ");
+		}
+		sb.append("]");
+		return sb.toString();
+	}
 }
