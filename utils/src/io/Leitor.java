@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipInputStream;
 
 import estruturas.Lista;
 import utils.Str;
@@ -31,7 +32,9 @@ public class Leitor {
 			}
 			
 			FileInputStream fis = new FileInputStream(file);
-			InputStream in = file.getName().endsWith(".gz") ? new GZIPInputStream(fis) : fis;
+			InputStream in = file.getName().endsWith(".gz") ? new GZIPInputStream(fis) : file.getName().endsWith(".zip") ? new ZipInputStream(fis) : fis;
+			if (in instanceof ZipInputStream)
+				((ZipInputStream) in).getNextEntry(); // Se o zip tiver mais de um arquivo, soh vamos ler esse primeiro.
 			
 			if (charset != null) {
 				reader = new BufferedReader(new InputStreamReader(in, charset));

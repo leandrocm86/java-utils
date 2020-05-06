@@ -37,6 +37,7 @@ public class CDI {
 	 * Esta eh a unica maneira de gravar no CDI 2+ objetos com a mesma classe concreta,
 	 * devendo ser diferenciados por nome.
 	 */
+	@SuppressWarnings("unchecked")
 	public static void set(Object objeto, CharSequence nome) {
 		Object existentes = objetosPorClasse.get(objeto.getClass());
 		if (existentes != null) {
@@ -53,6 +54,7 @@ public class CDI {
 	/**
 	 * Recupera do CDI o objeto representante do tipo passado por parametro.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T get(Class<T> tipo) {
 		return (T) objetosPorClasse.get(tipo);
 	}
@@ -60,6 +62,7 @@ public class CDI {
 	/**
 	 * Recupera do CDI o objeto representante do tipo passado por parametro e com o nome especificado.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T get(Class<T> tipo, CharSequence nome) {
 		HashMap<CharSequence, Object> mapa = (HashMap<CharSequence, Object>) objetosPorClasse.get(tipo);
 		if (mapa != null) {

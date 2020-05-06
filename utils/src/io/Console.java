@@ -24,6 +24,7 @@ public class Console {
 		textArea.setEditable(false);
 	}
 
+	@SuppressWarnings("deprecation")
 	private static void createPane(boolean botaoClear) {
 		consolePane = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
 		consolePane.add(SwingUtils.createScrollPane(textArea, 20, true), new Float(9));

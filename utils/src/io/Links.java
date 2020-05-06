@@ -11,6 +11,7 @@ import utils.Str;
 
 public class Links {
 	
+	@SuppressWarnings("unchecked")
 	public static String getRealTargetPath(Str linkPath) {
 		if (linkPath == null || !linkPath.contains(".lnk"))
 			throw new IllegalArgumentException("Tentativa invalida de ler link do windows!");

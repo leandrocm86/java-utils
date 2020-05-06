@@ -139,8 +139,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public String substring(int beginIndex) {
 		return val.substring(beginIndex);
 	}
-	public String substring(int beginIndex, int endIndex) {
-		return val.substring(beginIndex, endIndex);
+	public Str substring(int beginIndex, int endIndex) {
+		return new Str(val.substring(beginIndex, endIndex));
 	}
 	public String toLowerCase() {
 		return val.toLowerCase();
@@ -248,6 +248,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 //		return false;
 //	}
 	
+	@SuppressWarnings("deprecation")
 	public Character characterAt(int index) {
 		return new Character(val.charAt(index));
 	}
@@ -456,6 +457,12 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return !this.equals(o);
 	}
 	
+	public int index(CharSequence s, boolean ignoreEquals) {
+		if (!ignoreEquals)
+			return val.indexOf(s.toString());
+		else
+			return val.toLowerCase().indexOf(s.toString().toLowerCase());
+	}
 	
 	/**
 	 * Verifica se o primeiro texto eh igual a pelo menos um dos seguintes.

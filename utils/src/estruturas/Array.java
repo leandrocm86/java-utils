@@ -6,6 +6,7 @@ public class Array<T> implements Iterable<T> {
 	
 	private T[] elementos;
 	
+	@SuppressWarnings("unchecked")
 	public Array(T... elementos) {
 		this.elementos = elementos;
 	}
