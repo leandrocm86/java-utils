@@ -15,7 +15,7 @@ public class Lista<T> implements List<T> {
 
 	private Iterador ultimoIterador;
 	
-	private Collection<T> colecao;
+	private List<T> lista;
 	
 	private boolean podeRepetir = true;
 	
@@ -34,7 +34,7 @@ public class Lista<T> implements List<T> {
 	
 	public Lista(Tipo tipo) {
 		this.tipo = tipo;
-		this.colecao = this.criaLista(tipo);
+		this.lista = this.criaLista(tipo);
 	}
 	
 	public Lista(Tipo tipo, boolean podeRepetir) {
@@ -48,17 +48,22 @@ public class Lista<T> implements List<T> {
 	
 	public Lista(Tipo tipo, T elementoInicial) {
 		this(tipo);
-		colecao.add(elementoInicial);
+		lista.add(elementoInicial);
+	}
+	
+	public Lista(List<T> lista) {
+		this.lista = lista;
 	}
 	
 	public Lista(Collection<T> colecao) {
-		this.colecao = colecao;
+		this();
+		this.lista.addAll(colecao);
 	}
 	
 	public Lista(T[] array) {
-		this.colecao = new ArrayList<>(array.length);
+		this.lista = new ArrayList<>(array.length);
 		for (T elemento : array)
-			this.colecao.add(elemento);
+			this.lista.add(elemento);
 	}
 	
 	private List<T> criaLista(Tipo tipo) {
@@ -77,15 +82,19 @@ public class Lista<T> implements List<T> {
 	}
 
 	public T ultimo() {
-		return ((List<T>)colecao).get(colecao.size() - 1);
+		return lista.get(lista.size() - 1);
 	}
 	
 	public T primeiro() {
-		return ((List<T>)colecao).get(0);
+		return lista.get(0);
 	}
 	
-	public void troca(int index, T element) {
-		((List<T>)colecao).set(index, element);
+	/**
+	 * Substitui um elemento no dado index por outro passado como parametro.
+	 * @return Elemento que estava na posicao indicada, e que foi removido da lista para ser substituido.
+	 */
+	public T troca(int index, T element) {
+		return lista.set(index, element);
 	}
 	
 	public void trocaAtual(T element) {
@@ -93,11 +102,11 @@ public class Lista<T> implements List<T> {
 	}
 	
 	public int ultimoIndex() {
-		return colecao.size() - 1;
+		return lista.size() - 1;
 	}
 	
 	public int penultimoIndex() {
-		return colecao.size() - 2;
+		return lista.size() - 2;
 	}
 	
 	public void addAll(T[] array) {
@@ -111,7 +120,7 @@ public class Lista<T> implements List<T> {
 		// Quando o Iterator for solicitado, por exemplo implicidamente no For aprimorado (1.5),
 		// precisamos guardar sua referencia para mantermos o controle da iteracao e podermos
 		// remover o elemento correto quando for solicitado.
-		this.ultimoIterador = new Iterador(colecao.iterator());
+		this.ultimoIterador = new Iterador(lista.iterator());
 		return this.ultimoIterador;
 	}
 	
@@ -131,14 +140,14 @@ public class Lista<T> implements List<T> {
 	public boolean add(T e) {
 		boolean retorno = false;
 		if (this.podeRepetir)
-			retorno = this.colecao.add(e);
+			retorno = this.lista.add(e);
 		else {
-			if (!this.colecao.contains(e))
-				retorno =  this.colecao.add(e);
+			if (!this.lista.contains(e))
+				retorno =  this.lista.add(e);
 		}
 		
 		if (this.comparador != null)
-			Collections.sort((List<T>)this.colecao, comparador);
+			Collections.sort(this.lista, comparador);
 		
 		return retorno;
 	}
@@ -149,12 +158,12 @@ public class Lista<T> implements List<T> {
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
 		if (this.podeRepetir)
-			return this.colecao.addAll(c);
+			return this.lista.addAll(c);
 		else {
-			int tamanhoInicial = this.colecao.size();
+			int tamanhoInicial = this.lista.size();
 			for (T element : c)
 				this.add(element);
-			return tamanhoInicial != this.colecao.size();
+			return tamanhoInicial != this.lista.size();
 		}
 	}
 	
@@ -163,7 +172,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public void clear() {
-		this.colecao.clear();
+		this.lista.clear();
 	}
 
 	/**
@@ -171,7 +180,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean contains(Object o) {
-		return this.colecao.contains(o);
+		return this.lista.contains(o);
 	}
 
 	/**
@@ -179,7 +188,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		return this.colecao.containsAll(c);
+		return this.lista.containsAll(c);
 	}
 
 	/**
@@ -187,7 +196,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.colecao == null || this.colecao.isEmpty();
+		return this.lista == null || this.lista.isEmpty();
 	}
 
 	/**
@@ -195,7 +204,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean remove(Object o) {
-		return this.colecao.remove(o);
+		return this.lista.remove(o);
 	}
 
 	/**
@@ -203,7 +212,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		return this.colecao.removeAll(c);
+		return this.lista.removeAll(c);
 	}
 
 	/**
@@ -211,7 +220,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		return this.colecao.retainAll(c);
+		return this.lista.retainAll(c);
 	}
 
 	/**
@@ -219,7 +228,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public int size() {
-		return this.colecao.size();
+		return this.lista.size();
 	}
 
 	/**
@@ -227,7 +236,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public Object[] toArray() {
-		return this.colecao.toArray();
+		return this.lista.toArray();
 	}
 
 	/**
@@ -236,7 +245,7 @@ public class Lista<T> implements List<T> {
 	@SuppressWarnings("hiding")
 	@Override
 	public <T> T[] toArray(T[] a) {
-		return this.colecao.toArray(a);
+		return this.lista.toArray(a);
 	}
 	
 	// -- METODOS LIST COM IMPLEMENTACAO PADRAO, OU SEJA, APENAS REPASSANDO PARA A LISTA ORIGINAL --
@@ -246,7 +255,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public void add(int index, T element) {
-		((List<T>) this.colecao).add(index, element);
+		this.lista.add(index, element);
 	}
 
 	/**
@@ -254,7 +263,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public boolean addAll(int index, Collection<? extends T> c) {
-		return ((List<T>) this.colecao).addAll(index, c);
+		return this.lista.addAll(index, c);
 	}
 
 	/**
@@ -262,7 +271,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public T get(int index) {
-		return ((List<T>) this.colecao).get(index);
+		return this.lista.get(index);
 	}
 
 	/**
@@ -270,7 +279,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public int indexOf(Object o) {
-		return ((List<T>) this.colecao).indexOf(o);
+		return this.lista.indexOf(o);
 	}
 
 	/**
@@ -278,7 +287,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public int lastIndexOf(Object o) {
-		return ((List<T>) this.colecao).lastIndexOf(o);
+		return this.lista.lastIndexOf(o);
 	}
 
 	/**
@@ -286,7 +295,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public ListIterator<T> listIterator() {
-		return ((List<T>) this.colecao).listIterator();
+		return this.lista.listIterator();
 	}
 
 	/**
@@ -294,7 +303,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public ListIterator<T> listIterator(int index) {
-		return ((List<T>) this.colecao).listIterator(index);
+		return this.lista.listIterator(index);
 	}
 
 	/**
@@ -302,7 +311,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public T remove(int index) {
-		return ((List<T>) this.colecao).remove(index);
+		return this.lista.remove(index);
 	}
 
 	/**
@@ -310,7 +319,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public T set(int index, T element) {
-		return ((List<T>) this.colecao).set(index, element);
+		return this.lista.set(index, element);
 	}
 
 	/**
@@ -318,7 +327,7 @@ public class Lista<T> implements List<T> {
 	 */
 	@Override
 	public List<T> subList(int fromIndex, int toIndex) {
-		return ((List<T>) this.colecao).subList(fromIndex, toIndex);
+		return this.lista.subList(fromIndex, toIndex);
 	}
 	
 	private class Iterador implements Iterator<T> {
@@ -368,7 +377,7 @@ public class Lista<T> implements List<T> {
 	 */
 	public void manterOrdem(Comparator<T> comparador) {
 //		long t0 = System.currentTimeMillis();
-		Collections.sort((List<T>)this.colecao, comparador);
+		Collections.sort(this.lista, comparador);
 //		Log.msgLn("Ordenada lista em " + (System.currentTimeMillis() - t0));
 		this.comparador = comparador;
 	}
@@ -393,7 +402,7 @@ public class Lista<T> implements List<T> {
 	 * Nesse caso a performance da busca eh muito alta.
 	 */
 	public int indexBuscaBinaria(CondicaoBinaria<T> condicao) {
-		return this.buscaBinaria(0, this.colecao.size() - 1, condicao);
+		return this.buscaBinaria(0, this.lista.size() - 1, condicao);
 	}
 	
 	private int buscaBinaria(int min, int max, CondicaoBinaria<T> condicao) {
@@ -422,7 +431,7 @@ public class Lista<T> implements List<T> {
 	 * Retorna o primeiro elemento encontrado que satisfaz o predicao dado, ou nulo se nao encontrar.
 	 */
 	public T busca(Condicao<T> condicao) {
-		for (T elemento : this.colecao)
+		for (T elemento : this.lista)
 			if (condicao.testar(elemento))
 				return elemento;
 		return null;
@@ -430,7 +439,7 @@ public class Lista<T> implements List<T> {
 	
 	public Lista<T> subConjunto(Condicao<T> condicao) {
 		Lista<T> subconjunto = new Lista<>(this.tipo);
-		for (T elemento : this.colecao)
+		for (T elemento : this.lista)
 			if (condicao.testar(elemento))
 				subconjunto.add(elemento);
 		return subconjunto;
@@ -446,7 +455,7 @@ public class Lista<T> implements List<T> {
 		
 		Lista<T> subLista = new Lista<T>();
 		for (int i = inicio; i < fim; i++)
-			subLista.add(((List<T>)this.colecao).get(i));
+			subLista.add(this.lista.get(i));
 		return subLista;
 	}
 	
@@ -456,7 +465,7 @@ public class Lista<T> implements List<T> {
 	 * enquanto o 'contains' usa o equals do objeto buscado passando os elementos da lista como parametro.
 	 */
 	public boolean contem(Object elemento) {
-		for (T elem : this.colecao)
+		for (T elem : this.lista)
 			if (elem.equals(elemento))
 				return true;
 		return false;
@@ -477,7 +486,7 @@ public class Lista<T> implements List<T> {
 	@SuppressWarnings("unchecked")
 	public <S> MapaLista<S, T> agrupar(Class<S> classeChave, Metodo<T> metodo) {
 		MapaLista<S, T> mapaLista = new MapaLista<S, T>();
-		for (T elemento : this.colecao)
+		for (T elemento : this.lista)
 			mapaLista.add((S)metodo.executar(elemento), elemento);
 		return mapaLista;
 	}
@@ -485,12 +494,38 @@ public class Lista<T> implements List<T> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("[");
-		for (int i = 0; i < this.colecao.size(); i++) {
+		for (int i = 0; i < this.lista.size(); i++) {
 			sb.append(this.get(i).toString());
-			if (i+1 < this.colecao.size())
+			if (i+1 < this.lista.size())
 				sb.append(", ");
 		}
 		sb.append("]");
 		return sb.toString();
+	}
+	
+	public void inverter() {
+		for (int i = this.lista.size() - 1, j = 0; i >= this.lista.size()/2; i--, j++) {
+			T removido = this.troca(j, this.lista.get(i));
+			this.troca(i, removido);
+		}
+	}
+
+	/**
+	 * Mostra o proximo elemento da iteracao, sem mover o iterador.
+	 */
+	public T proximo() {
+		if (this.ultimoIterador != null && this.ultimoIterador.index + 1 < this.lista.size())
+			return this.lista.get(this.ultimoIterador.index + 1);
+		else
+			return null;
+	}
+	
+	/**
+	 * Faz o iterador descartar os proximos X indices.
+	 */
+	public void pulaIterador(int pulos) {
+		while (pulos-- > 0) {
+			this.ultimoIterador.next();
+		}
 	}
 }

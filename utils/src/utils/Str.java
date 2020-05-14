@@ -73,6 +73,9 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			return val.equals(anObject);
 		else return val.equals(anObject.toString());
 	}
+	public boolean igual(CharSequence c) {
+		return this.equals(c);
+	}
 	public boolean equalsIgnoreCase(CharSequence anotherString) {
 		return val.equalsIgnoreCase(anotherString.toString());
 	}
@@ -432,8 +435,12 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return this.retem('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 	}
 	
-	public Str ultimos(int quantidade) {
-		return this.sub(this.length() - quantidade, this.length());
+	public Str primeiros (int quantidadeCaracteres) {
+		return this.sub(0, quantidadeCaracteres);
+	}
+	
+	public Str ultimos(int quantidadeCaracteres) {
+		return this.sub(this.length() - quantidadeCaracteres, this.length());
 	}
 	
 	public Integer toInt() {
