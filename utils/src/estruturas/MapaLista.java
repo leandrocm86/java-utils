@@ -16,8 +16,6 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int totalElementos = 0;
-	
 	private Map<S, Lista<T>> mapa;
 	
 	private HashMap<S, Integer> tamanhosListas = new HashMap<S, Integer>();
@@ -42,7 +40,6 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 			mapa.put(chave, lista);
 		}
 		lista.add(valor);
-		this.totalElementos++;
 		this.incrementaTamanho(chave, 1);
 		return valor;
 	}
@@ -125,7 +122,10 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 	 * Retorna o total de elementos na estrutura, ou seja, a soma de todos elementos em cada lista.
 	 */
 	public int total() {
-		return this.totalElementos;
+		int total = 0;
+		for (int size : tamanhosListas.values())
+			total += size;
+		return total;
 	}
 	
 	public void ordenar(Comparator<S> comparador) {
@@ -247,5 +247,12 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 	@Override
 	public String toString() {
 		return this.mapa.toString();
+	}
+	
+	public S primeiroIndice() {
+		if (this.mapa instanceof TreeMap<?, ?>)
+			return ((TreeMap<S, Lista<T>>)this.mapa).entrySet().iterator().next().getKey();
+		else
+			throw new IllegalStateException("Solicitando primeiro indice de mapa nao ordenado!");
 	}
 }

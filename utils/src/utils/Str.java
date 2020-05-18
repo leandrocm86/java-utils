@@ -483,4 +483,9 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 				return true;
 		return false;
 	}
+	
+	public static Str valorPercentual (float a, float b) {
+		return new Str((int)a + " (" + Math.round((a/b)*100) + "%)");
+	}
+	
 }
