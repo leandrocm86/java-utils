@@ -59,13 +59,14 @@ public class Leitor {
 	/**
 	 * Retorna a proxima linha do arquivo, ou nulo quando terminar.
 	 */
-	public String lerLinha() {
+	public Str lerLinha() {
 		try {
 			this.linhaCorrente = this.reader.readLine();
 			if (this.linhaCorrente == null) {
 				this.terminar();
+				return null;
 			}
-			return this.linhaCorrente;
+			return new Str(this.linhaCorrente);
 		}
 		catch(IOException e) {
 			throw new IllegalStateException(e);
@@ -85,24 +86,7 @@ public class Leitor {
 		}
 		while(this.linhaCorrente != null);
 	
-	return null;
-	}
-	
-	public Lista<StringBuffer> toListStringBuffer() {
-		return this.toListStringBuffer(false);
-	}
-	
-	public Lista<StringBuffer> toListStringBuffer(boolean linkedList) {
-		Lista<StringBuffer> lista = new Lista<>(Lista.Tipo.LINKED);
-		String proximaLinha;
-		while(true) {
-			proximaLinha = this.lerLinha();
-			if (proximaLinha != null)
-				lista.add(new StringBuffer(proximaLinha));
-			else
-				break;
-		}
-		return lista;
+		return null;
 	}
 	
 	public Lista<Str> toList() {
@@ -111,11 +95,11 @@ public class Leitor {
 	
 	public Lista<Str> toList(Lista.Tipo tipo) {
 		Lista<Str> lista = new Lista<>(tipo);
-		String proximaLinha;
+		Str proximaLinha;
 		while(true) {
 			proximaLinha = this.lerLinha();
 			if (proximaLinha != null)
-				lista.add(new Str(proximaLinha));
+				lista.add(proximaLinha);
 			else
 				break;
 		}
