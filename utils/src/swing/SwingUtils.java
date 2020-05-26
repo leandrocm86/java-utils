@@ -2,12 +2,16 @@ package swing;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
+import java.util.EventListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -114,5 +118,22 @@ public class SwingUtils {
 		button.setMargin(new Insets(0, 0, 0, 0));
 		button.setIcon(new StretchIcon(imageUrl.toString(), false));
 		return button;
+	}
+	
+	/**
+	 * Adiciona um dado listener a um componente e todos os seus filhos.
+	 */
+	public static void addListener(EventListener listener, Component component) {
+		addListenerToSingleComponent(listener, component);
+		if (component instanceof Container)
+			for (Component filho : ((Container) component).getComponents())
+				addListener(listener, filho);
+	}
+	
+	private static void addListenerToSingleComponent(EventListener listener, Component component) {
+		if (listener instanceof MouseListener)
+			component.addMouseListener((MouseListener) listener);
+		if (listener instanceof MouseMotionListener)
+			component.addMouseMotionListener((MouseMotionListener) listener);
 	}
 }

@@ -95,7 +95,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return val.indexOf(str.toString(), fromIndex);
 	}
 	public boolean vazio() {
-		return val == null || val.isBlank();
+		return val == null || val.trim().equals("");
 	}
 	public int lastIndexOf(int ch) {
 		return val.lastIndexOf(ch);
