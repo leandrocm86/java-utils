@@ -33,6 +33,11 @@ public class Layout extends JPanel {
 	//DDDD
 	public static final int FORMATO_4 = 4;
 	
+	// AAB
+	// CCD
+	// CCD
+	public static final int FORMATO_5 = 5;
+	
 	private JPanel A;
 	private JPanel B;
 	private JPanel C;
@@ -93,6 +98,16 @@ public class Layout extends JPanel {
 				super.add(ACB, maiorY*1.1f/2);
 				super.add(D, maiorY*0.9f/2);
 			} break;
+			case FORMATO_5: {
+				JPanel AC = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
+				AC.add(A, menorY);
+				AC.add(C, maiorY);
+				super.add(AC, maiorX);
+				JPanel BD = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
+				BD.add(B, maiorY);
+				BD.add(D, menorY);
+				super.add(BD, menorX);
+			} break;
 		}
 	}
 	
@@ -101,6 +116,7 @@ public class Layout extends JPanel {
 		
 			case FORMATO_1:
 			case FORMATO_3:
+			case FORMATO_5:
 				return SwingUtils.createLayout(RelativeLayout.X_AXIS);
 			case FORMATO_2:
 			case FORMATO_4:

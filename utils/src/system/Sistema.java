@@ -3,6 +3,7 @@ package system;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 
@@ -102,22 +103,42 @@ public class Sistema {
         
         return retorno;
     }
-
+    
     /**
      * Executa sequencia de comandos separados por espaco.
      * Os argumentos tambem devem ser separados por espaco, exatamente como escrito direto no terminal.
      * @return string com toda a saida da execucao, incluindo possiveis erros.
      */
-    public static Str executaComandos(String comandos) {
+   public static Str executaComandos(String comandos) {
+ 	   String[] comandosArray = comandos.split(" ");
+ 	   ProcessBuilder builder = new ProcessBuilder(comandosArray);
+ 	   builder.redirectErrorStream(true);
+ 	   try {
+ 		   String output = IOUtils.toString(builder.start().getInputStream(), "UTF-8");
+ 		   return new Str(output);
+ 	   } catch (IOException e) {
+ 		   throw new IllegalStateException(e);
+ 	   }
+   }
+
+   /**
+    * Executa sequencia de comandos separados por espaco.
+    * Os argumentos tambem devem ser separados por espaco, exatamente como escrito direto no terminal.
+    * @return BufferedReader com as saidas dos comandos que deve ser lido continuamente.
+    */
+   public static BufferedReader iniciaComandos(String comandos) {
 	   String[] comandosArray = comandos.split(" ");
 	   ProcessBuilder builder = new ProcessBuilder(comandosArray);
 	   builder.redirectErrorStream(true);
 	   try {
-		   String output = IOUtils.toString(builder.start().getInputStream(), "UTF-8");
-		   return new Str(output);
+		   return new BufferedReader(new InputStreamReader(builder.start().getInputStream()));
 	   } catch (IOException e) {
 		   throw new IllegalStateException(e);
 	   }
+   }
+   
+   public static boolean ehWindows() {
+	   return System.getProperty("os.name").contains("win");
    }
     
 }

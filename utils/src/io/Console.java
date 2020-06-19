@@ -1,5 +1,6 @@
 package io;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,17 +17,30 @@ import utils.Str;
 
 public class Console {
 	
-	private static JTextArea textArea;
-	private static JPanel consolePane;
+	private JTextArea textArea;
+	private JPanel consolePane;
+	private static Color corFundo = Color.BLACK;
+	private static Color corTexto = Color.WHITE;
 	
-	static {
-		textArea = new JTextArea("");
-		textArea.setEditable(false);
+	public Console() {
+		this.textArea = new JTextArea("");
+		this.textArea.setEditable(false);
+		this.textArea.setBackground(corFundo);
+		this.textArea.setForeground(corTexto);
+	}
+	
+	public static void mudarFundoPadrao(Color color) {
+		corFundo = color;
+	}
+	
+	public static void mudarTextoPadrao(Color color) {
+		corTexto = color;
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void createPane(boolean botaoClear) {
+	private void createPane(boolean botaoClear) {
 		consolePane = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
+		consolePane.setBackground(corFundo);
 		consolePane.add(SwingUtils.createScrollPane(textArea, 20, true), new Float(9));
 		if (botaoClear) {
 			JButton button = new JButton("clear");
@@ -40,17 +54,17 @@ public class Console {
 		consolePane.setVisible(false); // Console escondido enquanto nao for ligado.
 	}
 	
-	public static void imprime(CharSequence s) {
+	public void imprime(CharSequence s) {
 		textArea.append("\n" + s.toString());
 	}
 	
-	public static JPanel getPanel(boolean botaoClear) {
+	public JPanel getPanel(boolean botaoClear) {
 		if (consolePane == null)
 			createPane(botaoClear);
 		return consolePane;
 	}
 	
-	public static void ligar(boolean criarFrame) {
+	public void ligar(boolean criarFrame) {
 		if (criarFrame) {
 			if (consolePane == null)
 				createPane(true);
@@ -66,11 +80,11 @@ public class Console {
 		consolePane.setVisible(true);
 	}
 	
-	public static String getText() {
+	public String getText() {
 		return textArea.getText();
 	}
 	
-	public static void imprimeErro(Throwable t) {
+	public void imprimeErro(Throwable t) {
 		Str erros = Erros.stackTraceToStr(t);
 		imprime(erros);
 		System.out.println(erros);

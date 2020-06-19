@@ -10,7 +10,7 @@ public class Log {
 	
 	private static Cache<CharSequence> debugMsgs = new Cache<>(10);
 	
-	private static boolean consoleLigado = false;
+	private static Console console = null;
 	
 	public static void iniciar(String path) {
 		escritor = new Escritor(path, true);
@@ -18,8 +18,8 @@ public class Log {
 		msgLn("Iniciando LOG", true);
 	}
 	
-	public static void setConsoleLigado() {
-		consoleLigado = true;
+	public static void setConsole(Console consoleParaLogar) {
+		console = consoleParaLogar;
 	}
 	
 	public static void msg(CharSequence msg) {
@@ -31,8 +31,8 @@ public class Log {
 			msg = "########## " + msg.toString() + " ##########";
 		msg = new Data() + " " + msg;
 		escritor.escreve(msg);
-		if (consoleLigado)
-			Console.imprime(msg);
+		if (console != null)
+			console.imprime(msg);
 	}
 	
 	public static void msgLn(CharSequence msg) {
@@ -47,8 +47,8 @@ public class Log {
 	public static void debug(CharSequence msg) {
 		msg = new Data() + ": " + msg;
 		debugMsgs.add(msg);
-		if (consoleLigado)
-			Console.imprime("DEBUG: " + msg);
+		if (console != null)
+			console.imprime("DEBUG: " + msg);
 	}
 	
 	public static void logaErro(Throwable e) {
