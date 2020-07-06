@@ -447,6 +447,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return Integer.parseInt(this.val);
 	}
 	
+	public Long toLong() {
+		return Long.parseLong(this.val);
+	}
+	
 	public Float toFloat() {
 		return Float.parseFloat(this.val);
 	}

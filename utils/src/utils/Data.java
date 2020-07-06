@@ -24,6 +24,10 @@ public class Data extends Date {
 		super();
 	}
 	
+	public Data(long milisegundos) {
+		super(milisegundos);
+	}
+	
 	public Data(Date date) {
 		super(date.getTime());
 	}

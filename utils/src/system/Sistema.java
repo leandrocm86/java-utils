@@ -3,7 +3,6 @@ package system;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 
@@ -35,7 +34,7 @@ public class Sistema {
      * Executa o comando passado e retorna uma String com outputs de resultado e/ou erro.
      * @return a saida do comando
      */
-    public static String executa(String command)
+    public static Str executa(String command)
     {
     	Process process;
 		try {
@@ -101,7 +100,7 @@ public class Sistema {
         if (!retorno.isBlank())
         	System.out.println(retorno);
         
-        return retorno;
+        return new Str(retorno);
     }
     
     /**
@@ -138,7 +137,7 @@ public class Sistema {
    }
    
    public static boolean ehWindows() {
-	   return System.getProperty("os.name").contains("win");
+	   return System.getProperty("os.name").toLowerCase().contains("win");
    }
     
 }
