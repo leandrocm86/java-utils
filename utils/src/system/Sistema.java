@@ -96,11 +96,11 @@ public class Sistema {
 			throw new IllegalStateException(e);
 		}
         
-        String retorno = result.toString();
-        if (!retorno.isBlank())
+        Str retorno = new Str(result.toString());
+        if (retorno.naoVazio())
         	System.out.println(retorno);
         
-        return new Str(retorno);
+        return retorno;
     }
     
     /**
