@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Data extends Date {
+public class Data extends Date implements Objeto {
 	
 	private static final long serialVersionUID = 1L;
 	
