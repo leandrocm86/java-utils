@@ -38,7 +38,7 @@ public class Sistema {
     {
     	Process process;
 		try {
-			process = Runtime.getRuntime().exec("bash -i -c " + command);
+			process = Runtime.getRuntime().exec("bash -i -c '" + command + "'");
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
