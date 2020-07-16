@@ -450,8 +450,10 @@ public class Lista<T> implements List<T> {
 	 * podendo ser uma copia ou um espelho (apontador) para a lista original.
 	 */
 	public Lista<T> subLista(int inicio, int fim, boolean copia) {
-		if (!copia)
-			return new Lista<T>(this.subList(inicio, fim));
+		if (!copia) {
+			this.lista = this.subList(inicio, fim);
+			return this;
+		}
 		
 		Lista<T> subLista = new Lista<T>();
 		for (int i = inicio; i < fim; i++)

@@ -1,6 +1,7 @@
 package io;
 
 import estruturas.Cache;
+import swing.SwingUtils;
 import utils.Data;
 import utils.Erros;
 
@@ -72,7 +73,12 @@ public class Log {
 	}
 	
 	public static void terminar() {
-		msgLn("Terminando LOG", true);
-		escritor.terminar();
+		try {
+			msgLn("Terminando LOG", true);
+			escritor.terminar();
+		}
+		catch(Throwable t) {
+			SwingUtils.showMessage(Erros.stackTraceToStr(t, 5));
+		}
 	}
 }

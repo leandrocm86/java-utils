@@ -51,7 +51,7 @@ public class SwingUtils {
 		}
 	}
 	
-	public static void showMessage(String message) {
+	public static void showMessage(CharSequence message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
 	
