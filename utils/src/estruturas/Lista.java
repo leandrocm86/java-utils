@@ -532,6 +532,6 @@ public class Lista<T> implements List<T> {
 	}
 
 	public int getIndiceIteracao() {
-		return this.ultimoIterador.index;£
+		return this.ultimoIterador.index;
 	}
 }
