@@ -530,4 +530,8 @@ public class Lista<T> implements List<T> {
 			this.ultimoIterador.next();
 		}
 	}
+
+	public int getIndiceIteracao() {
+		return this.ultimoIterador.index;£
+	}
 }
