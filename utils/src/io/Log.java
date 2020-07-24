@@ -16,6 +16,7 @@ public class Log {
 	public static void iniciar(String path) {
 		escritor = new Escritor(path, true);
 		escritor.setLimiteBuffer(1);
+		escritor.enter();
 		msgLn("Iniciando LOG", true);
 	}
 	

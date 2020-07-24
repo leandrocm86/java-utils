@@ -13,12 +13,10 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.EventListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 
 public class SwingUtils {
 	
@@ -28,9 +26,9 @@ public class SwingUtils {
 		javax.swing.UIManager.put("OptionPane.messageFont", defaultFont);
 		javax.swing.UIManager.put("OptionPane.buttonFont", defaultFont);
 		
-		UIManager.put("Tree.closedIcon", new ImageIcon(SwingUtils.class.getResource("mais.jpg")));
-		UIManager.put("Tree.openIcon", new ImageIcon(SwingUtils.class.getResource("menos.png")));
-		UIManager.put("Tree.leafIcon", new ImageIcon(SwingUtils.class.getResource("dot.png")));
+//		UIManager.put("Tree.closedIcon", new ImageIcon(SwingUtils.class.getResource("mais.jpg")));
+//		UIManager.put("Tree.openIcon", new ImageIcon(SwingUtils.class.getResource("menos.png")));
+//		UIManager.put("Tree.leafIcon", new ImageIcon(SwingUtils.class.getResource("dot.png")));
 	}
 	
 	public static Font getDefaultFont() {
