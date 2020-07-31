@@ -24,6 +24,15 @@
     </repository>
   </distributionManagement>
   <build>
+   <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -31,6 +40,9 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+          <excludes>
+		    <exclude>**/src/test/*.java</exclude>
+		  </excludes>
         </configuration>
       </plugin>
     </plugins>
