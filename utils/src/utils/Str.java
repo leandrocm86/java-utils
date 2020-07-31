@@ -251,7 +251,6 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 //		return false;
 //	}
 	
-	@SuppressWarnings("deprecation")
 	public Character characterAt(int index) {
 		return new Character(val.charAt(index));
 	}
@@ -309,6 +308,17 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Str(val.substring(inicio));
 	}
 	
+	public Str desdeEnesimo(CharSequence inicio, int n, boolean inicioIncluso) {
+		int index = indexOfEnesimo(inicio, n);
+		if (!inicioIncluso)
+			index += inicio.length();
+		return new Str(val.substring(index));
+	}
+	
+	public Str desdeEnesimo(CharSequence inicio, int n) {
+		return this.desdeEnesimo(inicio, n, true);
+	}
+	
 	public Str desdeUltimo(CharSequence inicio, boolean inicioIncluso) {
 		int ultimoIndex = this.lastIndexOf(inicio);
 		return this.desde(ultimoIndex, inicioIncluso);
@@ -322,11 +332,6 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return substring(null, fim, true, fimIncluso);
 	}
 	
-	public Str ateUltimo(CharSequence fim, boolean fimIncluso) {
-		int ultimoIndex = this.lastIndexOf(fim);
-		return this.ate(ultimoIndex, fimIncluso);
-	}
-	
 	public Str ate(int fim) {
 		return this.ate(fim, false);
 	}
@@ -337,6 +342,23 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		if (fimIncluso)
 			fim++;
 		return new Str(val.substring(0, fim));
+	}
+	
+	public Str ateEnesimo(CharSequence fim, int n, boolean fimIncluso) {
+		int index = this.indexOfEnesimo(fim, n);
+		if (fimIncluso) {
+			index += fim.length();
+		}
+		return new Str(val.substring(0, index));
+	}
+	
+	public Str ateEnesimo(CharSequence fim, int n) {
+		return this.ateEnesimo(fim, n, false);
+	}
+	
+	public Str ateUltimo(CharSequence fim, boolean fimIncluso) {
+		int ultimoIndex = this.lastIndexOf(fim);
+		return this.ate(ultimoIndex, fimIncluso);
 	}
 	
 	public Str desde(boolean inicioIncluso, CharSequence... possiveisInicios) {
@@ -490,6 +512,23 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
 	public static Str valorPercentual (float a, float b) {
 		return new Str((int)a + " (" + Math.round((a/b)*100) + "%)");
+	}
+	
+	/**
+	 * Retorna o index da n-esima ocorrencia de uma sub-string.
+	 */
+	public int indexOfEnesimo(CharSequence s, int n) {
+		assert(n > 0);
+		int ultimoIndex = this.indexOf(s, 0);
+		if (ultimoIndex == -1)
+			throw new IllegalArgumentException("A string '" + s + "' sequer faz parte de '" + this.val + "', quanto mais tem uma n-esima ocorrencia." );
+		for (int contador = 1; contador < n; contador++) {
+			ultimoIndex = this.indexOf(s, ultimoIndex + s.length());
+			if (ultimoIndex == -1) {
+				throw new IllegalArgumentException("A string '" + s + "' nao aparece N vezes em '" + this.val + "'." );
+			}
+		}
+		return ultimoIndex;
 	}
 	
 }

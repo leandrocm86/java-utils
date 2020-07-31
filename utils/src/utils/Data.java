@@ -2,6 +2,7 @@ package utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Data extends Date implements Objeto {
@@ -20,6 +21,9 @@ public class Data extends Date implements Objeto {
 	public static final SimpleDateFormat HORA_HH_mm = new SimpleDateFormat("HH:mm");
 	public static final SimpleDateFormat HORA_HH = new SimpleDateFormat("HH");
 	
+	private CharSequence valor;
+	private CharSequence formato;
+	
 	public Data() {
 		super();
 	}
@@ -34,6 +38,8 @@ public class Data extends Date implements Objeto {
 	
 	public Data(CharSequence data, SimpleDateFormat format) {
 		super(parse(data, format).getTime());
+		this.valor = data;
+		this.formato = format.toPattern();
 	}
 	
 	public Data(CharSequence data, String format) {
@@ -63,5 +69,18 @@ public class Data extends Date implements Objeto {
 	
 	public Str toStr(String format) {
 		return new Str(new SimpleDateFormat(format).format(this));
+	}
+	
+	@Override
+	public int getHours() {
+		if (this.formato != null) {
+			int indexHoras = this.formato.toString().indexOf("HH");
+			return Integer.parseInt(this.valor.subSequence(indexHoras, indexHoras+2).toString());
+		}
+		else {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(this);
+			return calendar.get(Calendar.HOUR_OF_DAY);
+		}
 	}
 }

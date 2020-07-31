@@ -3,6 +3,8 @@ package swing;
 import java.awt.Component;
 import java.awt.Container;
 
+import javax.swing.JCheckBox;
+
 public class Fonte extends java.awt.Font {
 	
 	public static final Fonte ARIAL_20 = new Fonte("Arial", 0, 20);
@@ -23,6 +25,7 @@ public class Fonte extends java.awt.Font {
 	public static final Fonte SANS_60 = new Fonte("SansSerif", 0, 60);
 	public static final Fonte SANS_80 = new Fonte("SansSerif", 0, 80);
 	
+	public static final Fonte SANS_15_BOLD = new Fonte("SansSerif", 1, 15);
 	public static final Fonte SANS_20_BOLD = new Fonte("SansSerif", 1, 20);
 	public static final Fonte SANS_30_BOLD = new Fonte("SansSerif", 1, 30);
 	public static final Fonte SANS_40_BOLD = new Fonte("SansSerif", 1, 40);
@@ -47,6 +50,8 @@ public class Fonte extends java.awt.Font {
 	public static void set(Fonte fonte, boolean force, Component... components) {
 		for (Component component : components) {
 			component.setFont(fonte);
+			if (component instanceof JCheckBox)
+				SwingUtils.scaleCheckBoxIcon((JCheckBox) component);
 		    if (component instanceof Container)
 		    {
 		        for (Component child : ((Container) component).getComponents())

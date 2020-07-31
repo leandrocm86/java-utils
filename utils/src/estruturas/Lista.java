@@ -115,12 +115,23 @@ public class Lista<T> implements List<T> {
 		}
 	}
 	
+	private boolean inverteProximoIterador = false;
+	
+	public void inverteProximoIterador() {
+		this.inverteProximoIterador = true;
+	}
+	
 	@Override
 	public Iterator<T> iterator() {
 		// Quando o Iterator for solicitado, por exemplo implicidamente no For aprimorado (1.5),
 		// precisamos guardar sua referencia para mantermos o controle da iteracao e podermos
 		// remover o elemento correto quando for solicitado.
-		this.ultimoIterador = new Iterador(lista.iterator());
+		if (!inverteProximoIterador)
+			this.ultimoIterador = new Iterador(lista.iterator());
+		else {
+			this.ultimoIterador = new IteradorReverso(lista.listIterator(this.size()));
+			this.inverteProximoIterador = false;
+		}
 		return this.ultimoIterador;
 	}
 	
@@ -354,6 +365,29 @@ public class Lista<T> implements List<T> {
 		public void remove() {
 			iterator.remove();
 			index--;
+		}
+	}
+	
+	private class IteradorReverso extends Iterador {
+		
+		IteradorReverso(ListIterator<T> iteratorOriginal) {
+			super(iteratorOriginal);
+			index = lista.size();
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return ((ListIterator) iterator).hasPrevious();
+		}
+		@Override
+		public T next() {
+			index--;
+			elemento = (T)((ListIterator) iterator).previous(); 
+			return this.elemento;
+		}
+		@Override
+		public void remove() {
+			iterator.remove();
 		}
 	}
 	

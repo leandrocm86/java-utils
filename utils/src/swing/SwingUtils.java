@@ -5,22 +5,30 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.EventListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 public class SwingUtils {
 	
-	private static final Fonte defaultFont = Fonte.ARIAL_40;
+	private static Fonte defaultFont = Fonte.ARIAL_40;
 	
 	static {
 		javax.swing.UIManager.put("OptionPane.messageFont", defaultFont);
@@ -110,6 +118,20 @@ public class SwingUtils {
 		return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	}
 	
+	/**
+	 * Retorna a largura (em pixels) de uma dada porcentagem da tela.
+	 */
+	public static int getWidth(float porcentagemTela) {
+		return Math.round(porcentagemTela * getScreenWidth() / 100);
+	}
+	
+	/**
+	 * Retorna a altura (em pixels) de uma dada porcentagem da tela.
+	 */
+	public static int getHeight(float porcentagemTela) {
+		return Math.round(porcentagemTela * getScreenHeight() / 100);
+	}
+	
 	public static JButton createImageButton(CharSequence imageUrl) throws IOException {
 		JButton button = new JButton();
 //		Image img = Toolkit.getDefaultToolkit().getImage(imageUrl.toString());
@@ -133,5 +155,45 @@ public class SwingUtils {
 			component.addMouseListener((MouseListener) listener);
 		if (listener instanceof MouseMotionListener)
 			component.addMouseMotionListener((MouseMotionListener) listener);
+	}
+	
+	public static void scaleCheckBoxIcon(JCheckBox checkbox){
+	    boolean previousState = checkbox.isSelected();
+	    checkbox.setSelected(false);
+	    FontMetrics boxFontMetrics =  checkbox.getFontMetrics(checkbox.getFont());
+	    Icon boxIcon = UIManager.getIcon("CheckBox.icon");
+	    BufferedImage boxImage = new BufferedImage(
+	        boxIcon.getIconWidth(), boxIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB
+	    );
+	    Graphics graphics = boxImage.createGraphics();
+	    try{
+	        boxIcon.paintIcon(checkbox, graphics, 0, 0);
+	    }finally{
+	        graphics.dispose();
+	    }
+	    ImageIcon newBoxImage = new ImageIcon(boxImage);
+	    Image finalBoxImage = newBoxImage.getImage().getScaledInstance(
+	        boxFontMetrics.getHeight(), boxFontMetrics.getHeight(), Image.SCALE_SMOOTH
+	    );
+	    checkbox.setIcon(new ImageIcon(finalBoxImage));
+
+	    checkbox.setSelected(true);
+	    Icon checkedBoxIcon = UIManager.getIcon("CheckBox.icon");
+	    BufferedImage checkedBoxImage = new BufferedImage(
+	        checkedBoxIcon.getIconWidth(),  checkedBoxIcon.getIconHeight(), BufferedImage.TYPE_INT_ARGB
+	    );
+	    Graphics checkedGraphics = checkedBoxImage.createGraphics();
+	    try{
+	        checkedBoxIcon.paintIcon(checkbox, checkedGraphics, 0, 0);
+	    }finally{
+	        checkedGraphics.dispose();
+	    }
+	    ImageIcon newCheckedBoxImage = new ImageIcon(checkedBoxImage);
+	    Image finalCheckedBoxImage = newCheckedBoxImage.getImage().getScaledInstance(
+	        boxFontMetrics.getHeight(), boxFontMetrics.getHeight(), Image.SCALE_SMOOTH
+	    );
+	    checkbox.setSelectedIcon(new ImageIcon(finalCheckedBoxImage));
+	    checkbox.setSelected(false);
+	    checkbox.setSelected(previousState);
 	}
 }
