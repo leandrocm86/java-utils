@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>l86.utils</groupId>
   <artifactId>utils</artifactId>
-  <version>1.5</version>
+  <version>1.5.1</version>
   <dependencies>
 	  <dependency>
 	    <groupId>commons-io</groupId>
@@ -29,8 +29,8 @@
       <resource>
         <directory>src</directory>
         <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
+		    <exclude>**/src/test/*.java</exclude>
+		  </excludes>
       </resource>
     </resources>
     <plugins>

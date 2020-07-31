@@ -7,7 +7,7 @@ import estruturas.Lista;
 import utils.Data;
 import utils.Str;
 
-public class Teste {
+public class SrcTest {
 
 	public static void main(String[] args) {
 		Lista<Integer> lista = new Lista<Integer>();
