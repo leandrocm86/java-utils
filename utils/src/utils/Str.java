@@ -478,8 +478,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str troca(CharSequence de, CharSequence para) {
-		this.val(this.val.replace(de.toString(), para.toString()));
-		return this;
+		return new Str(this.val.replace(de.toString(), para.toString()));
 	}
 	
 	public Str remover(CharSequence regex) {
@@ -529,6 +528,13 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			}
 		}
 		return ultimoIndex;
+	}
+	
+	public boolean contemAlgum(CharSequence... charSequences) {
+		for (CharSequence s : charSequences)
+			if (this.contains(s))
+				return true;
+		return false;
 	}
 	
 }

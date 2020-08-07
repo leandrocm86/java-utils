@@ -15,6 +15,7 @@ import utils.Str;
 public class Leitor {
 	
 	public static boolean logar;
+	public static String URL_TESTES = null;
 	
 	private BufferedReader reader;
 	private String linhaCorrente;
@@ -49,11 +50,11 @@ public class Leitor {
 	}
 	
 	public Leitor(CharSequence fileName) {
-		this(new File(fileName.toString()));
+		this(new File(URL_TESTES == null ? fileName.toString() : URL_TESTES));
 	}
 	
 	public Leitor(CharSequence fileName, String charset) {
-		this(new File(fileName.toString()), charset);
+		this(new File(URL_TESTES == null ? fileName.toString() : URL_TESTES), charset);
 	}
 	
 	/**
@@ -104,6 +105,11 @@ public class Leitor {
 				break;
 		}
 		return lista;
+	}
+	
+	public static Lista<Str> toList(String nomeArquivo) {
+		Leitor leitor = new Leitor(nomeArquivo);
+		return leitor.toList();
 	}
 	
 	public void terminar() {

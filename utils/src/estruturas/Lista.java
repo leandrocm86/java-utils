@@ -276,6 +276,12 @@ public class Lista<T> implements List<T> {
 	public boolean addAll(int index, Collection<? extends T> c) {
 		return this.lista.addAll(index, c);
 	}
+	
+	@SafeVarargs
+	public final void addAll(Collection<? extends T>... colecoes) {
+		for (Collection<? extends T> colecao : colecoes)
+			this.addAll(colecao);
+	}
 
 	/**
 	 * @see java.util.List#get(int)
@@ -567,5 +573,29 @@ public class Lista<T> implements List<T> {
 
 	public int getIndiceIteracao() {
 		return this.ultimoIterador.index;
+	}
+	
+	public float extrairMedia(MetodoInt<T> metodo) {
+		float media = 0;
+		for (T item : this.lista)
+			media += metodo.executar(item);
+		return media / this.lista.size();
+	}
+	
+	public int extrairMediaRedonda(MetodoInt<T> metodo) {
+		return Math.round(this.extrairMedia(metodo));
+	}
+	
+	public T max(MetodoInt<T> metodo) {
+		assert(this.lista.size() > 0);
+		int max = metodo.executar(lista.get(0));
+		T maior = lista.get(0);
+		for (T elemento : this.lista) {
+			if (metodo.executar(elemento) > max) {
+				max = metodo.executar(elemento);
+				maior = elemento;
+			}
+		}
+		return maior;
 	}
 }

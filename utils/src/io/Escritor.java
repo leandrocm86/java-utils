@@ -15,6 +15,7 @@ import utils.Str;
 public class Escritor {
 	
 	public static boolean logar = false;
+	public static String URL_TESTES = null;  
 	
 	private int limiteBuffer = 1000;
 	
@@ -22,6 +23,7 @@ public class Escritor {
 	private BufferedWriter writer;
 	private File file;
 	private long inicio;
+	
 	
 	public Escritor(File file) {
 		this(file, null, false);
@@ -51,19 +53,19 @@ public class Escritor {
 	}
 	
 	public Escritor(CharSequence fileName) {
-		this(new File(fileName.toString()));
+		this(fileName, false);
 	}
 	
 	public Escritor(CharSequence fileName, boolean append) {
-		this(new File(fileName.toString()), append);
+		this(new File(URL_TESTES == null ? fileName.toString() : URL_TESTES), append);
 	}
 	
 	public Escritor(CharSequence fileName, String encoding) {
-		this(new File(fileName.toString()), encoding);
+		this(fileName, encoding, false);
 	}
 	
 	public Escritor(CharSequence fileName, String encoding, boolean append) {
-		this(new File(fileName.toString()), encoding, append);
+		this(new File(URL_TESTES == null ? fileName.toString() : URL_TESTES), encoding, append);
 	}
 	
 	public void escreve(CharSequence texto) {
@@ -130,6 +132,16 @@ public class Escritor {
 		catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+	
+	public static void escreveTudo(String fileName, Collection<Str> texto) {
+		Escritor escritor = new Escritor(fileName);
+		escritor.escreveTudo(texto);
+	}
+	
+	public static void limpaArquivo(String fileName) {
+		Escritor escritor = new Escritor(fileName);
+		escritor.terminar();
 	}
 	
 	public int getLimiteBuffer() {
