@@ -141,7 +141,8 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 		ordenar(new Comparator<S>() {
 			@Override
 			public int compare(S arg0, S arg1) {
-				return tamanhosListas.get(arg1) - tamanhosListas.get(arg0);
+				int diferencaTamanho = tamanhosListas.get(arg1) - tamanhosListas.get(arg0);
+				return diferencaTamanho != 0 ? diferencaTamanho : arg0.toString().compareTo(arg1.toString());
 			}
 		});
 	}

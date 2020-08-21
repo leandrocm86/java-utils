@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
@@ -535,6 +536,16 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			if (this.contains(s))
 				return true;
 		return false;
+	}
+	
+	public int getTamanho(String charset) {
+		byte[] utf8Bytes;
+		try {
+			utf8Bytes = val.getBytes(charset);
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalArgumentException("Charset nao suportado foi usado como parametro.");
+		}
+		return utf8Bytes.length;
 	}
 	
 }
