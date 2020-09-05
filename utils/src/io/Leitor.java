@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
 
@@ -110,6 +111,16 @@ public class Leitor {
 	public static Lista<Str> toList(String nomeArquivo) {
 		Leitor leitor = new Leitor(nomeArquivo);
 		return leitor.toList();
+	}
+	
+	public static HashMap<Str, Str> toMap(String nomeArquivo) {
+		HashMap<Str, Str> mapa = new HashMap<Str, Str>();
+		Lista<Str> linhas = toList(nomeArquivo);
+		for (Str linha : linhas) {
+			Str[] corte = linha.corta("=");
+			mapa.put(corte[0], corte[1]);
+		}
+		return mapa;
 	}
 	
 	public void terminar() {

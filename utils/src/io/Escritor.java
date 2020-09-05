@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import estruturas.Lista;
 import utils.Str;
@@ -137,6 +139,14 @@ public class Escritor {
 	public static void escreveTudo(String fileName, Collection<? extends CharSequence> texto) {
 		Escritor escritor = new Escritor(fileName);
 		escritor.escreveTudo(texto);
+	}
+	
+	public static void escreveMapa(String fileName, Map<? extends CharSequence, ? extends CharSequence> mapa) {
+		Escritor escritor = new Escritor(fileName);
+		for (Entry<? extends CharSequence, ? extends CharSequence> entry : mapa.entrySet()) {
+			escritor.escreveLn(entry.getKey() + "=" + entry.getValue());
+		}
+		escritor.terminar();
 	}
 	
 	public static void limpaArquivo(String fileName) {

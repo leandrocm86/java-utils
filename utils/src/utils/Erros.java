@@ -33,4 +33,13 @@ public class Erros {
 		}
 		return retorno;
 	}
+	
+	public static Str resumo(Throwable t) {
+		Str resumo = new Str();
+		if (t.getMessage() != null)
+			resumo.append(t.getMessage() + ". ");
+		if (t.getCause() != null && t.getCause().getMessage() != null)
+			resumo.append("Causa: " + t.getCause().getMessage());
+		return resumo;
+	}
 }
