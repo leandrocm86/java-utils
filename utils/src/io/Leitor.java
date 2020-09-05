@@ -45,7 +45,7 @@ public class Leitor {
 			}
 		}
 		catch(IOException e) {
-			throw new IllegalArgumentException("Excecao lancada ao tentar ler arquivo!", e);
+			throw new IllegalArgumentException("Excecao lancada ao tentar ler arquivo! " + e.getMessage(), e);
 		}
 	}
 	
