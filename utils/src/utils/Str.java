@@ -478,6 +478,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return Float.parseFloat(this.val);
 	}
 	
+	public Double toDouble() {
+		return Double.parseDouble(this.val);
+	}
+	
 	public Str troca(CharSequence de, CharSequence para) {
 		return new Str(this.val.replace(de.toString(), para.toString()));
 	}

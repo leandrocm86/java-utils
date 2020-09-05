@@ -26,8 +26,9 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 	
 	public MapaLista(Map<S, Lista<T>> mapa) {
 		this.mapa = mapa;
-		for (S key : mapa.keySet())
-			this.incrementaTamanho(key, mapa.get(key).size());
+		for (Entry<S, Lista<T>> entry : mapa.entrySet()) {
+			this.incrementaTamanho(entry.getKey(), entry.getValue().size());
+		}
 	}
 
 	/**
@@ -197,7 +198,14 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 
 	@Override
 	public Lista<T> get(Object arg0) {
-		return mapa.get(arg0);
+		Lista<T> retorno = mapa.get(arg0);
+		// Tratamento para algumas vezes em que o Get nao parece funcionar bem (culpa do TreeMap?).
+		if (retorno == null) {
+			for (Entry<S, Lista<T>> entry : this.entrySet())
+				if (entry.getKey().equals(arg0))
+					return entry.getValue();
+		}
+		return retorno;
 	}
 
 	@Override
@@ -252,7 +260,14 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 	
 	public S primeiroIndice() {
 		if (this.mapa instanceof TreeMap<?, ?>)
-			return ((TreeMap<S, Lista<T>>)this.mapa).entrySet().iterator().next().getKey();
+			return ((TreeMap<S, Lista<T>>)this.mapa).firstKey();
+		else
+			throw new IllegalStateException("Solicitando primeiro indice de mapa nao ordenado!");
+	}
+	
+	public S ultimoIndice() {
+		if (this.mapa instanceof TreeMap<?, ?>)
+			return ((TreeMap<S, Lista<T>>)this.mapa).lastKey();
 		else
 			throw new IllegalStateException("Solicitando primeiro indice de mapa nao ordenado!");
 	}

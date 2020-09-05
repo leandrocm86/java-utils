@@ -117,14 +117,14 @@ public class Escritor {
 		}
 	}
 	
-	public void escreveTudo(Collection<Str> texto) {
+	public void escreveTudo(Collection<? extends CharSequence> texto) {
 		this.escreveTudo(texto, true);
 	}
 	
-	public void escreveTudo(Collection<Str> texto, boolean terminar) {
+	public void escreveTudo(Collection<? extends CharSequence> texto, boolean terminar) {
 		try {
-			for (Str linha : texto) {
-				writer.append(linha + Str.LN);
+			for (CharSequence linha : texto) {
+				writer.append(linha.toString() + Str.LN);
 			}
 			if (terminar)
 				this.terminar();
@@ -134,7 +134,7 @@ public class Escritor {
 		}
 	}
 	
-	public static void escreveTudo(String fileName, Collection<Str> texto) {
+	public static void escreveTudo(String fileName, Collection<? extends CharSequence> texto) {
 		Escritor escritor = new Escritor(fileName);
 		escritor.escreveTudo(texto);
 	}

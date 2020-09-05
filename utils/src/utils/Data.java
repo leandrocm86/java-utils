@@ -83,4 +83,22 @@ public class Data extends Date implements Objeto {
 			return calendar.get(Calendar.HOUR_OF_DAY);
 		}
 	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (obj instanceof Date)
+			return super.getTime() == ((Date)obj).getTime();
+		else
+			return false;
+	}
+	
 }

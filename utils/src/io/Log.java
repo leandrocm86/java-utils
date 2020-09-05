@@ -14,9 +14,11 @@ public class Log {
 	private static Console console = null;
 	
 	public static void iniciar(String path) {
-		escritor = new Escritor(path, true);
-		escritor.setLimiteBuffer(1);
-		escritor.enter();
+		if (path != null) {
+			escritor = new Escritor(path, true);
+			escritor.setLimiteBuffer(1);
+			escritor.enter();
+		}
 		msgLn("Iniciando LOG", true);
 	}
 	
@@ -25,26 +27,34 @@ public class Log {
 	}
 	
 	public static void msg(CharSequence msg) {
-		msg(msg, false);
+		msg(msg, false, false);
 	}
 	
 	public static void msg(CharSequence msg, boolean destaque) {
-		if (destaque)
-			msg = "########## " + msg.toString() + " ##########";
-		msg = new Data() + " " + msg;
-		escritor.escreve(msg);
-		if (console != null)
-			console.imprime(msg);
+		msg(msg, destaque, false);
 	}
 	
 	public static void msgLn(CharSequence msg) {
-		msgLn(msg, false);
+		msg(msg, false, true);
 	}
 	
 	public static void msgLn(CharSequence msg, boolean destaque) {
-		msg(msg, destaque);
-		escritor.enter();
+		msg(msg, destaque, true);
 	}
+	
+	public static void msg(CharSequence msg, boolean destaque, boolean ln) {
+		if (destaque)
+			msg = "########## " + msg.toString() + " ##########";
+		msg = new Data() + " " + msg;
+		if (ln)
+			escreveLn(msg);
+		else
+			escreve(msg);
+		if (console != null) {
+			console.imprime(msg);
+		}
+	}
+	
 	
 	public static void debug(CharSequence msg) {
 		msg = new Data() + ": " + msg;
@@ -68,7 +78,7 @@ public class Log {
 		if (debugMsgs.naoVazia()) {
 			msgLn("Ultimas mensagens de nivel DEBUG antes do erro:");
 			for (CharSequence msg : debugMsgs) {
-				escritor.escreveLn(msg);
+				escreveLn(msg);
 			}
 		}
 	}
@@ -76,10 +86,25 @@ public class Log {
 	public static void terminar() {
 		try {
 			msgLn("Terminando LOG", true);
-			escritor.terminar();
+			if (escritor != null)
+				escritor.terminar();
 		}
 		catch(Throwable t) {
 			SwingUtils.showMessage(Erros.stackTraceToStr(t, 5));
 		}
+	}
+	
+	private static void escreve(CharSequence msg) {
+		if (escritor != null)
+			escritor.escreve(msg);
+		else
+			System.out.print(msg);
+	}
+	
+	private static void escreveLn(CharSequence msg) {
+		if (escritor != null)
+			escritor.escreveLn(msg);
+		else
+			System.out.println(msg);
 	}
 }
