@@ -118,7 +118,8 @@ public class Leitor {
 		Lista<Str> linhas = toList(nomeArquivo);
 		for (Str linha : linhas) {
 			Str[] corte = linha.corta("=");
-			mapa.put(corte[0], corte[1]);
+			if (corte.length > 1)
+				mapa.put(corte[0], corte[1]);
 		}
 		return mapa;
 	}

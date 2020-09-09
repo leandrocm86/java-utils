@@ -97,7 +97,7 @@ public class Sistema {
 		}
         
         Str retorno = new Str(result.toString());
-        if (retorno.naoVazio())
+        if (retorno.naoVazia())
         	System.out.println(retorno);
         
         return retorno;

@@ -95,7 +95,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public int indexOf(CharSequence str, int fromIndex) {
 		return val.indexOf(str.toString(), fromIndex);
 	}
-	public boolean vazio() {
+	public boolean vazia() {
 		return val == null || val.trim().equals("");
 	}
 	public int lastIndexOf(int ch) {
@@ -186,8 +186,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		this.val = novoValor.toString();
 	}
 	
-	public boolean naoVazio() {
-		return !this.vazio();
+	public boolean naoVazia() {
+		return !this.vazia();
 	}
 	
 	/**
@@ -552,4 +552,17 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return utf8Bytes.length;
 	}
 	
+	/**
+	 * Conta quantas linhas tem na String (LN+1).
+	 * Se val = null, são zero linhas.
+	 * Se não existe separador na String (nenhum LN), é 1 linha.
+	 */
+	public int totalLinhas() {
+		if (val == null)
+			return 0;
+		if (!val.contains(LN))
+			return 1;
+		String[] linhas = val.split(LN);
+		return linhas.length;
+	}
 }
