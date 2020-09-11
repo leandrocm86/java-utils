@@ -108,9 +108,27 @@ public class Leitor {
 		return lista;
 	}
 	
+	public Str toStr() {
+		Str retorno = new Str();
+		Str proximaLinha;
+		while(true) {
+			proximaLinha = this.lerLinha();
+			if (proximaLinha != null)
+				retorno.append(proximaLinha + Str.LN);
+			else
+				break;
+		}
+		return retorno;
+	}
+	
 	public static Lista<Str> toList(String nomeArquivo) {
 		Leitor leitor = new Leitor(nomeArquivo);
 		return leitor.toList();
+	}
+	
+	public static Str toStr(String nomeArquivo) {
+		Leitor leitor = new Leitor(nomeArquivo);
+		return leitor.toStr();
 	}
 	
 	public static HashMap<Str, Str> toMap(String nomeArquivo) {

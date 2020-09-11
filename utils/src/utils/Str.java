@@ -325,6 +325,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return this.desde(ultimoIndex, inicioIncluso);
 	}
 	
+	public Str desdeUltimo(CharSequence inicio) {
+		return this.desdeUltimo(inicio, true);
+	}
+	
 	public Str ate(CharSequence fim) {
 		return this.ate(fim, false);
 	}
