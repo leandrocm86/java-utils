@@ -546,6 +546,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return false;
 	}
 	
+	public boolean naoContem(CharSequence charSequence) {
+		return !this.contains(charSequence);
+	}
+	
 	public int getTamanho(String charset) {
 		byte[] utf8Bytes;
 		try {

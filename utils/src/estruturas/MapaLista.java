@@ -207,6 +207,14 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 		}
 		return retorno;
 	}
+	
+	public T getPrimeiro(S chave) {
+		Lista<T> elementos = this.get(chave);
+		if (elementos != null && elementos.naoVazia())
+			return elementos.primeiro();
+		else
+			return null;
+	}
 
 	@Override
 	public boolean isEmpty() {
