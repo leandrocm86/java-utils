@@ -37,7 +37,6 @@ public class Console {
 		corTexto = color;
 	}
 
-	@SuppressWarnings("deprecation")
 	private void createPane(boolean botaoClear) {
 		consolePane = new JPanel(SwingUtils.createLayout(RelativeLayout.Y_AXIS));
 		consolePane.setBackground(corFundo);

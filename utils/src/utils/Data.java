@@ -9,6 +9,19 @@ public class Data extends Date implements Objeto {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 1 Hora em milisegundos.
+	 */
+	public static final int HORA = 3600000;
+	/**
+	 * 1 Minuto em milisegundos.
+	 */
+	public static final int MINUTO = 60000;
+	/**
+	 * 1 Segundo em milisegundos.
+	 */
+	public static final int SEGUNDO = 1000;
+	
 	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm_ss_SSS = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss,SSS");
 	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm_ss = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -82,6 +95,13 @@ public class Data extends Date implements Objeto {
 			calendar.setTime(this);
 			return calendar.get(Calendar.HOUR_OF_DAY);
 		}
+	}
+	
+	/**
+	 * Obtem a diferenca em milesegundos para uma outra determinada data.
+	 */
+	public long diferenca(Date date) {
+		return this.getTime() - date.getTime();
 	}
 	
 	@Override

@@ -383,12 +383,12 @@ public class Lista<T> implements List<T> {
 		
 		@Override
 		public boolean hasNext() {
-			return ((ListIterator) iterator).hasPrevious();
+			return ((ListIterator<T>) iterator).hasPrevious();
 		}
 		@Override
 		public T next() {
 			index--;
-			elemento = (T)((ListIterator) iterator).previous(); 
+			elemento = (T)((ListIterator<T>) iterator).previous(); 
 			return this.elemento;
 		}
 		@Override

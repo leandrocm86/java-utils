@@ -49,7 +49,6 @@ public class Layout extends JPanel {
 	 * @param menorAltura - Porcentagem da menor altura.
 	 * @param menorLargura - Porcentagem da menor largura.
 	 */
-	@SuppressWarnings("deprecation")
 	public Layout(int formato, int menorAltura, int menorLargura) {
 		super(getRelativeLayout(formato));
 		

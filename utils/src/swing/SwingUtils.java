@@ -28,7 +28,7 @@ import javax.swing.UIManager;
 
 public class SwingUtils {
 	
-	private static Fonte defaultFont = Fonte.ARIAL_40;
+	private static Fonte defaultFont = getScreenHeight() > 1080 ? Fonte.ARIAL_40 : Fonte.ARIAL_20;
 	
 	static {
 		javax.swing.UIManager.put("OptionPane.messageFont", defaultFont);
