@@ -55,6 +55,10 @@ public class Log {
 		}
 	}
 	
+	public static void enter() {
+		msg("", false, true);
+	}
+	
 	
 	public static void debug(CharSequence msg) {
 		msg = new Data() + ": " + msg;
@@ -64,22 +68,14 @@ public class Log {
 	}
 	
 	public static void logaErro(Throwable e) {
-		msgLn("ERRO: " + e.getClass().getName() + ": " + e.getMessage(), true);
-		if (e.getCause() != null) {
-			Throwable e2 = e.getCause();
-			Log.msgLn("CAUSADO POR " + e2.getClass().getName() + e2.getMessage());
-			Log.msgLn("Primeiras linhas da causa:");
-			Log.msgLn(Erros.stackTraceToStr(e2, 5));
-		}
-		else {
-			Log.msgLn("Primeiras linhas:");
-			Log.msgLn(Erros.stackTraceToStr(e, 10));
-		}
+		msgLn(Erros.resumo(e), true);
+		msgLn("Stacktrace:\n" + Erros.stackTraceToStr(e));
 		if (debugMsgs.naoVazia()) {
-			msgLn("Ultimas mensagens de nivel DEBUG antes do erro:");
+			msgLn("\nUltimas mensagens de nivel DEBUG antes do erro:");
 			for (CharSequence msg : debugMsgs) {
 				escreveLn(msg);
 			}
+			enter();
 		}
 	}
 	

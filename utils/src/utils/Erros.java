@@ -35,11 +35,11 @@ public class Erros {
 	}
 	
 	public static Str resumo(Throwable t) {
-		Str resumo = new Str();
+		Str resumo = new Str(t.getClass().getName() + ": ");
 		if (t.getMessage() != null)
 			resumo.append(t.getMessage() + ". ");
-		if (t.getCause() != null && t.getCause().getMessage() != null)
-			resumo.append("Causa: " + t.getCause().getMessage());
+		if (t.getCause() != null)
+			resumo.append("Causa: " + t.getCause().getClass().getName() + " (" + t.getCause().getMessage() + ")");
 		return resumo;
 	}
 }

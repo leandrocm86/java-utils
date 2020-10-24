@@ -136,6 +136,32 @@ public class Sistema {
 	   }
    }
    
+   /**
+    * Get current size of heap in (Mega)bytes
+    */
+   public static int getHeapMBytes() {
+	   return Math.round(Runtime.getRuntime().totalMemory() / 1000000);
+   }
+   
+   /**
+    * Get maximum size of heap in (Mega)bytes. The heap cannot grow beyond this size.
+    * Any attempt will result in an OutOfMemoryException.
+    */
+   public static int getMaxHeapMBytes() {
+	   return Math.round(Runtime.getRuntime().maxMemory() / 1000000);
+   }
+   
+   /**
+    * Get amount of free memory within the heap in bytes. This size will increase // after garbage collection and decrease as new objects are created.
+    */
+   public static int getFreeHeapMBytes() {
+	   return Math.round(Runtime.getRuntime().freeMemory() / 1000000);
+   }
+   
+   public static String contaMemoria() {
+		return "maxHeapSize=" + getMaxHeapMBytes() + "MB; heapSize=" + getHeapMBytes() + "MB; heapFreeSize=" + getFreeHeapMBytes() + "MB.";
+	}
+   
    public static boolean ehWindows() {
 	   return System.getProperty("os.name").toLowerCase().contains("win");
    }

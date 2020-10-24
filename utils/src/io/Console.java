@@ -54,7 +54,7 @@ public class Console {
 	}
 	
 	public void imprime(CharSequence s) {
-		textArea.append("\n" + s.toString());
+		textArea.append(Str.LN + s.toString());
 	}
 	
 	public JPanel getPanel(boolean botaoClear) {
