@@ -11,6 +11,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipInputStream;
 
 import estruturas.Lista;
+import estruturas.Lista.Tipo;
 import utils.Str;
 
 public class Leitor {
@@ -122,8 +123,12 @@ public class Leitor {
 	}
 	
 	public static Lista<Str> toList(String nomeArquivo) {
+		return toList(nomeArquivo, Tipo.ARRAY);
+	}
+	
+	public static Lista<Str> toList(String nomeArquivo, Lista.Tipo tipo) {
 		Leitor leitor = new Leitor(nomeArquivo);
-		return leitor.toList();
+		return leitor.toList(tipo);
 	}
 	
 	public static Str toStr(String nomeArquivo) {

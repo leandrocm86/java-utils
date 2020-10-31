@@ -10,6 +10,11 @@ public class Data extends Date implements Objeto {
 	private static final long serialVersionUID = 1L;
 	
 	/**
+	 * 1 Dia em milisegundos.
+	 */
+	public static final int DIA = 86400000;
+	
+	/**
 	 * 1 Hora em milisegundos.
 	 */
 	public static final int HORA = 3600000;
@@ -68,20 +73,23 @@ public class Data extends Date implements Objeto {
 	}
 	
 	/** 
-	 * Formato padrao dd/MM/yyyy HH:mm:ss
+	 * Formato padrao dd/MM/yyyy HH:mm:ss, a nao ser que outro tenha sido usado no construtor.
 	 * @see java.util.Date#toString()
 	 */
 	@Override
 	public String toString() {
-		return toStr(DATA_dd_MM_yyyy_HH_mm_ss).val();
+		if (this.formato != null)
+			return toStr(this.formato).val();
+		else
+			return toStr(DATA_dd_MM_yyyy_HH_mm_ss).val();
 	}
 	
 	public Str toStr(SimpleDateFormat format) {
 		return new Str(format.format(this));
 	}
 	
-	public Str toStr(String format) {
-		return new Str(new SimpleDateFormat(format).format(this));
+	public Str toStr(CharSequence format) {
+		return new Str(new SimpleDateFormat(format.toString()).format(this));
 	}
 	
 	@Override
