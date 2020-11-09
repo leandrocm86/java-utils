@@ -533,7 +533,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		for (int contador = 1; contador < n; contador++) {
 			ultimoIndex = this.indexOf(s, ultimoIndex + s.length());
 			if (ultimoIndex == -1) {
-				throw new IllegalArgumentException("A string '" + s + "' nao aparece N vezes em '" + this.val + "'." );
+				throw new IllegalArgumentException("A string '" + s + "' nao aparece " + n + " vezes em '" + this.val + "'." );
 			}
 		}
 		return ultimoIndex;

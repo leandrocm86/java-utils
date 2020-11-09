@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.Log;
+
 public class Data extends Date implements Objeto {
 	
 	private static final long serialVersionUID = 1L;
@@ -68,6 +70,7 @@ public class Data extends Date implements Objeto {
 		try {
 			return format.parse(data.toString());
 		} catch (ParseException e) {
+			Log.msg("Impossivel converter " + data.toString() + " para Data no formato " + format.toPattern());
 			throw new IllegalArgumentException(e);
 		}
 	}

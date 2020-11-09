@@ -20,6 +20,7 @@ public class Log {
 			escritor.enter();
 		}
 		msgLn("Iniciando LOG", true);
+		enter();
 	}
 	
 	public static void setConsole(Console consoleParaLogar) {
