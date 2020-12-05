@@ -21,4 +21,5 @@ public class Cronometro {
 		System.out.println((System.currentTimeMillis() - ultimaParada) + "ms de " + nomeCheckpoint + " ate o fim.");
 		System.out.println(new Data() + " Corrida terminada.");
 	}
+	
 }

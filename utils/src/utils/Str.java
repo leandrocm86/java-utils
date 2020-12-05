@@ -56,9 +56,6 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public int compareToIgnoreCase(CharSequence str) {
 		return val.compareToIgnoreCase(str.toString());
 	}
-	public String concat(CharSequence str) {
-		return val.concat(str.toString());
-	}
 	public boolean contains(CharSequence s) {
 		return val.contains(s.toString());
 	}
@@ -143,8 +140,8 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public String substring(int beginIndex) {
 		return val.substring(beginIndex);
 	}
-	public Str substring(int beginIndex, int endIndex) {
-		return new Str(val.substring(beginIndex, endIndex));
+	public String substring(int beginIndex, int endIndex) {
+		return val.substring(beginIndex, endIndex);
 	}
 	public String toLowerCase() {
 		return val.toLowerCase();
@@ -154,6 +151,9 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	public String toUpperCase() {
 		return val.toUpperCase();
+	}
+	public Str reduzEspacos() {
+		return new Str(this.val.replaceAll("\\s+", " "));
 	}
 	public Str trim() {
 		return new Str(val.trim());
@@ -269,6 +269,16 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		}
 	}
 	
+	/**
+	 * Faz um trim, reduz todos os espaços em branco e devolve o split.
+	 */
+	public Str[] corta() {
+		return this.trim().reduzEspacos().corta(" ");
+	}
+	
+	/**
+	 * Faz o split usando regex.
+	 */
 	public Str[] corta(CharSequence regex) {
 		String[] split = val.split(regex.toString());
 		Str[] corte = new Str[split.length];
@@ -277,11 +287,57 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return corte;
 	}
 	
+	/**
+	 * Apenas retorna uma copia concatenada. 
+	 */
+	public Str concat(Object object) {
+		return new Str(this.val + object.toString());
+	}
+	
+	/**
+	 * Retorna uma copia deste objeto, apendando um ou mais objetos passados como parametro.
+	 * Usa o separador definido no primeiro argumento.
+	 */
+	public Str addSeparator(CharSequence separator, Object... objects) {
+		Str s = new Str(this.val);
+		for (Object o : objects)
+			s.val += separator + o.toString();
+		return s;
+	}
+	
+	/**
+	 * Retorna uma copia deste objeto, apendando um ou mais objetos passados como parametro.
+	 * Usa o separador default " " (espaco em branco).
+	 */
+	public Str add(Object... objects) {
+		return this.addSeparator(" ", objects);
+	}
+	
+	/**
+	 * Apenda uma String mudando o valor original deste objeto, ou seja, sem criar uma copia.
+	 */
 	public Str append(Object obj) {
 		this.val += obj.toString();
 		return this;
 	}
+
+	/**
+	 * Cria uma Str formatada, substituindo as ocorrências de '--' pelas demais Strings passadas de parametro. 
+	 */
+	public static Str format(CharSequence s, Object... args) {
+		Str retorno = new Str(s);
+		int trocas = 0;
+		while (trocas < args.length) {
+			retorno.trocaPrimeiro("--", args[trocas].toString());
+			trocas++;
+		}
+		return retorno;
+	}
 	
+	/**
+	 * Apenda uma String mudando o valor original deste objeto, ou seja, sem criar uma copia.
+	 * Uma quebra de linha eh inserida no final.
+	 */
 	public Str appendLn(Object obj) {
 		this.val += obj.toString() + LN;
 		return this;
@@ -296,7 +352,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str desde(CharSequence inicio, boolean inicioIncluso) {
-		return substring(inicio, null, inicioIncluso, false);
+		return sub(inicio, null, inicioIncluso, false);
 	}
 	
 	public Str desde(int inicio) {
@@ -334,7 +390,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	}
 	
 	public Str ate(CharSequence fim, boolean fimIncluso) {
-		return substring(null, fim, true, fimIncluso);
+		return sub(null, fim, true, fimIncluso);
 	}
 	
 	public Str ate(int fim) {
@@ -401,7 +457,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			return new Str(val.substring(0, fimIncluso ? menorIndex + tamanhoFim : menorIndex));
 	}
 	
-	public Str substring(CharSequence inicio, CharSequence fim, boolean inicioIncluso, boolean fimIncluso) {
+	public Str sub(CharSequence inicio, CharSequence fim, boolean inicioIncluso, boolean fimIncluso) {
 		int indexInicio = 0;
 		if (inicio != null) {
 			indexInicio = val.indexOf(inicio.toString());
@@ -421,7 +477,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Str(val.substring(indexInicio, indexFim));
 	}
 	
-	public Str substring(CharSequence inicio, boolean inicioIncluso) {
+	public Str sub(CharSequence inicio, boolean inicioIncluso) {
 		int indexInicio = 0;
 		if (inicio != null) {
 			indexInicio = val.indexOf(inicio.toString());
@@ -435,6 +491,10 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
 	public Str sub(int indexInicio, int indexFim) {
 		return new Str(val.substring(indexInicio, indexFim));
+	}
+	
+	public Str sub(int indexInicio) {
+		return new Str(val.substring(indexInicio));
 	}
 	
 	public void limpar() {
@@ -486,8 +546,22 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return Double.parseDouble(this.val);
 	}
 	
+	/**
+	 * Versão mutável de replace.
+	 * Funciona como o replace, mas modificando e retornando esta mesma instância.
+	 */
 	public Str troca(CharSequence de, CharSequence para) {
-		return new Str(this.val.replace(de.toString(), para.toString()));
+		this.val(val.replace(de.toString(), para.toString()));
+		return this;
+	}
+	
+	/**
+	 * Versão mutável de replaceFirst.
+	 * Funciona como o replaceFirst, mas modificando e retornando esta mesma instância.
+	 */
+	public Str trocaPrimeiro(CharSequence de, CharSequence para) {
+		this.val(val.replaceFirst(de.toString(), para.toString()));
+		return this;
 	}
 	
 	public Str remover(CharSequence regex) {
@@ -524,6 +598,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	
 	/**
 	 * Retorna o index da n-esima ocorrencia de uma sub-string.
+	 * Lança exceção se não encontrar.
 	 */
 	public int indexOfEnesimo(CharSequence s, int n) {
 		assert(n > 0);
@@ -534,6 +609,24 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			ultimoIndex = this.indexOf(s, ultimoIndex + s.length());
 			if (ultimoIndex == -1) {
 				throw new IllegalArgumentException("A string '" + s + "' nao aparece " + n + " vezes em '" + this.val + "'." );
+			}
+		}
+		return ultimoIndex;
+	}
+	
+	/**
+	 * Retorna o index da n-esima ocorrencia de uma substring, se ela existir.
+	 * Retorna -1 se não encontrar.
+	 */
+	public int buscaEnesimo(CharSequence s, int n) {
+		assert(n > 0);
+		int ultimoIndex = this.indexOf(s, 0);
+		if (ultimoIndex == -1)
+			return -1;
+		for (int contador = 1; contador < n; contador++) {
+			ultimoIndex = this.indexOf(s, ultimoIndex + s.length());
+			if (ultimoIndex == -1) {
+				return -1;
 			}
 		}
 		return ultimoIndex;
@@ -572,5 +665,27 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			return 1;
 		String[] linhas = val.split(LN);
 		return linhas.length;
+	}
+	
+	public static Str formataTempo(long milisegundos) {
+		if (milisegundos <= 0)
+			return new Str();
+		if (milisegundos >= Data.SEGUNDO) {
+			if (milisegundos >= Data.MINUTO) {
+				if (milisegundos >= Data.HORA) {
+					if (milisegundos >= Data.DIA)
+						return new Str(milisegundos/Data.DIA).append("d").append(formataTempo(milisegundos % Data.DIA));
+					else
+						return new Str(milisegundos/Data.HORA).append("h").append(formataTempo(milisegundos % Data.HORA));
+				}
+				else
+					return new Str(milisegundos/Data.MINUTO).append("m").append(formataTempo(milisegundos % Data.MINUTO));
+			}
+			else
+				return new Str(milisegundos/Data.SEGUNDO).append("s").append(formataTempo(milisegundos % Data.SEGUNDO));
+		}
+		else {
+			return new Str(milisegundos).append("ms");
+		}
 	}
 }

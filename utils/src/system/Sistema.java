@@ -104,21 +104,34 @@ public class Sistema {
     }
     
     /**
-     * Executa sequencia de comandos separados por espaco.
-     * Os argumentos tambem devem ser separados por espaco, exatamente como escrito direto no terminal.
-     * @return string com toda a saida da execucao, incluindo possiveis erros.
+     * Executa sequencia de comandos shell.
+     * Os comandos e argumentos devem ser escritos exatamente como no terminal.
+     * Nessa variacao, nao eh esperado nenhum retorno (output) dos comandos. Se houver, uma exececao sera lancada.
      */
-   public static Str executaComandos(String comandos) {
- 	   String[] comandosArray = comandos.split(" ");
- 	   ProcessBuilder builder = new ProcessBuilder(comandosArray);
- 	   builder.redirectErrorStream(true);
- 	   try {
- 		   String output = IOUtils.toString(builder.start().getInputStream(), "UTF-8");
- 		   return new Str(output);
- 	   } catch (IOException e) {
- 		   throw new IllegalStateException(e);
- 	   }
+   public static void executar(CharSequence comandos) {
+	   Str output = executaComandos(comandos);
+	   if (output.naoVazia())
+		   throw new IllegalStateException("Retorno inesperado ao executar comando! " + output);
    }
+   
+   /**
+    * Executa sequencia de comandos shell.
+    * Os comandos e argumentos devem ser escritos exatamente como no terminal.
+    * Nessa variacao, nao eh esperado nenhum retorno (output) dos comandos. Se houver, uma exececao sera lancada.
+    * @return string com toda a saida da execucao, incluindo possiveis erros.
+    */
+  public static Str executaComandos(CharSequence comandos) {
+	  String[] array = {"/bin/sh", "-c", comandos.toString()};
+	  ProcessBuilder builder = new ProcessBuilder(array);
+	  builder.redirectErrorStream(true);
+	  try {
+		  String output = IOUtils.toString(builder.start().getInputStream(), "UTF-8");
+		  return new Str(output);
+	  }
+	  catch (IOException e) {
+		  throw new IllegalStateException(e);
+	  }
+  }
 
    /**
     * Executa sequencia de comandos separados por espaco.

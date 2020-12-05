@@ -1,5 +1,8 @@
 package estruturas;
 
-public interface Metodo<T> {
-	public Object executar(T objeto);
+/**
+ * Interface generica para representar metodos que executam com parametro do tipo T e retornam um tipo S.
+ */
+public interface Metodo<S, T> {
+	public S executar(T objeto);
 }

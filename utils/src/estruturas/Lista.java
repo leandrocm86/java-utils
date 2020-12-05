@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import utils.Str;
+
 public class Lista<T> implements List<T> {
 	
 	public enum Tipo {ARRAY, LINKED};
@@ -522,14 +524,12 @@ public class Lista<T> implements List<T> {
 	
 	/**
 	 * Agrupa elementos da lista em um MapaLista, segundo o criterio passado como parametro.
-	 * @param classeChave Classe da chave a ser usada no mapa (que eh a classe retornada pelo metodo no outro parametro).
 	 * @param metodo (lambda) Metodo a ser executado para extrair a chave que um elemento tera no mapa.
 	 */
-	@SuppressWarnings("unchecked")
-	public <S> MapaLista<S, T> agrupar(Class<S> classeChave, Metodo<T> metodo) {
+	public <S> MapaLista<S, T> agrupar(Metodo<S, T> metodo) {
 		MapaLista<S, T> mapaLista = new MapaLista<S, T>();
 		for (T elemento : this.lista)
-			mapaLista.add((S)metodo.executar(elemento), elemento);
+			mapaLista.add(metodo.executar(elemento), elemento);
 		return mapaLista;
 	}
 	
@@ -543,6 +543,19 @@ public class Lista<T> implements List<T> {
 		}
 		sb.append("]");
 		return sb.toString();
+	}
+	
+	/**
+	 * Invoca o toString() de cada elemento da lista, concatenando-os com um dado separador.
+	 */
+	public Str toStr(CharSequence separador) {
+		Str retorno = new Str();
+		for (T elemento : this)
+			if (this.indiceIteracao() > 0)
+				retorno.append(separador + elemento.toString());
+			else
+				retorno.append(elemento.toString());
+		return retorno;
 	}
 	
 	public void inverter() {
@@ -575,18 +588,30 @@ public class Lista<T> implements List<T> {
 		return this.ultimoIterador.index;
 	}
 	
-	public float extrairMedia(MetodoInt<T> metodo) {
+	public float extrairMedia(Metodo<Integer, T> metodo) {
 		float media = 0;
 		for (T item : this.lista)
 			media += metodo.executar(item);
 		return media / this.lista.size();
 	}
 	
-	public int extrairMediaRedonda(MetodoInt<T> metodo) {
+	public int extrairMediaRedonda(Metodo<Integer, T> metodo) {
 		return Math.round(this.extrairMedia(metodo));
 	}
 	
-	public T max(MetodoInt<T> metodo) {
+	/**
+	 * Deriva uma nova lista extraida a partir da execucao de um dado metodo em cada elemento.
+	 * @param tipoLista O tipo da nova lista
+	 * @param metodo Método (lambda) a ser executado em cada elemento para alimentar a nova lista.
+	 */
+	public <S> Lista<S> extrair(Metodo<S, T> metodo) {
+		Lista<S> lista = new Lista<S>();
+		for (T elemento : this.lista)
+			lista.add(metodo.executar(elemento));
+		return lista;
+	}
+	
+	public T max(Metodo<Integer, T> metodo) {
 		assert(this.lista.size() > 0);
 		int max = metodo.executar(lista.get(0));
 		T maior = lista.get(0);

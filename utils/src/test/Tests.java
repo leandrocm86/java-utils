@@ -75,5 +75,5 @@ public class Tests {
 //	private void confere(String esperado, Str resultado) {
 //		assertEquals(new Str(esperado), resultado);
 //	}
-
+	
 }
