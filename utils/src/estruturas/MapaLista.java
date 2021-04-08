@@ -249,7 +249,7 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 
 	@Override
 	public int size() {
-		return mapa.size();
+		return this.total();
 	}
 
 	@Override

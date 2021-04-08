@@ -25,8 +25,10 @@ public class Fonte extends java.awt.Font {
 	public static final Fonte SANS_60 = new Fonte("SansSerif", 0, 60);
 	public static final Fonte SANS_80 = new Fonte("SansSerif", 0, 80);
 	
+	public static final Fonte SANS_10_BOLD = new Fonte("SansSerif", 1, 10);
 	public static final Fonte SANS_15_BOLD = new Fonte("SansSerif", 1, 15);
 	public static final Fonte SANS_20_BOLD = new Fonte("SansSerif", 1, 20);
+	public static final Fonte SANS_25_BOLD = new Fonte("SansSerif", 1, 25);
 	public static final Fonte SANS_30_BOLD = new Fonte("SansSerif", 1, 30);
 	public static final Fonte SANS_40_BOLD = new Fonte("SansSerif", 1, 40);
 	public static final Fonte SANS_60_BOLD = new Fonte("SansSerif", 1, 60);
