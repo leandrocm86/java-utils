@@ -24,11 +24,23 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		this.val = "";
 	}
 	
-	public Str(String val) {
+	public Str(CharSequence val) {
 		if (val != null)
-			this.val = val;
+			this.val = val.toString();
 		else
 			this.val = "";
+	}
+	
+	/**
+	 * Cria uma Str formatada, substituindo as ocorrências de '--' pelas demais Strings passadas de parametro. 
+	 */
+	public Str(CharSequence val, Object... args) {
+		this(val);
+		int trocas = 0;
+		while (trocas < args.length) {
+			this.trocaPrimeiro("--", args[trocas].toString());
+			trocas++;
+		}
 	}
 	
 	public Str(Object object) {
@@ -325,13 +337,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	 * Cria uma Str formatada, substituindo as ocorrências de '--' pelas demais Strings passadas de parametro. 
 	 */
 	public static Str format(CharSequence s, Object... args) {
-		Str retorno = new Str(s);
-		int trocas = 0;
-		while (trocas < args.length) {
-			retorno.trocaPrimeiro("--", args[trocas].toString());
-			trocas++;
-		}
-		return retorno;
+		return new Str(s, args);
 	}
 	
 	/**
