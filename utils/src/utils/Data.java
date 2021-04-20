@@ -57,13 +57,27 @@ public class Data extends Date implements Objeto {
 	}
 	
 	public Data(CharSequence data, SimpleDateFormat format) {
-		super(parse(data, format).getTime());
+		super(parseDate(data, format).getTime());
 		this.valor = data;
 		this.formato = format.toPattern();
 	}
 	
 	public Data(CharSequence data, String format) {
-		this(data, new SimpleDateFormat(format));
+		this(data, getSimpleDateFormat(format));
+	}
+	
+	private static Date parseDate(CharSequence data, SimpleDateFormat format) {
+		Benchmark.start("parseDate");
+		Date date = parse(data, format);
+		Benchmark.stop("parseDate");
+		return date;
+	}
+	
+	private static SimpleDateFormat getSimpleDateFormat(String format) {
+		Benchmark.start("SimpleDateFormat");
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		Benchmark.stop("SimpleDateFormat");
+		return sdf;
 	}
 	
 	private static Date parse(CharSequence data, SimpleDateFormat format) {
