@@ -574,6 +574,18 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Str(val.replaceAll(regex.toString(), ""));
 	}
 	
+	/**
+	 * Retorna copia da String, mas sem o caractere indicado.
+	 */
+	public Str remover(char charParaRemocao) {
+		char[] charArray = val.toCharArray();
+		StringBuilder sb = new StringBuilder("");
+		for (char c : charArray)
+			if (c != charParaRemocao)
+				sb.append(c);
+		return new Str(sb);
+	}
+	
 	public boolean diferente(Object o) {
 		return !this.equals(o);
 	}
