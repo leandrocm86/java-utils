@@ -165,7 +165,11 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return val.toUpperCase();
 	}
 	public Str reduzEspacos() {
-		return new Str(this.val.replaceAll("\\s+", " "));
+		String retorno = this.val;
+		while (retorno.contains("  ")) {
+			retorno = retorno.replaceAll("  ", " ");
+		}
+		return new Str(retorno);
 	}
 	public Str trim() {
 		return new Str(val.trim());
