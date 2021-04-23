@@ -1,6 +1,8 @@
 package utils;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -97,16 +99,20 @@ public class Data extends Date implements Objeto {
 		if (this.formato != null)
 			return toStr(this.formato).val();
 		else
-			return DATA_dd_MM_yyyy_HH_mm_ss.format(this.toInstant());
+			return DATA_dd_MM_yyyy_HH_mm_ss.format(this.toZonedInstant());
 	}
 	
 	public Str toStr(DateTimeFormatter formatter) {
-		return new Str(formatter.format(this.toInstant()));
+		return new Str(formatter.format(this.toZonedInstant()));
 	}
 	
 	public Str toStr(CharSequence format) {
-		return new Str(DateTimeFormatter.ofPattern(format.toString()).format(this.toInstant()));
+		return new Str(DateTimeFormatter.ofPattern(format.toString()).format(this.toZonedInstant()));
 	}
+	
+	public ZonedDateTime toZonedInstant() {
+        return Instant.ofEpochMilli(getTime()).atZone(ZoneId.systemDefault());
+    }
 	
 	@Override
 	public int getHours() {

@@ -3,41 +3,8 @@ package test;
 public class Tests {
 
 //	public static void main(String[] args) {
-//		Lista<Integer> lista = new Lista<Integer>();
-//		lista.add(0);
-//		lista.add(1);
-//		lista.add(2);
-//		lista.add(3);
-//		lista.add(4);
-//		for (Integer i : lista)
-//			System.out.print(i + "-" + lista.getIndiceIteracao() + " ");
-//		System.out.println("\nInvertendo...");
-//		lista.inverteProximoIterador();
-//		for (Integer i : lista)
-//			System.out.print(i + "-" + lista.getIndiceIteracao() + " ");
-//		System.out.println("\nRetirando um item");
-//		for (Integer i : lista) {
-//			System.out.print(i + "-" + lista.getIndiceIteracao());
-//			if (i == 3) {
-//				lista.remove();
-//				System.out.print("-" + lista.getIndiceIteracao());
-//			}
-//			System.out.print(" ");
-//		}
-//		System.out.println("\nRetirando um item reverso");
-//		lista.inverteProximoIterador();
-//		for (Integer i : lista) {
-//			System.out.print(i + "-" + lista.getIndiceIteracao());
-//			if (i == 2) {
-//				lista.remove();
-//				System.out.print("-" + lista.getIndiceIteracao());
-//			}
-//			System.out.print(" ");
-//		}
-//		System.out.println("\nResultado");
-//		for (Integer i : lista)
-//			System.out.print(i + "-" + lista.getIndiceIteracao() + " ");
-//		
+//		Data agora = new Data();
+//		System.out.println(agora);
 //	}
 //	
 //	@Test
