@@ -30,11 +30,11 @@ public class Data extends Date implements Objeto {
 	 * 1 Segundo em milisegundos.
 	 */
 	public static final int SEGUNDO = 1000;
-	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm_ss_SSS = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss,SSS");
-	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm_ss = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm_ss_SSS = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss,SSS [America/Sao_Paulo]");
+	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm_ss = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss [America/Sao_Paulo]");
+	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm [America/Sao_Paulo]");
 	public static final DateTimeFormatter DATA_dd_MM_yyyy = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	public static final DateTimeFormatter DATA_dd_MM_HH_mm = DateTimeFormatter.ofPattern("dd/MM HH:mm");
+	public static final DateTimeFormatter DATA_dd_MM_HH_mm = DateTimeFormatter.ofPattern("dd/MM HH:mm [America/Sao_Paulo]");
 	public static final DateTimeFormatter DATA_dd_MM = DateTimeFormatter.ofPattern("dd/MM");
 
 	public static final DateTimeFormatter HORA_HH_mm_ss_SSS = DateTimeFormatter.ofPattern("HH:mm:ss,SSS");
