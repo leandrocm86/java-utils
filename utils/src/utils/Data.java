@@ -83,7 +83,7 @@ public class Data extends Date implements Objeto {
 	
 	private static Date parse(CharSequence data, DateTimeFormatter format) {
 		try {
-			return new Date(Instant.from(format.parse(data)).toEpochMilli());
+			return new Date(Instant.from(ZonedDateTime.parse(data, format)).toEpochMilli());
 		} catch (Exception e) {
 			Log.msg("Impossivel converter " + data.toString() + " para Data no formato " + format.toString());
 			throw new IllegalArgumentException(e);
