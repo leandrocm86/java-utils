@@ -77,7 +77,7 @@ public class Data extends Date implements Objeto {
 	
 	private static DateTimeFormatter getSimpleDateFormat(String format) {
 		Benchmark.start("SimpleDateFormat");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format, Locale.getDefault());
 		Benchmark.stop("SimpleDateFormat");
 		return formatter;
 	}
