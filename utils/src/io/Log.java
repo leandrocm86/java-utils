@@ -14,13 +14,19 @@ public class Log {
 	private static Console console = null;
 	
 	public static void iniciar(String path) {
-		if (path != null) {
-			escritor = new Escritor(path, true);
-			escritor.setLimiteBuffer(1);
-			escritor.enter();
+		try {
+			if (path != null) {
+				escritor = new Escritor(path, true);
+				escritor.setLimiteBuffer(1);
+				escritor.enter();
+			}
+			msgLn("Iniciando LOG", true);
+			enter();
 		}
-		msgLn("Iniciando LOG", true);
-		enter();
+		catch (Throwable t) {
+			System.out.println("!!! Erro: Não foi possível iniciar o log em " + path);
+			System.out.println(Erros.resumo(t));
+		}
 	}
 	
 	public static void setConsole(Console consoleParaLogar) {

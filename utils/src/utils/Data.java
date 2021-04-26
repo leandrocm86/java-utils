@@ -1,14 +1,9 @@
 package utils;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-
-import io.Log;
 
 public class Data extends Date implements Objeto {
 	
@@ -31,20 +26,21 @@ public class Data extends Date implements Objeto {
 	 * 1 Segundo em milisegundos.
 	 */
 	public static final int SEGUNDO = 1000;
-	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm_ss_SSS = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss,SSS", Locale.getDefault());
-	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm_ss = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
-	public static final DateTimeFormatter DATA_dd_MM_yyyy_HH_mm = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.getDefault());
-	public static final DateTimeFormatter DATA_dd_MM_yyyy = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	public static final DateTimeFormatter DATA_dd_MM_HH_mm = DateTimeFormatter.ofPattern("dd/MM HH:mm", Locale.getDefault());
-	public static final DateTimeFormatter DATA_dd_MM = DateTimeFormatter.ofPattern("dd/MM");
+	
+	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm_ss_SSS = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss,SSS");
+	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm_ss = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	public static final SimpleDateFormat DATA_dd_MM_yyyy = new SimpleDateFormat("dd/MM/yyyy");
+	public static final SimpleDateFormat DATA_dd_MM_HH_mm = new SimpleDateFormat("dd/MM HH:mm");
+	public static final SimpleDateFormat DATA_dd_MM = new SimpleDateFormat("dd/MM");
 
-	public static final DateTimeFormatter HORA_HH_mm_ss_SSS = DateTimeFormatter.ofPattern("HH:mm:ss,SSS", Locale.getDefault());
-	public static final DateTimeFormatter HORA_HH_mm_ss = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.getDefault());
-	public static final DateTimeFormatter HORA_HH_mm = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault());
-	public static final DateTimeFormatter HORA_HH = DateTimeFormatter.ofPattern("HH", Locale.getDefault());
+	public static final SimpleDateFormat HORA_HH_mm_ss_SSS = new SimpleDateFormat("HH:mm:ss,SSS");
+	public static final SimpleDateFormat HORA_HH_mm_ss = new SimpleDateFormat("HH:mm:ss");
+	public static final SimpleDateFormat HORA_HH_mm = new SimpleDateFormat("HH:mm");
+	public static final SimpleDateFormat HORA_HH = new SimpleDateFormat("HH");
 	
 	private CharSequence valor;
-	private CharSequence formato;
+	private SimpleDateFormat formato;
 	
 	public Data() {
 		super();
@@ -58,36 +54,31 @@ public class Data extends Date implements Objeto {
 		super(date.getTime());
 	}
 	
-	public Data(CharSequence data, DateTimeFormatter format) {
-		super(parseDate(data, format).getTime());
+	public Data(CharSequence data, SimpleDateFormat format) {
+		super(parse(data, format).getTime());
 		this.valor = data;
-		this.formato = format.toString();
+		this.formato = format;
 	}
 	
 	public Data(CharSequence data, String format) {
 		this(data, getSimpleDateFormat(format));
 	}
 	
-	private static Date parseDate(CharSequence data, DateTimeFormatter format) {
-		Benchmark.start("parseDate");
-		Date date = parse(data, format);
-		Benchmark.stop("parseDate");
-		return date;
-	}
-	
-	private static DateTimeFormatter getSimpleDateFormat(String format) {
+	public static SimpleDateFormat getSimpleDateFormat(String format) {
 		Benchmark.start("SimpleDateFormat");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format, Locale.getDefault());
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		Benchmark.stop("SimpleDateFormat");
-		return formatter;
+		return sdf;
 	}
 	
-	private static Date parse(CharSequence data, DateTimeFormatter format) {
+	private static Date parse(CharSequence data, SimpleDateFormat format) {
 		try {
-			return new Date(Instant.from(ZonedDateTime.parse(data, format)).toEpochMilli());
-		} catch (Exception e) {
-			Log.msg("Impossivel converter " + data.toString() + " para Data no formato " + format.toString());
-			throw new IllegalArgumentException(e);
+			Benchmark.start("parseDate");
+			Date retorno = format.parse(data.toString());
+			Benchmark.stop("parseDate");
+			return retorno; 
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Impossivel converter " + data.toString() + " para Data no formato " + format.toPattern(), e);
 		}
 	}
 	
@@ -97,23 +88,21 @@ public class Data extends Date implements Objeto {
 	 */
 	@Override
 	public String toString() {
-		if (this.formato != null)
+		if (this.valor != null)
+			return valor.toString();
+		else if (this.formato != null)
 			return toStr(this.formato).val();
 		else
-			return DATA_dd_MM_yyyy_HH_mm_ss.format(this.toZonedInstant());
+			return toStr(DATA_dd_MM_yyyy_HH_mm_ss).val();
 	}
 	
-	public Str toStr(DateTimeFormatter formatter) {
-		return new Str(formatter.format(this.toZonedInstant()));
+	public Str toStr(SimpleDateFormat format) {
+		return new Str(format.format(this));
 	}
 	
 	public Str toStr(CharSequence format) {
-		return new Str(DateTimeFormatter.ofPattern(format.toString()).format(this.toZonedInstant()));
+		return new Str(new SimpleDateFormat(format.toString()).format(this));
 	}
-	
-	public ZonedDateTime toZonedInstant() {
-        return Instant.ofEpochMilli(getTime()).atZone(ZoneId.systemDefault());
-    }
 	
 	@Override
 	public int getHours() {
