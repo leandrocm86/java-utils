@@ -65,9 +65,7 @@ public class Data extends Date implements Objeto {
 	}
 	
 	public static SimpleDateFormat getSimpleDateFormat(String format) {
-		Benchmark.start("SimpleDateFormat");
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		Benchmark.stop("SimpleDateFormat");
 		return sdf;
 	}
 	

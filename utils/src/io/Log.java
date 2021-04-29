@@ -88,7 +88,8 @@ public class Log {
 	
 	public static void terminar() {
 		try {
-			msgLn("\nTerminando LOG", true);
+			enter();
+			msgLn("Terminando LOG", true);
 			if (escritor != null)
 				escritor.terminar();
 		}

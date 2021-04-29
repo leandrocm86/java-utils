@@ -165,11 +165,21 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return val.toUpperCase();
 	}
 	public Str reduzEspacos() {
-		String retorno = this.val;
-		while (retorno.contains("  ")) {
-			retorno = retorno.replaceAll("  ", " ");
+		StringBuilder sb = new StringBuilder();
+		boolean espacoFoiUltimoCaracter = false;
+		for (char c : this.val.toCharArray()) {
+			if (c == ' ') {
+				if (espacoFoiUltimoCaracter)
+					continue;
+				else
+					espacoFoiUltimoCaracter = true;
+			}
+			else {
+				espacoFoiUltimoCaracter = false;
+			}
+			sb.append(c);
 		}
-		return new Str(retorno);
+		return new Str(sb.toString());
 	}
 	public Str trim() {
 		return new Str(val.trim());
