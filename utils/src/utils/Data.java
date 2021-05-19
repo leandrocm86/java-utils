@@ -39,7 +39,7 @@ public class Data extends Date implements Objeto {
 	public static final SimpleDateFormat HORA_HH_mm = new SimpleDateFormat("HH:mm");
 	public static final SimpleDateFormat HORA_HH = new SimpleDateFormat("HH");
 	
-	private CharSequence valor;
+	private CharSequence string;
 	private SimpleDateFormat formato;
 	
 	public Data() {
@@ -56,7 +56,7 @@ public class Data extends Date implements Objeto {
 	
 	public Data(CharSequence data, SimpleDateFormat format) {
 		super(parse(data, format).getTime());
-		this.valor = data;
+		this.string = data;
 		this.formato = format;
 	}
 	
@@ -86,8 +86,8 @@ public class Data extends Date implements Objeto {
 	 */
 	@Override
 	public String toString() {
-		if (this.valor != null)
-			return valor.toString();
+		if (this.string != null)
+			return string.toString();
 		else if (this.formato != null)
 			return toStr(this.formato).val();
 		else
@@ -106,7 +106,7 @@ public class Data extends Date implements Objeto {
 	public int getHours() {
 		if (this.formato != null) {
 			int indexHoras = this.formato.toString().indexOf("HH");
-			return Integer.parseInt(this.valor.subSequence(indexHoras, indexHoras+2).toString());
+			return Integer.parseInt(this.string.subSequence(indexHoras, indexHoras+2).toString());
 		}
 		else {
 			Calendar calendar = Calendar.getInstance();

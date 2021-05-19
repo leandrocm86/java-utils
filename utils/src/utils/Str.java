@@ -74,6 +74,9 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public boolean endsWith(CharSequence suffix) {
 		return val.endsWith(suffix.toString());
 	}
+	public boolean equals(String s) {
+		return val.equals(s);
+	}
 	public boolean equals(Object anObject) {
 		if (anObject == null || val == null)
 			return false;

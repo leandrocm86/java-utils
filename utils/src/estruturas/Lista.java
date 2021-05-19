@@ -144,6 +144,18 @@ public class Lista<T> implements List<T> {
 		this.ultimoIterador.remove();
 	}
 	
+	/**
+	 * Sobrecarga do método add para suportar múltiplos elementos.
+	 * Retorna TRUE se todos eles foram adicionados, e FALSE caso algum não tenha.
+	 */
+	public boolean add(T... es) {
+		boolean retorno = true;
+		for (T e : es)
+			if (!this.add(e))
+				retorno = false;
+		return retorno;
+	}
+	
 	// -- METODOS COLLECTION COM IMPLEMENTACAO PADRAO, OU SEJA, APENAS REPASSANDO PARA A COLECAO ORIGINAL -- 
 	
 	/**
