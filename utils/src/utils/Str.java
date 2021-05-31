@@ -24,13 +24,6 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		this.val = "";
 	}
 	
-	public Str(CharSequence val) {
-		if (val != null)
-			this.val = val.toString();
-		else
-			this.val = "";
-	}
-	
 	/**
 	 * Cria uma Str formatada, substituindo as ocorrências de '--' pelas demais Strings passadas de parametro. 
 	 */

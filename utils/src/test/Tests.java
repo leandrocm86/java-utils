@@ -29,6 +29,7 @@ public class Tests {
 		Data retorno = new Data(horaStr, Data.HORA_HH_mm_ss_SSS); 
 		retorno = new Data(hoje.getTime() + retorno.getTime());
 		Benchmark.stop("toData1");
+		Benchmark.stop("teste");
 		return retorno;
 	}
 	

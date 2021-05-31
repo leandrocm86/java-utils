@@ -215,6 +215,10 @@ public class MapaLista<S, T> implements Map<S, Lista<T>>, Serializable {
 		else
 			return null;
 	}
+	
+	public boolean naoVazio() {
+		return !this.isEmpty();
+	}
 
 	@Override
 	public boolean isEmpty() {
