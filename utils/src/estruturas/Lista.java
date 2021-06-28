@@ -516,6 +516,24 @@ public class Lista<T> implements List<T> {
 	}
 	
 	/**
+	 * Retorna uma sublista que também sera removida desta lista.
+	 */
+	public Lista<T> separar(int inicio, int fim) {
+		Lista<T> listaRemovida = new Lista<T>();
+		int i = 0;
+		for (T elem : this) {
+			if (i >= inicio) {
+				if (i >= fim)
+					break;
+				listaRemovida.add(elem);
+				this.remove();
+			}
+			i++;
+		}
+		return listaRemovida;
+	}
+	
+	/**
 	 * Esse metodo difere do 'contains' de Collection, na medida que
 	 * ele usa o equals dos elementos da lista recebendo o parametro buscado,
 	 * enquanto o 'contains' usa o equals do objeto buscado passando os elementos da lista como parametro.

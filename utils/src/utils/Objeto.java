@@ -13,6 +13,14 @@ public interface Objeto {
 		return !em(objetos);
 	}
 	
+	default boolean igual(Object object) {
+		return equals(object);
+	}
+	
+	default boolean diferente(Object object) {
+		return !equals(object);
+	}
+	
 	default <T> T to(Class<T> classe) {
 		return classe.cast(this);
 	}

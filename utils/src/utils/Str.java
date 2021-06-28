@@ -79,9 +79,6 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 			return val.equals(anObject);
 		else return val.equals(anObject.toString());
 	}
-	public boolean igual(CharSequence c) {
-		return this.equals(c);
-	}
 	public boolean equalsIgnoreCase(CharSequence anotherString) {
 		return val.equalsIgnoreCase(anotherString.toString());
 	}
@@ -596,10 +593,6 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return new Str(sb);
 	}
 	
-	public boolean diferente(Object o) {
-		return !this.equals(o);
-	}
-	
 	public int index(CharSequence s, boolean ignoreEquals) {
 		if (!ignoreEquals)
 			return val.indexOf(s.toString());
@@ -715,5 +708,13 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		else {
 			return new Str(milisegundos).append("ms");
 		}
+	}
+	
+	public static Str[] vals(Object... objs) {
+		Str[] array = new Str[objs.length];
+		for (int i = 0; i < objs.length; i++) {
+			array[i] = new Str(objs.toString());
+		}
+		return array;
 	}
 }
