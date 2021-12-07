@@ -62,6 +62,15 @@ public class Log {
 		}
 	}
 	
+	public static void i(CharSequence msg) {
+		msgLn(new Data().toStr(Data.DATA_dd_MM_HH_mm_ss) + " [INFO] " + msg, false);
+	}
+	
+	public static void e(CharSequence msg, Throwable t) {
+		msgLn(new Data().toStr(Data.DATA_dd_MM_HH_mm_ss) + " [ERRO] " + msg, false);
+		logaErro(t);
+	}
+	
 	public static void enter() {
 		msg("", false, true);
 	}

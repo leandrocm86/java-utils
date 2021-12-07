@@ -32,6 +32,7 @@ public class Data extends Date implements Objeto {
 	public static final SimpleDateFormat DATA_dd_MM_yyyy_HH_mm = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	public static final SimpleDateFormat DATA_dd_MM_yyyy = new SimpleDateFormat("dd/MM/yyyy");
 	public static final SimpleDateFormat DATA_dd_MM_HH_mm = new SimpleDateFormat("dd/MM HH:mm");
+	public static final SimpleDateFormat DATA_dd_MM_HH_mm_ss = new SimpleDateFormat("dd/MM HH:mm:ss");
 	public static final SimpleDateFormat DATA_dd_MM = new SimpleDateFormat("dd/MM");
 
 	public static final SimpleDateFormat HORA_HH_mm_ss_SSS = new SimpleDateFormat("HH:mm:ss,SSS");
@@ -71,9 +72,7 @@ public class Data extends Date implements Objeto {
 	
 	private static Date parse(CharSequence data, SimpleDateFormat format) {
 		try {
-			Benchmark.start("parseDate");
 			Date retorno = format.parse(data.toString());
-			Benchmark.stop("parseDate");
 			return retorno; 
 		} catch (ParseException e) {
 			throw new IllegalArgumentException("Impossivel converter " + data.toString() + " para Data no formato " + format.toPattern(), e);

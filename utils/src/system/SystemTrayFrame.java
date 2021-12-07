@@ -33,6 +33,10 @@ public class SystemTrayFrame extends JFrame {
     }
     
     public SystemTrayFrame(String name, String imgURL) {
+    	this(name, imgURL, false);
+    }
+    
+    public SystemTrayFrame(String name, String imgURL, boolean restore) {
         super(name);
         
 //        System.out.println("creating instance");
@@ -46,7 +50,8 @@ public class SystemTrayFrame extends JFrame {
         	this.imgURL = imgURL;
             this.tray = SystemTray.getSystemTray();
             Image image = Toolkit.getDefaultToolkit().getImage(this.imgURL);
-            this.setTrayImage(image, name);
+//            Image image = this.scaleImage(512, 512, this.imgURL);
+            this.setTrayImage(image, name, restore);
         } else {
             SwingUtils.showMessage("ERRO! SystemTray nao suportado!");
         }
@@ -69,11 +74,14 @@ public class SystemTrayFrame extends JFrame {
                 }
             }
         });
-        
         super.setIconImage(Toolkit.getDefaultToolkit().getImage(this.imgURL)); // Icone da janela
     }
     
     public void setTrayImage(Image image, String title) {
+    	this.setTrayImage(image, title, false);
+    }
+    
+    public void setTrayImage(Image image, String title, boolean restore) {
     	this.tray.remove(this.trayIcon);
     	
     	ActionListener exitListener = new ActionListener() {
@@ -83,8 +91,21 @@ public class SystemTrayFrame extends JFrame {
         };
         PopupMenu popup = new PopupMenu();
         MenuItem defaultItem = new MenuItem("Exit");
+        defaultItem.setFont(SwingUtils.getDefaultFont());
         defaultItem.addActionListener(exitListener);
         popup.add(defaultItem);
+        
+        if (restore) {
+        	ActionListener restoreListener = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	restore();
+                }
+            };
+            MenuItem retoreOption = new MenuItem("Restore");
+            retoreOption.setFont(SwingUtils.getDefaultFont());
+            retoreOption.addActionListener(restoreListener);
+            popup.add(retoreOption);
+        }
     	
         this.trayIcon = new TrayIcon(image, title, popup);
         this.trayIcon.setImageAutoSize(true);
@@ -105,4 +126,24 @@ public class SystemTrayFrame extends JFrame {
     public void addListener(MouseListener listener) {
     	this.trayIcon.addMouseListener(listener);
     }
+    
+    public void restore() {
+    	setState(NORMAL);
+    	setVisible(true);
+    }
+    
+//    private BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
+//        BufferedImage bi = null;
+//        try {
+//            ImageIcon ii = new ImageIcon(filename);//path to image
+//            bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+//            Graphics2D g2d = (Graphics2D) bi.createGraphics();
+//            g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY));
+//            g2d.drawImage(ii.getImage(), 0, 0, WIDTH, HEIGHT, null);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return bi;
+//    }
 }
