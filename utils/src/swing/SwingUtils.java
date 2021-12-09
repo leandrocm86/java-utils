@@ -80,8 +80,10 @@ public class SwingUtils {
 	public static RelativeLayout createLayout(int axis, int gap, int borderGap, boolean fill) {
 		RelativeLayout layout = new RelativeLayout(axis, gap);
 		layout.setBorderGap(borderGap);
-	    if (fill)
+	    if (fill) {
 	    	layout.setFill(true);
+	    	layout.setFillGap(0);
+	    }
 	    return layout;
 	}
 	

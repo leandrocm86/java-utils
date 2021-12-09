@@ -106,9 +106,10 @@ public class SystemTrayFrame extends JFrame {
             retoreOption.addActionListener(restoreListener);
             popup.add(retoreOption);
         }
-    	
+        
         this.trayIcon = new TrayIcon(image, title, popup);
         this.trayIcon.setImageAutoSize(true);
+        this.trayIcon.setToolTip(title);
         
         // Adicionando icone na Tray.
         try {
