@@ -101,7 +101,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 		return val == null || val.trim().equals("");
 	}
 	public static boolean vazia(CharSequence str) {
-		return str == null || str.toString().isBlank();
+		return str == null || str.toString().trim().length() == 0;
 	}
 	public int lastIndexOf(int ch) {
 		return val.lastIndexOf(ch);
