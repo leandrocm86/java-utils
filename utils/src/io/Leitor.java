@@ -137,12 +137,31 @@ public class Leitor {
 	}
 	
 	public static HashMap<Str, Str> toMap(String nomeArquivo) {
+		return toMap(nomeArquivo, false);
+	}
+	
+	/**
+	 * Retorna o conteudo do arquivo em um mapa, onde cada chave foi separada do seu valor pelo caractere '='.
+	 * O parametro 'properties' indica se o arquivo eh do tipo de configuracao, que trata comentarios e espacos.
+	 */
+	public static HashMap<Str, Str> toMap(String nomeArquivo, boolean properties) {
 		HashMap<Str, Str> mapa = new HashMap<Str, Str>();
 		Lista<Str> linhas = toList(nomeArquivo);
 		for (Str linha : linhas) {
+			if (properties) {
+				int indexComentario = linha.indexOf('#');
+				if (indexComentario > -1) {
+					linha.val(linha.substring(0, indexComentario));
+				}
+			}
 			Str[] corte = linha.corta("=");
-			if (corte.length > 1)
+			if (corte.length > 1) {
+				if (properties) {
+					corte[0] = corte[0].trim();
+					corte[1] = corte[1].trim();
+				}
 				mapa.put(corte[0], corte[1]);
+			}
 		}
 		return mapa;
 	}
