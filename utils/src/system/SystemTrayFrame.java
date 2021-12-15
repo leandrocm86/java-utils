@@ -131,7 +131,11 @@ public class SystemTrayFrame extends JFrame {
     public void restore() {
     	setState(NORMAL);
     	setVisible(true);
+    	toFront();
+    	SwingUtils.repaint(this);
     }
+    
+    
     
 //    private BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
 //        BufferedImage bi = null;

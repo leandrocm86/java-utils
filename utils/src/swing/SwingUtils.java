@@ -198,4 +198,14 @@ public class SwingUtils {
 	    checkbox.setSelected(false);
 	    checkbox.setSelected(previousState);
 	}
+	
+	public static void repaint(Component component) {
+    	if (component instanceof Container) {
+	    	for (Component c : ((Container)component).getComponents()) {
+	    		repaint(c);
+	    	}
+    	}
+    	component.revalidate();
+    	component.repaint();
+    }
 }
