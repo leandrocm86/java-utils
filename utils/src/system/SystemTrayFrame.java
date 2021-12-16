@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 
 import observer.Evento;
 import observer.Events;
+import swing.DoubleClickListener;
 import swing.SwingUtils;
 
 public class SystemTrayFrame extends JFrame {
@@ -111,6 +113,15 @@ public class SystemTrayFrame extends JFrame {
         this.trayIcon.setImageAutoSize(true);
         this.trayIcon.setToolTip(title);
         
+        if (restore) {
+        	this.trayIcon.addMouseListener(new DoubleClickListener() {
+				@Override
+				public void executar(MouseEvent arg0) {
+					restore();
+				}
+			});
+        }
+        
         // Adicionando icone na Tray.
         try {
         	this.tray.add(this.trayIcon);
@@ -135,7 +146,10 @@ public class SystemTrayFrame extends JFrame {
     	SwingUtils.repaint(this);
     }
     
-    
+    public void minimizeToTray() {
+    	setState(ICONIFIED);
+    	setVisible(false);
+    }
     
 //    private BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
 //        BufferedImage bi = null;
