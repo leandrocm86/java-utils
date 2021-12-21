@@ -1,5 +1,7 @@
 package io;
 
+import java.io.PrintStream;
+
 import estruturas.Cache;
 import swing.SwingUtils;
 import utils.Data;
@@ -11,11 +13,11 @@ public class Log {
 	
 	private static Cache<CharSequence> debugMsgs = new Cache<>(10);
 	
-	private static Console console = null;
+	private static PrintStream console = null;
 	
-	public static void iniciar(String path) {
+	public static void iniciar(CharSequence path) {
 		try {
-			if (path != null) {
+			if (path != null && !path.toString().trim().isEmpty()) {
 				escritor = new Escritor(path, true);
 				escritor.setLimiteBuffer(1);
 				escritor.enter();
@@ -29,7 +31,7 @@ public class Log {
 		}
 	}
 	
-	public static void setConsole(Console consoleParaLogar) {
+	public static void setConsole(PrintStream consoleParaLogar) {
 		console = consoleParaLogar;
 	}
 	
@@ -58,16 +60,16 @@ public class Log {
 		else
 			escreve(msg);
 		if (console != null) {
-			console.imprime(msg);
+			console.println(msg);
 		}
 	}
 	
 	public static void i(CharSequence msg) {
-		msgLn(new Data().toStr(Data.DATA_dd_MM_HH_mm_ss) + " [INFO] " + msg, false);
+		msgLn(" [INFO] " + msg, false);
 	}
 	
 	public static void e(CharSequence msg, Throwable t) {
-		msgLn(new Data().toStr(Data.DATA_dd_MM_HH_mm_ss) + " [ERRO] " + msg, false);
+		msgLn(" [ERRO] " + msg, false);
 		logaErro(t);
 	}
 	
@@ -80,7 +82,7 @@ public class Log {
 		msg = new Data() + ": " + msg;
 		debugMsgs.add(msg);
 		if (console != null)
-			console.imprime("DEBUG: " + msg);
+			console.println("DEBUG: " + msg);
 	}
 	
 	public static void logaErro(Throwable e) {
@@ -110,14 +112,10 @@ public class Log {
 	private static void escreve(CharSequence msg) {
 		if (escritor != null)
 			escritor.escreve(msg);
-		else
-			System.out.print(msg);
 	}
 	
 	private static void escreveLn(CharSequence msg) {
 		if (escritor != null)
 			escritor.escreveLn(msg);
-		else
-			System.out.println(msg);
 	}
 }

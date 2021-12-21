@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.PrintStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +16,7 @@ import swing.SwingUtils;
 import utils.Erros;
 import utils.Str;
 
-public class Console {
+public class Console extends PrintStream {
 	
 	private JTextArea textArea;
 	private JPanel consolePane;
@@ -23,6 +24,7 @@ public class Console {
 	private static Color corTexto = Color.WHITE;
 	
 	public Console() {
+		super(System.out);
 		this.textArea = new JTextArea("");
 		this.textArea.setEditable(false);
 		this.textArea.setBackground(corFundo);
@@ -88,4 +90,15 @@ public class Console {
 		imprime(erros);
 		System.out.println(erros);
 	}
+	
+	@Override
+	public void println(String message) {
+		imprime(message);
+	}
+	
+	@Override
+	public void print(String message) {
+		imprime(message);
+	}
+
 }
