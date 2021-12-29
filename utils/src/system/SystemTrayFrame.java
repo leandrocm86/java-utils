@@ -7,6 +7,7 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -149,6 +150,18 @@ public class SystemTrayFrame extends JFrame {
     public void minimizeToTray() {
     	setState(ICONIFIED);
     	setVisible(false);
+    }
+    
+    public void displayMessage(String title, String msg, MessageType type) {
+    	this.trayIcon.displayMessage(title, msg, type);
+    }
+    
+    public void displayMessage(String title, String msg) {
+    	displayMessage(title, msg, MessageType.INFO);
+    }
+    
+    public void addMessageListener(ActionListener l) {
+    	this.trayIcon.addActionListener(l);
     }
     
 //    private BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
