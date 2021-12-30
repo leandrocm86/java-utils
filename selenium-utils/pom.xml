@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>l86.utils.selenium</groupId>
+  <artifactId>selenium-utils</artifactId>
+  <version>1.0</version>
+  <dependencies>
+	  <!-- <dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.11</version>
+		<scope>test</scope> 
+	  </dependency>-->
+	<dependency>
+  		<groupId>l86.utils</groupId>
+  		<artifactId>utils</artifactId>
+  		<version>1.41</version>
+  	</dependency>
+  	<dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.0.0-alpha-5</version>
+    </dependency>
+  </dependencies>
+    <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo1.maven.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>github</id>
+          <name>GitHub OWNER Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/leandrocm86/java-utils</url>
+		  <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+  </repositories>
+  <!-- <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/leandrocm86/selenium-utils</url>
+    </repository>
+  </distributionManagement> -->
+  <build>
+   <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+		    <exclude>**/src/test/*.java</exclude>
+		</excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <excludes>
+		    <exclude>**/src/test/*.java</exclude>
+		  </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
