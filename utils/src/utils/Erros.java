@@ -39,7 +39,7 @@ public class Erros {
 		if (t.getMessage() != null)
 			resumo.append(t.getMessage() + ". ");
 		if (t.getCause() != null)
-			resumo.append("Causa: " + t.getCause().getClass().getName() + " (" + t.getCause().getMessage() + ")");
+			resumo.append("Cause: " + t.getCause().getClass().getName() + " (" + t.getCause().getMessage() + ")");
 		return resumo;
 	}
 }

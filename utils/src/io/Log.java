@@ -118,4 +118,8 @@ public class Log {
 		if (escritor != null)
 			escritor.escreveLn(msg);
 	}
+	
+	public static boolean gravando() {
+		return escritor != null;
+	}
 }
