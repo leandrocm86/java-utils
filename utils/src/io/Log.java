@@ -64,12 +64,21 @@ public class Log {
 		}
 	}
 	
-	public static void i(CharSequence msg) {
-		msgLn(" [INFO] " + msg, false);
+	private static String agregaFrases(Object... strings) {
+		String texto = strings[0].toString();
+		if (strings.length > 1) {
+			for (int i = 1; i < strings.length; i++)
+				texto += " " + strings[i];
+		}
+		return texto;
 	}
 	
-	public static void e(CharSequence msg, Throwable t) {
-		msgLn(" [ERRO] " + msg, false);
+	public static void i(Object... textos) {
+		msgLn(" [INFO] " + agregaFrases(textos), false);
+	}
+	
+	public static void e(Throwable t, Object... textos) {
+		msgLn(" [ERRO] " + agregaFrases(textos), false);
 		logaErro(t);
 	}
 	
