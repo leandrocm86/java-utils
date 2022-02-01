@@ -77,6 +77,10 @@ public class Log {
 		msgLn(" [INFO] " + agregaFrases(textos), false);
 	}
 	
+	public static void w(Object... textos) {
+		msgLn(" [WARN] " + agregaFrases(textos), false);
+	}
+	
 	public static void e(Throwable t, Object... textos) {
 		msgLn(" [ERRO] " + agregaFrases(textos), false);
 		logaErro(t);
