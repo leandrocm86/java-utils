@@ -1,5 +1,7 @@
 package estruturas;
 
+import java.util.List;
+
 /**
  * Estrutura com capacidade limitada que mantem apenas os elementos mais recentes.
  * Os mais novos sempre estao na frente, enquanto os ultimos saem primeiro.
@@ -13,9 +15,16 @@ public class Cache<T> extends Lista<T> {
 		this.capacidade = capacidade;
 	}
 	
-	public Cache(int capacidade, Lista<T> listaInicial) {
-		for (int i = 0; i < capacidade && i < listaInicial.size(); i++)
-			super.add(i, listaInicial.get(i));
+	/**
+	 * Inicializa um cache a partir de uma lista.
+	 * Levantará exceção se a lista já exceder a capacidade escolhida para o cache.
+	 * OBS: O cache manipulará a lista diretamente, sem copiá-la.
+	 */
+	public Cache(int capacidade, List<T> lista) {
+		super(lista);
+		if(lista.size() > capacidade)
+			throw new IllegalArgumentException("Tentativa de inicializar cache com lista maior que a capacidade.");
+		this.capacidade = capacidade;
 	}
 	
 	/**
