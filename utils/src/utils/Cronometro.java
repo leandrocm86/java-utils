@@ -2,24 +2,31 @@ package utils;
 
 public class Cronometro {
 	
-	public static long ultimaParada;
-	public static CharSequence nomeCheckpoint;
+	public static long inicio, ultimaParada;
 	
+	/**
+	 * Inicia uma contagem gravando o timestamp corrente.
+	 */
 	public static void start() {
-		System.out.println(new Data() + " Comecando nova corrida...");
-		ultimaParada = System.currentTimeMillis();
-		nomeCheckpoint = "Inicio";
+		inicio = ultimaParada = System.currentTimeMillis();
 	}
 	
-	public static void check(CharSequence nome) {
-		System.out.println((System.currentTimeMillis() - ultimaParada) + "ms de " + nomeCheckpoint + " ate " + nome);
+	/**
+	 * Retorna o tempo decorrido desde o check anterior ou o início.
+	 */
+	public static long check() {
+		long checkpoint = System.currentTimeMillis() - ultimaParada;
 		ultimaParada = System.currentTimeMillis();
-		nomeCheckpoint = nome;
+		return checkpoint;
 	}
 	
-	public static void stop() {
-		System.out.println((System.currentTimeMillis() - ultimaParada) + "ms de " + nomeCheckpoint + " ate o fim.");
-		System.out.println(new Data() + " Corrida terminada.");
+	/**
+	 * Zera o cronometro e retorna o tempo total transcorrido desde o início.
+	 */
+	public static long stop() {
+		long total = System.currentTimeMillis() - inicio;
+		inicio = ultimaParada = 0;
+		return total;
 	}
 	
 }
