@@ -275,7 +275,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 //	}
 	
 	public Character characterAt(int index) {
-		return new Character(val.charAt(index));
+		return Character.valueOf(val.charAt(index));
 	}
 	
 	public Str minusculo() {
@@ -320,19 +320,28 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	 * Retorna uma copia deste objeto, apendando um ou mais objetos passados como parametro.
 	 * Usa o separador definido no primeiro argumento.
 	 */
-	public Str addSeparator(CharSequence separator, Object... objects) {
+	public Str addSeparator(CharSequence separator, boolean acceptEmpty, Object... objects) {
 		Str s = new Str(this.val);
 		for (Object o : objects)
-			s.val += separator + o.toString();
+			if (acceptEmpty || ( o != null && !o.toString().isBlank()))
+				s.val += separator + o.toString();
 		return s;
 	}
 	
 	/**
 	 * Retorna uma copia deste objeto, apendando um ou mais objetos passados como parametro.
-	 * Usa o separador default " " (espaco em branco).
+	 * Usa o separador default " " (espaco em branco) e ignora Strings vazias e objetos nulos.
 	 */
 	public Str add(Object... objects) {
-		return this.addSeparator(" ", objects);
+		return this.addSeparator(" ", false, objects);
+	}
+	
+	/**
+	 * Retorna uma copia deste objeto, apendando um ou mais objetos passados como parametro.
+	 * Ignora Strings vazias e objetos nulos.
+	 */
+	public Str add(String separator, Object... objects) {
+		return this.addSeparator(separator, false, objects);
 	}
 	
 	/**
