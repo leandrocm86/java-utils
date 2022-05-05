@@ -323,7 +323,7 @@ public class Str implements Comparable<CharSequence>, CharSequence, Objeto {
 	public Str addSeparator(CharSequence separator, boolean acceptEmpty, Object... objects) {
 		Str s = new Str(this.val);
 		for (Object o : objects)
-			if (acceptEmpty || ( o != null && !o.toString().isBlank()))
+			if (acceptEmpty || ( o != null && !o.toString().trim().isEmpty()))
 				s.val += separator + o.toString();
 		return s;
 	}
