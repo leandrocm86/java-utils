@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import utils.Str;
 
@@ -21,8 +24,6 @@ public class Lista<T> implements List<T> {
 	
 	private boolean podeRepetir = true;
 	
-	private Tipo tipo;
-	
 	private Comparator<T> comparador;
 	
 	public Lista() {
@@ -35,7 +36,6 @@ public class Lista<T> implements List<T> {
 	}
 	
 	public Lista(Tipo tipo) {
-		this.tipo = tipo;
 		this.lista = this.criaLista(tipo);
 	}
 	
@@ -89,6 +89,10 @@ public class Lista<T> implements List<T> {
 	
 	public T primeiro() {
 		return lista.get(0);
+	}
+	
+	private List<T> getList() {
+		return this.lista;
 	}
 	
 	/**
@@ -344,6 +348,14 @@ public class Lista<T> implements List<T> {
 	public T remove(int index) {
 		return this.lista.remove(index);
 	}
+	
+	/**
+	 * @see java.util.List#remove(int)
+	 */
+	@Override
+	public boolean removeIf(Predicate<? super T> filter) {
+		return this.lista.removeIf(filter);
+	}
 
 	/**
 	 * @see java.util.List#set(int, java.lang.Object)
@@ -441,12 +453,12 @@ public class Lista<T> implements List<T> {
 	 * Nesse caso a performance da busca eh muito alta. 
 	 */
 	public T buscaBinaria(T elemento, Comparator<T> comparador) {
-		CondicaoBinaria<T> condicao = new CondicaoBinaria<T>() {
-			public int testar(T objeto) {
+		Function<T, Integer> comparacao = new Function<T, Integer>() {
+			public Integer apply(T objeto) {
 				return comparador.compare(objeto, elemento);
 			}
 		};
-		int index = this.indexBuscaBinaria(condicao);
+		int index = this.indexBuscaBinaria(comparacao);
 		return index == -1 ? null : this.get(index);
 	}
 	
@@ -455,15 +467,15 @@ public class Lista<T> implements List<T> {
 	 * A busca binaria soh eh recomendada para tipos ArrayList.
 	 * Nesse caso a performance da busca eh muito alta.
 	 */
-	public int indexBuscaBinaria(CondicaoBinaria<T> condicao) {
-		return this.buscaBinaria(0, this.lista.size() - 1, condicao);
+	public int indexBuscaBinaria(Function<T, Integer> comparacao) {
+		return this.buscaBinaria(0, this.lista.size() - 1, comparacao);
 	}
 	
-	private int buscaBinaria(int min, int max, CondicaoBinaria<T> condicao) {
+	private int buscaBinaria(int min, int max, Function<T, Integer> comparacao) {
 		if (min > max)
 			return -1; // Ja percorremos toda a lista. 
 		if (min == max)
-			if (condicao.testar(this.get(min)) == 0)
+			if (comparacao.apply(this.get(min)) == 0)
 				return min;
 			else
 				return -1;
@@ -471,32 +483,32 @@ public class Lista<T> implements List<T> {
 		int diferenca = (int)((max - min)/2);
 		int proximoIndice = min + diferenca;
 //		Log.msgLn("Testando indice " + proximoIndice + " (min = " + min + "; max = " + max + ")");
-		int comparacao = condicao.testar(this.get(proximoIndice));
+		int resultado = comparacao.apply(this.get(proximoIndice));
 		
-		if (comparacao == 0)
+		if (resultado == 0)
 			return proximoIndice;
-		else if (comparacao > 0)
-			return buscaBinaria(min, proximoIndice-1, condicao);
+		else if (resultado > 0)
+			return buscaBinaria(min, proximoIndice-1, comparacao);
 		else
-			return buscaBinaria(proximoIndice+1, max, condicao);
+			return buscaBinaria(proximoIndice+1, max, comparacao);
 	}
 	
 	/**
-	 * Retorna o primeiro elemento encontrado que satisfaz o predicao dado, ou nulo se nao encontrar.
+	 * Retorna o primeiro elemento encontrado que satisfaz o predicado dado, ou nulo se nao encontrar.
 	 */
-	public T busca(Condicao<T> condicao) {
+	public T busca(Predicate<T> condicao) {
 		for (T elemento : this.lista)
-			if (condicao.testar(elemento))
+			if (condicao.test(elemento))
 				return elemento;
 		return null;
 	}
 	
-	public Lista<T> subConjunto(Condicao<T> condicao) {
-		Lista<T> subconjunto = new Lista<>(this.tipo);
-		for (T elemento : this.lista)
-			if (condicao.testar(elemento))
-				subconjunto.add(elemento);
-		return subconjunto;
+	public Lista<T> subConjunto(Predicate<T> condicao) {
+		return new Lista<T>(this.lista.stream().filter(condicao).collect(Collectors.toList()));
+	}
+	
+	public Lista<T> filter(Predicate<T> condicao) {
+		return new Lista<T>(this.lista.stream().filter(condicao).collect(Collectors.toList()));
 	}
 	
 	/**
@@ -556,10 +568,10 @@ public class Lista<T> implements List<T> {
 	 * Agrupa elementos da lista em um MapaLista, segundo o criterio passado como parametro.
 	 * @param metodo (lambda) Metodo a ser executado para extrair a chave que um elemento tera no mapa.
 	 */
-	public <S> MapaLista<S, T> agrupar(Metodo<S, T> metodo) {
+	public <S> MapaLista<S, T> agrupar(Function<T, S> funcao) {
 		MapaLista<S, T> mapaLista = new MapaLista<S, T>();
 		for (T elemento : this.lista)
-			mapaLista.add(metodo.executar(elemento), elemento);
+			mapaLista.add(funcao.apply(elemento), elemento);
 		return mapaLista;
 	}
 	
@@ -618,39 +630,31 @@ public class Lista<T> implements List<T> {
 		return this.ultimoIterador.index;
 	}
 	
-	public float extrairMedia(Metodo<Integer, T> metodo) {
-		float media = 0;
-		for (T item : this.lista)
-			media += metodo.executar(item);
-		return media / this.lista.size();
+	public double extrairMedia(Function<T, Integer> funcao) {
+		return this.lista.stream().mapToInt(elem -> funcao.apply(elem)).average().getAsDouble();
 	}
 	
-	public int extrairMediaRedonda(Metodo<Integer, T> metodo) {
-		return Math.round(this.extrairMedia(metodo));
+	public long extrairMediaRedonda(Function<T, Integer> funcao) {
+		return Math.round(this.extrairMedia(funcao));
 	}
 	
 	/**
-	 * Deriva uma nova lista extraida a partir da execucao de um dado metodo em cada elemento.
-	 * @param tipoLista O tipo da nova lista
-	 * @param metodo Método (lambda) a ser executado em cada elemento para alimentar a nova lista.
+	 * Deriva uma nova lista extraida a partir da execucao de uma dada funcao em cada elemento.
+	 * @param funcao Lambda a ser executado em cada elemento para alimentar a nova lista.
 	 */
-	public <S> Lista<S> extrair(Metodo<S, T> metodo) {
+	public <S> Lista<S> extrair(Function<T, S> funcao) {
 		Lista<S> lista = new Lista<S>();
 		for (T elemento : this.lista)
-			lista.add(metodo.executar(elemento));
+			lista.add(funcao.apply(elemento));
 		return lista;
 	}
 	
-	public T max(Metodo<Integer, T> metodo) {
-		assert(this.lista.size() > 0);
-		int max = metodo.executar(lista.get(0));
-		T maior = lista.get(0);
-		for (T elemento : this.lista) {
-			if (metodo.executar(elemento) > max) {
-				max = metodo.executar(elemento);
-				maior = elemento;
-			}
-		}
-		return maior;
+	public T max(Comparator<T> comparador) {
+		return this.lista.stream().max(comparador).get();
 	}
+	
+	public T min(Comparator<T> comparador) {
+		return this.lista.stream().min(comparador).get();
+	}
+	
 }
