@@ -38,6 +38,10 @@ public class Benchmark {
 		corridasNaoEncontradas.put(corrida, ++vezesNaoEncontrada);
 	}
 
+	public static long getAcumulado(String corrida) {
+		return temposAcumulados.get(corrida);
+	}
+	
 	public static String getResultado() {
 		String resultado = "";
 		for (Entry<String, Long> entry : temposAcumulados.entrySet())

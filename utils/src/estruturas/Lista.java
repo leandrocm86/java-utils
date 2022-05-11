@@ -630,11 +630,19 @@ public class Lista<T> implements List<T> {
 		return this.ultimoIterador.index;
 	}
 	
-	public double extrairMedia(Function<T, Integer> funcao) {
-		return this.lista.stream().mapToInt(elem -> funcao.apply(elem)).average().getAsDouble();
+	/**
+	 * Retorna uma media (float) de numa funcao de calculo a ser aplicada nos elementos.
+	 * OBS: Não deve ser usada para valores astronômicos que superem float.
+	 */
+	public float extrairMedia(Function<T, Integer> funcao) {
+		return (float) this.lista.stream().mapToInt(elem -> funcao.apply(elem)).average().getAsDouble();
 	}
 	
-	public long extrairMediaRedonda(Function<T, Integer> funcao) {
+	/**
+	 * Retorna uma media arredondada (int) de numa funcao de calculo a ser aplicada nos elementos.
+	 * OBS: Nao deve ser usada para valores astronomicos que superem int.
+	 */
+	public int extrairMediaRedonda(Function<T, Integer> funcao) {
 		return Math.round(this.extrairMedia(funcao));
 	}
 	
