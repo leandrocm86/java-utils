@@ -62,6 +62,11 @@ public class Lista<T> implements List<T> {
 		this.lista.addAll(colecao);
 	}
 	
+	public Lista(Collection<T> colecao, Tipo tipo) {
+		this(tipo);
+		this.lista.addAll(colecao);
+	}
+	
 	public Lista(T[] array) {
 		this.lista = new ArrayList<>(array.length);
 		for (T elemento : array)

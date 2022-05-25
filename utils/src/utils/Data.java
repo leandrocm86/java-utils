@@ -104,7 +104,7 @@ public class Data extends Date implements Objeto {
 	@Override
 	public int getHours() {
 		if (this.formato != null) {
-			int indexHoras = this.formato.toString().indexOf("HH");
+			int indexHoras = this.formato.toPattern().indexOf("HH");
 			return Integer.parseInt(this.string.subSequence(indexHoras, indexHoras+2).toString());
 		}
 		else {
