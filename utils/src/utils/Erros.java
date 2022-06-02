@@ -38,8 +38,11 @@ public class Erros {
 		Str resumo = new Str(t.getClass().getName() + ": ");
 		if (t.getMessage() != null)
 			resumo.append(t.getMessage() + ". ");
-		if (t.getCause() != null)
-			resumo.append("Cause: " + t.getCause().getClass().getName() + " (" + t.getCause().getMessage() + ")");
+		Throwable cause = t.getCause();
+		while (cause != null) {
+			resumo.append("\nCause: " + cause.getClass().getName() + " (" + cause.getMessage() + ")");
+			cause = cause.getCause();
+		}
 		return resumo;
 	}
 }

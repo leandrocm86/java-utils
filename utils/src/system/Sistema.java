@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
+import java.security.CodeSource;
 
 import org.apache.commons.io.IOUtils;
 
+import utils.Erros;
 import utils.Str;
 
 public class Sistema {
@@ -16,9 +18,17 @@ public class Sistema {
 
 	public static String getSystemPath() {
 		try {
-			return URLDecoder.decode(ClassLoader.getSystemClassLoader().getResource(".").getPath(), "UTF-8");
+			// A SOLUCAO COMENTADA ABAIXO FUNCIONOU POR MUITO TEMPO, ATE QUE UM DIA PASSOU A DAR NULLPOINTER.
+			// UMA SEGUNDA SOLUCAO FOI ADOTADA A SEGUIR. CASO UM DIA ELA TAMBEM APRESENTE PROBLEMA,
+			// SERA UMA BOA TENTA-LAS EM CONJUNTO E DEVOLVER O RESULTADO QUE DER CERTO.
+//			URL resource = ClassLoader.getSystemClassLoader().getResource(".");
+//			String path = resource.getPath();
+			CodeSource source = Sistema.class.getProtectionDomain().getCodeSource();
+			File jarFile = new File(source.getLocation().toURI().getPath());
+			String path = jarFile.getParentFile().getPath() + "/";
+			return URLDecoder.decode(path, "UTF-8");
 		} catch (Throwable t) {
-			throw new IllegalStateException("Nao foi possivel recuperar o diretorio do sistema", t);
+			throw new IllegalStateException("Nao foi possivel recuperar o diretorio do sistema:\n" + Erros.stackTraceToStr(t, 1), t);
 		}
 	}
 	
