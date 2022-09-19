@@ -23,16 +23,17 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file utils/pom.xml
-
-    - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --file utils/pom.xml
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
     
     - name: Create release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
         prerelease: false
         files: |
           *.jar
+
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --file utils/pom.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
