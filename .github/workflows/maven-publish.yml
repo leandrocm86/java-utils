@@ -4,8 +4,6 @@
 name: Maven Package
 
 on:
-  release:
-    types: [created]
   push:
     branches: [master]
 
@@ -30,3 +28,11 @@ jobs:
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --file utils/pom.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
+    
+    - name: Create release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |
+          *.jar
